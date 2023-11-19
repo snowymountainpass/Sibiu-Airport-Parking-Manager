@@ -1,14 +1,18 @@
-// Body.js
 import React from 'react';
 import { Paper, Container } from '@mui/material';
-import './styles.css';
+import { useStyles } from '../Styling/styles';
+import './Body.css'; // Custom styles
 
-const Body = ({ children }) => (
-    <Container>
-        <Paper elevation={3} className="body">
-            {children}
-        </Paper>
-    </Container>
-);
+const Body = ({ children }) => {
+    const classes = useStyles();
+
+    return (
+        <Container className={classes.container}>
+            <Paper elevation={3} className={`${classes.body} custom-body`}>
+                {children}
+            </Paper>
+        </Container>
+    );
+};
 
 export default Body;
