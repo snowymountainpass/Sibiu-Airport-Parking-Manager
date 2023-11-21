@@ -1,7 +1,6 @@
 import React from 'react';
 import { Paper, Container } from '@mui/material';
 import { useStyles } from '../Styling/styles';
-import './Body.css'; // Custom styles
 
 const Body = ({ children }) => {
     const classes = useStyles();

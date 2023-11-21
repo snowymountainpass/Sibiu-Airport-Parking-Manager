@@ -1,15 +1,28 @@
 // LandingPage.js
 import React from 'react';
-import Header from "../Components/Header";
-import Body from "../Components/Body";
-import Footer from "../Components/Footer";
+import Header from "../Sections/Header";
+import Body from "../Sections/Body";
+import Footer from "../Sections/Footer";
+import InputField from "../Components/InputField";
+import TableComponent from "../Components/Table";
 
 const LandingPage = () => {
+
+    const handlePayment = (licensePlate) => {
+
+        localStorage.setItem("licensePlateValue", `${licensePlate}`);
+
+    }
+
+
     return (
         <div>
             <Header />
             <Body>
-                <h2>Content</h2>
+                <div className="landing-page-content">
+                    <InputField onPayment={handlePayment} />
+                    <TableComponent />
+                </div>
             </Body>
             <Footer />
         </div>

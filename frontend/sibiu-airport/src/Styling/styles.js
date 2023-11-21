@@ -33,5 +33,25 @@ export const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             fontSize: '1.5rem',
         },
+        textAlign: 'left',
     },
+    toolbar: {
+        display: 'flex',
+        justifyContent: 'center',
+    },
+
+    footerLink: {
+        marginLeft: theme.spacing(2),
+        textDecoration: 'none',
+    },
+
+    landingPageContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '70vh', // TODO: Adjust if needed
+        padding: theme.spacing(2),
+    },
+
 }));
