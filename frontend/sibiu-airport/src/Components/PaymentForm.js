@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import {useHistory} from "react-router-dom";
 
 const PaymentForm = () => {
     const stripe = useStripe();

@@ -3,13 +3,14 @@ import React from 'react';
 import Header from "../Sections/Header";
 import Body from "../Sections/Body";
 import Footer from "../Sections/Footer";
+import ConfirmationPageBody from "../Components/ConfirmationPageBody";
 
-const ConfirmationPage = () => {
+const ConfirmationPage = ({paymentDetails}) => {
     return (
         <div>
             <Header />
             <Body>
-                <h2>Content</h2>
+                <ConfirmationPageBody paymentDetails={paymentDetails} />
             </Body>
             <Footer />
         </div>

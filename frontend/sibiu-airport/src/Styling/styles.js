@@ -53,5 +53,16 @@ export const useStyles = makeStyles((theme) => ({
         minHeight: '70vh', // TODO: Adjust if needed
         padding: theme.spacing(2),
     },
+    paymentPageContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    confirmationPageContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+
 
 }));

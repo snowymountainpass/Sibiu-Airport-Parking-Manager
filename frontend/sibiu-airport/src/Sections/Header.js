@@ -2,16 +2,26 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import { useStyles } from '../Styling/styles';
+import {Link, useHistory} from "react-router-dom";
 
 const Header = () => {
     const classes = useStyles();
 
+    const handleLogoClick = () => {
+        const { push } = useHistory();
+
+        // Redirect to the Landing page
+        push('/');
+    }
+
     return (
         <AppBar position="static" className={classes.header}>
             <Toolbar>
-                <Typography variant="h6">
-                    Sibiu International Airport
-                </Typography>
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Typography variant="h6" onClick={handleLogoClick}>
+                        Sibiu International Airport
+                    </Typography>
+                </Link>
             </Toolbar>
         </AppBar>
     );
