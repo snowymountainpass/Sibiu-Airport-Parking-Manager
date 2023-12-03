@@ -1,7 +1,7 @@
 // PaymentPageBody.js
 import React from 'react';
 import { Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-import PaymentForm from './PaymentForm';
+// import PaymentForm from './PaymentForm';
 
 const PaymentPageBody = ({ paymentDetails }) => {
     const carLicenseNumber = localStorage.getItem('carLicenseNumber');
@@ -12,7 +12,7 @@ const PaymentPageBody = ({ paymentDetails }) => {
 
     return (
         <div>
-            <PaymentForm />
+            {/*<PaymentForm />*/}
 
             <Divider style={{ margin: '20px 0' }} />
 

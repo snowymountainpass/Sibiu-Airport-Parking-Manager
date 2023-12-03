@@ -5,7 +5,12 @@ import Body from "../Sections/Body";
 import Footer from "../Sections/Footer";
 import PaymentPageBody from "../Components/PaymentPageBody";
 
-const PaymentPage = ({paymentDetails}) => {
+const PaymentPage = () => {
+
+   const paymentDetails={
+        amount:100
+    }
+
     return (
         <div>
             <Header />

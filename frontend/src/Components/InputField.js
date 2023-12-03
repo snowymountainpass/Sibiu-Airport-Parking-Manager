@@ -2,21 +2,24 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import {atom, useAtom} from "jotai";
 
-const InputField = ({ onPayment }) => {
-    const [licensePlate, setLicensePlate] = useState('');
+const InputField = () => {
 
+    // const licensePlateAtom = atom('');
+
+    // const [licensePlate,setLicensePlate] = useAtom(licensePlateAtom);
+    const [licensePlate,setLicensePlate] = useState('');
+    const navigate = useNavigate();
 
     const handleInputChange = (event) => {
         setLicensePlate(event.target.value);
     };
 
-    const HandlePayment = () =>{
-        onPayment(licensePlate);
-
-        // Redirect to the "/payment" route
-        redirect('/payment');
+    const HandlePayment =() => {
+        localStorage.setItem("licensePlateValue", `${licensePlate}`);
+        navigate("/payment");
         console.log('Redirecting to Payment Page');
     }
 
@@ -29,7 +32,7 @@ const InputField = ({ onPayment }) => {
                 onChange={handleInputChange}
             />
             {licensePlate && (
-                <Button variant="contained" onClick={() => HandlePayment}>
+                <Button variant="contained" onClick={HandlePayment}>
                     Pay
                 </Button>
             )}

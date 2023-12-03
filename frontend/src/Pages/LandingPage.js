@@ -5,24 +5,20 @@ import Body from "../Sections/Body";
 import Footer from "../Sections/Footer";
 import InputField from "../Components/InputField";
 import TableComponent from "../Components/Table";
-import {redirect} from "react-router-dom";
 
 const LandingPage = () => {
 
-    const handlePayment = (licensePlate) => {
-
-        localStorage.setItem("licensePlateValue", `${licensePlate}`);
-        // Redirect to the "/payment" route
-        redirect('/payment');
-        console.log('Redirecting to Payment Page');
-    }
+    // const handlePayment = (licensePlate) => {
+    //
+    //
+    // }
 
     return (
         <div>
             <Header />
             <Body>
                 <div className="landing-page-content">
-                    <InputField onPayment={handlePayment} />
+                    <InputField/>
                     <TableComponent />
                 </div>
             </Body>
