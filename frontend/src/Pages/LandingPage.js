@@ -7,7 +7,7 @@ import InputField from "../Components/InputField";
 import TableComponent from "../Components/Table";
 
 const LandingPage = () => {
-    
+
     return (
         <div>
             <Header />
