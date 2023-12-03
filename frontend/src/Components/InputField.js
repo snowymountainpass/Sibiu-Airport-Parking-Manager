@@ -18,7 +18,7 @@ const InputField = () => {
     };
 
     const HandlePayment =() => {
-        localStorage.setItem("licensePlateValue", `${licensePlate}`);
+        localStorage.setItem("carLicenseNumber", `${licensePlate}`);
         navigate("/payment");
         console.log('Redirecting to Payment Page');
     }

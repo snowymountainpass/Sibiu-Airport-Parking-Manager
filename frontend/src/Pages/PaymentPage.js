@@ -8,7 +8,7 @@ import PaymentPageBody from "../Components/PaymentPageBody";
 const PaymentPage = () => {
 
    const paymentDetails={
-        amount:100
+        amount:500
     }
 
     return (

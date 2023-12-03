@@ -1,5 +1,5 @@
 // PaymentPageBody.js
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 // import PaymentForm from './PaymentForm';
 
@@ -9,6 +9,14 @@ const PaymentPageBody = ({ paymentDetails }) => {
 
     // TODO: replace with current server date & time
     const endDate = new Date().toISOString();
+
+    const DisplayAmount = () => {
+      console.log(paymentDetails.amount);
+    }
+
+    useEffect(()=>{
+        DisplayAmount();
+    },[])
 
     return (
         <div>
@@ -34,7 +42,7 @@ const PaymentPageBody = ({ paymentDetails }) => {
                             <TableCell>{carLicenseNumber}</TableCell>
                             <TableCell>{startDate}</TableCell>
                             <TableCell>{endDate}</TableCell>
-                            <TableCell>{paymentDetails.amount / 100} EUR</TableCell>
+                            <TableCell>{paymentDetails.amount/100} EUR</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>

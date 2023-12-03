@@ -7,12 +7,7 @@ import InputField from "../Components/InputField";
 import TableComponent from "../Components/Table";
 
 const LandingPage = () => {
-
-    // const handlePayment = (licensePlate) => {
-    //
-    //
-    // }
-
+    
     return (
         <div>
             <Header />
