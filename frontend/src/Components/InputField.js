@@ -2,21 +2,21 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useHistory } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 
 const InputField = ({ onPayment }) => {
     const [licensePlate, setLicensePlate] = useState('');
-    const history = useHistory();
+
 
     const handleInputChange = (event) => {
         setLicensePlate(event.target.value);
     };
 
-    const handlePayment = () =>{
+    const HandlePayment = () =>{
         onPayment(licensePlate);
 
         // Redirect to the "/payment" route
-        history.push('/payment');
+        redirect('/payment');
         console.log('Redirecting to Payment Page');
     }
 
@@ -29,7 +29,7 @@ const InputField = ({ onPayment }) => {
                 onChange={handleInputChange}
             />
             {licensePlate && (
-                <Button variant="contained" onClick={() => handlePayment}>
+                <Button variant="contained" onClick={() => HandlePayment}>
                     Pay
                 </Button>
             )}
