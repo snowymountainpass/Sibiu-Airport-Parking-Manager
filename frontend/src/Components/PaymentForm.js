@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const PaymentForm = () => {
     const stripe = useStripe();
     const elements = useElements();
-    const history = useHistory();
+    const history = useNavigate();
 
     const [amount, setAmount] = useState(0);
 
@@ -31,7 +31,7 @@ const PaymentForm = () => {
 
             if (paymentSuccess) {
                 // Redirect to the Confirmation Page
-                history.push('/confirmation');
+                history('/confirmation');
             } else {
                 console.log('Payment failed');
                 // Handle payment failure if needed

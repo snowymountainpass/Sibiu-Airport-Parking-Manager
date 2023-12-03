@@ -7,7 +7,7 @@ import {Link, useHistory} from "react-router-dom";
 const Header = () => {
     const classes = useStyles();
 
-    const handleLogoClick = () => {
+    const HandleLogoClick = () => {
         const { push } = useHistory();
 
         // Redirect to the Landing page
@@ -18,7 +18,7 @@ const Header = () => {
         <AppBar position="static" className={classes.header}>
             <Toolbar>
                 <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <Typography variant="h6" onClick={handleLogoClick}>
+                    <Typography variant="h6" onClick={HandleLogoClick}>
                         Sibiu International Airport
                     </Typography>
                 </Link>
