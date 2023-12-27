@@ -1,15 +1,13 @@
 // InputField.js
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-// import {atom, useAtom} from "jotai";
+import axios from 'axios';
 
-const InputField = async () => {
 
-    // const licensePlateAtom = atom('');
+const InputField = () => {
 
-    // const [licensePlate,setLicensePlate] = useAtom(licensePlateAtom);
     const [licensePlate, setLicensePlate] = useState('');
     const navigate = useNavigate();
 
@@ -17,32 +15,22 @@ const InputField = async () => {
         setLicensePlate(event.target.value);
     };
 
-    const HandlePayment = () => {
-        localStorage.setItem("carLicenseNumber", `${licensePlate}`);
-        navigate("/payment");
-        console.log('Redirecting to Payment Page');
+
+    const HandlePayment = async () =>{
+        try {
+            // const response = await axios.post('http://localhost:8080/licenseplate', { licensePlate });
+            // console.log('API Response:', response.data);
+
+            console.log('License plate data sent successfully!');
+            localStorage.setItem("carLicenseNumber", `${licensePlate}`);
+            navigate("/payment");
+            console.log('Redirecting to Payment Page');
+
+        } catch (error) {
+            console.error('Error sending request:', error);
+        }
     }
 
-    //sending license plate to backend - start
-    try {
-        // send request to backend and wait for the response
-        const response = await fetch("http://localhost:8080/licenseplate", {
-            method: "POST",
-            // Data will be serialized and sent as json
-            data: JSON.stringify({
-                licenseplate: this.licenseplate,
-            }),
-            // tell the server we're sending JSON
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        if (!response.ok) {
-            // server returned a status code other than 200-299 --> something went wrong
-        }
-    } catch (error) {
-        // an error occured
-    }
 
     //sending license plate to backend - end
 
