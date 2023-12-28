@@ -13,14 +13,12 @@ public class Airport {
     private String location;
     private String airportIBAN;
 
-    public Airport(Long airportId, String location, String airportIBAN) {
-        this.airportId = airportId;
+    public Airport(String location, String airportIBAN) {
         this.location = location;
         this.airportIBAN = airportIBAN;
     }
 
     public Airport() {
-        
     }
 
     public Long getAirportId() {
