@@ -10,11 +10,11 @@ public class Airport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long airportId;
-    private String location;
+    private String airportLocation;
     private String airportIBAN;
 
     public Airport(String location, String airportIBAN) {
-        this.location = location;
+        this.airportLocation = location;
         this.airportIBAN = airportIBAN;
     }
 
@@ -30,11 +30,11 @@ public class Airport {
     }
 
     public String getLocation() {
-        return location;
+        return airportLocation;
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        this.airportLocation = location;
     }
 
     public String getAirportIBAN() {
