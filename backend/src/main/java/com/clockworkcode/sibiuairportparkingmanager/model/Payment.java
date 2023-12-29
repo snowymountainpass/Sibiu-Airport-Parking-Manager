@@ -12,7 +12,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "parking_space_id")
     private ParkingSpace parkingSpace;
 
