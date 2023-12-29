@@ -20,6 +20,10 @@ public class ParkingSpace {
     @OneToOne(mappedBy = "parkingSpace")
     private Car car;
 
+    @OneToOne(mappedBy = "parkingSpace")
+    private Payment payment;
+
+
     public ParkingSpace(String parkingNumber, boolean parkingSpaceAvailable, Airport airport) {
         this.parkingNumber = parkingNumber;
         this.parkingSpaceAvailable = parkingSpaceAvailable;
