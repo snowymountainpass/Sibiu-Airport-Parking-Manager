@@ -1,9 +1,6 @@
 package com.clockworkcode.sibiuairportparkingmanager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class ParkingSpace {
@@ -14,15 +11,32 @@ public class ParkingSpace {
 
     private String parkingNumber;
 
-    private boolean availability;
+    private boolean parkingSpaceAvailable;
 
-    public ParkingSpace(String parkingNumber, boolean availability) {
+    @ManyToOne
+    @JoinColumn
+    private Airport airport;
+
+    @OneToOne(mappedBy = "parkingSpace")
+    private Car car;
+
+    public ParkingSpace(String parkingNumber, boolean parkingSpaceAvailable, Airport airport) {
         this.parkingNumber = parkingNumber;
-        this.availability = availability;
+        this.parkingSpaceAvailable = parkingSpaceAvailable;
+        this.airport = airport;
+    }
+
+    public ParkingSpace(String parkingNumber, boolean parkingSpaceAvailable, Airport airport, Car car) {
+        this.parkingNumber = parkingNumber;
+        this.parkingSpaceAvailable = parkingSpaceAvailable;
+        this.airport = airport;
+        this.car = car;
     }
 
     public ParkingSpace() {
     }
+
+
 
     public Long getParkingSpaceId() {
         return parkingSpaceId;
@@ -40,12 +54,27 @@ public class ParkingSpace {
         this.parkingNumber = parkingNumber;
     }
 
-    public boolean isAvailability() {
-        return availability;
+    public boolean isParkingSpaceAvailable() {
+        return parkingSpaceAvailable;
     }
 
-    public void setAvailability(boolean availability) {
-        this.availability = availability;
+    public void setParkingSpaceAvailable(boolean parkingSpaceAvailable) {
+        this.parkingSpaceAvailable = parkingSpaceAvailable;
     }
 
+    public Airport getAirport() {
+        return airport;
+    }
+
+    public void setAirport(Airport airport) {
+        this.airport = airport;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
 }

@@ -1,9 +1,6 @@
 package com.clockworkcode.sibiuairportparkingmanager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Car {
@@ -20,6 +17,9 @@ public class Car {
 
     public Car() {
     }
+    @OneToOne
+    @JoinColumn(name = "parking_space_id")
+    private ParkingSpace parkingSpace;
 
     public Long getAirportId() {
         return airportId;

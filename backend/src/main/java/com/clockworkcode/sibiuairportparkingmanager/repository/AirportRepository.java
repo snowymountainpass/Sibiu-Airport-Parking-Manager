@@ -10,7 +10,7 @@ public interface AirportRepository extends JpaRepository<Airport,Long> {
     Airport findAirportByAirportId(Long airportId);
     Airport findAirportByAirportIBAN(String airportIban);
     Airport findAirportByAirportLocation (String airportLocation);
-
+    Boolean existsAirportByAirportLocation(String airportLocation);
 
 
 }

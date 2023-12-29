@@ -1,9 +1,8 @@
 package com.clockworkcode.sibiuairportparkingmanager.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Airport {
@@ -16,10 +15,13 @@ public class Airport {
     public Airport(String location, String airportIBAN) {
         this.airportLocation = location;
         this.airportIBAN = airportIBAN;
+
     }
 
     public Airport() {
     }
+    @OneToMany(mappedBy = "airport")
+    private List<ParkingSpace> parkingSpaces;
 
     public Long getAirportId() {
         return airportId;
