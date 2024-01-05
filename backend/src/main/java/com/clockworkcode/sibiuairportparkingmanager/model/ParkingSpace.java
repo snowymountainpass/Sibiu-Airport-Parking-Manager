@@ -2,6 +2,8 @@ package com.clockworkcode.sibiuairportparkingmanager.model;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 public class ParkingSpace {
 
@@ -9,61 +11,58 @@ public class ParkingSpace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long parkingSpaceId;
 
-    private String parkingNumber;
+    private String parkingSpaceNumber;
 
-    private boolean parkingSpaceAvailable;
+    private boolean spaceIsOccupied;
+    private Date startTime;
 
     @ManyToOne
     @JoinColumn
     private Airport airport;
 
-    @OneToOne(mappedBy = "parkingSpace")
-    private Car car;
-
-    @OneToOne(mappedBy = "parkingSpace")
-    private Payment payment;
+    @OneToOne
+    @JoinColumn
+    private Car parkedCar;
 
 
-    public ParkingSpace(String parkingNumber, boolean parkingSpaceAvailable, Airport airport) {
-        this.parkingNumber = parkingNumber;
-        this.parkingSpaceAvailable = parkingSpaceAvailable;
+    public ParkingSpace(String parkingNumber, boolean spaceIsOccupied, Airport airport) {
+        this.parkingSpaceNumber = parkingNumber;
+        this.spaceIsOccupied = spaceIsOccupied;
         this.airport = airport;
     }
 
-    public ParkingSpace(String parkingNumber, boolean parkingSpaceAvailable, Airport airport, Car car) {
-        this.parkingNumber = parkingNumber;
-        this.parkingSpaceAvailable = parkingSpaceAvailable;
+    public ParkingSpace(String parkingNumber, boolean spaceIsOccupied, Airport airport, Car parkedCar) {
+        this.parkingSpaceNumber = parkingNumber;
+        this.spaceIsOccupied = spaceIsOccupied;
         this.airport = airport;
-        this.car = car;
+        this.parkedCar = parkedCar;
     }
 
     public ParkingSpace() {
     }
 
-
-
-    public Long getParkingSpaceId() {
-        return parkingSpaceId;
+    public String getParkingSpaceNumber() {
+        return parkingSpaceNumber;
     }
 
-    public void setParkingSpaceId(Long parkingSpaceId) {
-        this.parkingSpaceId = parkingSpaceId;
+    public void setParkingSpaceNumber(String parkingSpaceNumber) {
+        this.parkingSpaceNumber = parkingSpaceNumber;
     }
 
-    public String getParkingNumber() {
-        return parkingNumber;
+    public boolean isSpaceOccupied() {
+        return spaceIsOccupied;
     }
 
-    public void setParkingNumber(String parkingNumber) {
-        this.parkingNumber = parkingNumber;
+    public void setOccupied(boolean spaceIsOccupied) {
+        this.spaceIsOccupied = spaceIsOccupied;
     }
 
-    public boolean isParkingSpaceAvailable() {
-        return parkingSpaceAvailable;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setParkingSpaceAvailable(boolean parkingSpaceAvailable) {
-        this.parkingSpaceAvailable = parkingSpaceAvailable;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     public Airport getAirport() {
@@ -74,11 +73,13 @@ public class ParkingSpace {
         this.airport = airport;
     }
 
-    public Car getCar() {
-        return car;
+    public Car getParkedCar() {
+        return parkedCar;
     }
 
-    public void setCar(Car car) {
-        this.car = car;
+    public void setParkedCar(Car parkedCar) {
+        this.parkedCar = parkedCar;
     }
+
+
 }

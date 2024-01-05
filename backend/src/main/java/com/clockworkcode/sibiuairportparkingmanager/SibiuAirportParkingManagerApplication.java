@@ -21,17 +21,17 @@ public class SibiuAirportParkingManagerApplication {
         SpringApplication.run(SibiuAirportParkingManagerApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner demo(AirportRepository airportRepository,ParkingSpaceRepository parkingSpaceRepository){
-        return args -> {
-            Airport airport1 = new Airport("Sibiu","1111");
-            airportRepository.save(airport1);
-            ParkingSpace parkingSpace1 = new ParkingSpace("P0001",true,airport1,null);
-            parkingSpaceRepository.save(parkingSpace1);
-
-        };
-
-    }
+//    @Bean
+//    public CommandLineRunner demo(AirportRepository airportRepository,ParkingSpaceRepository parkingSpaceRepository){
+//        return args -> {
+////            Airport airport1 = new Airport("Sibiu","1111");
+////            airportRepository.save(airport1);
+////            ParkingSpace parkingSpace1 = new ParkingSpace("P0001",true,airport1,null);
+////            parkingSpaceRepository.save(parkingSpace1);
+//
+//        };
+//
+//    }
 
 
 

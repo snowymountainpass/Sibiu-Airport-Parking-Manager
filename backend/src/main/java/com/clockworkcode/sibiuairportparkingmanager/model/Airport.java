@@ -9,19 +9,21 @@ public class Airport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long airportId;
-    private String airportLocation;
-    private String airportIBAN;
+    private String airportCode;
+    private String airportName;
+    @OneToMany(mappedBy = "airport")
+    private List<ParkingSpace> parkingSpaces;
 
-    public Airport(String location, String airportIBAN) {
-        this.airportLocation = location;
-        this.airportIBAN = airportIBAN;
+    public Airport(String airportCode,String airportName, List<ParkingSpace>parkingSpaces) {
+        this.airportCode = airportCode;
+        this.airportName = airportName;
+        this.parkingSpaces = parkingSpaces;
 
     }
 
     public Airport() {
     }
-    @OneToMany(mappedBy = "airport")
-    private List<ParkingSpace> parkingSpaces;
+
 
     public Long getAirportId() {
         return airportId;
@@ -31,19 +33,27 @@ public class Airport {
         this.airportId = airportId;
     }
 
-    public String getLocation() {
-        return airportLocation;
+    public String getAirportCode() {
+        return airportCode;
     }
 
-    public void setLocation(String location) {
-        this.airportLocation = location;
+    public void setAirportCode(String airportCode) {
+        this.airportCode = airportCode;
     }
 
-    public String getAirportIBAN() {
-        return airportIBAN;
+    public String getAirportName() {
+        return airportName;
     }
 
-    public void setAirportIBAN(String airportIBAN) {
-        this.airportIBAN = airportIBAN;
+    public void setAirportName(String airportName) {
+        this.airportName = airportName;
+    }
+
+    public List<ParkingSpace> getParkingSpaces() {
+        return parkingSpaces;
+    }
+
+    public void setParkingSpaces(List<ParkingSpace> parkingSpaces) {
+        this.parkingSpaces = parkingSpaces;
     }
 }
