@@ -2,54 +2,38 @@ package com.clockworkcode.sibiuairportparkingmanager.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Car {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long carId;
-    private String numberPlate;
+    private Long cardId;
 
-    @OneToOne(mappedBy = "parkedCar", cascade = CascadeType.ALL)
-    private ParkingSpace parkingSpace;
+    private String carLicensePlate;
 
-    private boolean paymentFlag;
 
-    public Car(Long carId, String numberPlate) {
-        this.carId = carId;
-        this.numberPlate = numberPlate;
-    }
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ParkingActivity> parkingActivities = new ArrayList<>();
 
-    public Car(String numberPlate, ParkingSpace parkingSpace, boolean paymentFlag) {
-        this.numberPlate = numberPlate;
-        this.parkingSpace = parkingSpace;
-        this.paymentFlag = paymentFlag;
+    public Car(String carLicensePlate) {
+        this.carLicensePlate = carLicensePlate;
     }
 
     public Car() {
     }
 
-    public String getNumberPlate() {
-        return numberPlate;
+    public Long getCardId() {
+        return cardId;
     }
 
-    public void setNumberPlate(String numberPlate) {
-        this.numberPlate = numberPlate;
+    public String getCarLicensePlate() {
+        return carLicensePlate;
     }
 
-    public ParkingSpace getParkingSpace() {
-        return parkingSpace;
-    }
 
-    public void setParkingSpace(ParkingSpace parkingSpace) {
-        this.parkingSpace = parkingSpace;
-    }
-
-    public boolean isPaymentFlag() {
-        return paymentFlag;
-    }
-
-    public void setPaymentFlag(boolean paymentFlag) {
-        this.paymentFlag = paymentFlag;
+    public void setCarLicensePlate(String carLicensePlate) {
+        this.carLicensePlate = carLicensePlate;
     }
 }

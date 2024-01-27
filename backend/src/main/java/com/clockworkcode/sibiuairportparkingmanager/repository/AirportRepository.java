@@ -6,11 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AirportRepository extends JpaRepository<Airport,Long> {
-
     Airport getAirportByAirportCode(String airportCode);
     Airport getAirportByAirportName(String airportName);
-
-
-
-
 }

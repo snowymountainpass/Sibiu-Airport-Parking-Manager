@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarRepository extends JpaRepository<Car,Long> {
 
-    Car getCarByNumberPlate(String numberPlate);
-    void deleteCarByNumberPlate(String numberPlate);
+    Car getCarByCarLicensePlate(String licensePlate);
+    void deleteCarByCarLicensePlate(String numberPlate);
 
 
 }

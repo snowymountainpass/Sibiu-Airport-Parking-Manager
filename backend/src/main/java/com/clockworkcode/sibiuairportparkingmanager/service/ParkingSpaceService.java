@@ -18,17 +18,19 @@ public class ParkingSpaceService {
     }
 
     public ParkingSpace getParkingSpaceByParkingSpaceNumber(String parkingSpaceNumber){
-        return parkingSpaceRepository.getParkingSpaceByParkingSpaceNumber(parkingSpaceNumber);
+        return null;
     }
 
     public boolean isParkingSpaceOccupied(String parkingSpaceNumber, boolean isOccupied){
         ParkingSpace parkingSpace = getParkingSpaceByParkingSpaceNumber(parkingSpaceNumber);
 
-        return parkingSpace.isSpaceOccupied();
+//        return parkingSpace.isSpaceOccupied();
+        return true;
     }
 
     public List<ParkingSpace> getParkingSpacesByByAirportCode(String airportCode){
-        return parkingSpaceRepository.getParkingSpacesByAirport_AirportCode(airportCode);
+        return null;
     }
 
 }
+//TODO: 2)see todo 1

@@ -2,7 +2,9 @@ package com.clockworkcode.sibiuairportparkingmanager.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class ParkingSpace {
@@ -12,30 +14,23 @@ public class ParkingSpace {
     private Long parkingSpaceId;
 
     private String parkingSpaceNumber;
-
-    private boolean spaceIsOccupied;
-    private Date startTime;
+    private Boolean isOccupied;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "airport_id")
     private Airport airport;
 
-    @OneToOne
-    @JoinColumn
-    private Car parkedCar;
+    @OneToMany(mappedBy = "parkingSpace",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<ParkingActivity> parkingActivities = new ArrayList<>();
+
+    @OneToOne(mappedBy = "parkingSpace", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ParkingCost parkingCost;
 
 
-    public ParkingSpace(String parkingNumber, boolean spaceIsOccupied, Airport airport) {
-        this.parkingSpaceNumber = parkingNumber;
-        this.spaceIsOccupied = spaceIsOccupied;
+    public ParkingSpace(String parkingSpaceNumber, Boolean isOccupied, Airport airport) {
+        this.parkingSpaceNumber = parkingSpaceNumber;
+        this.isOccupied = isOccupied;
         this.airport = airport;
-    }
-
-    public ParkingSpace(String parkingNumber, boolean spaceIsOccupied, Airport airport, Car parkedCar) {
-        this.parkingSpaceNumber = parkingNumber;
-        this.spaceIsOccupied = spaceIsOccupied;
-        this.airport = airport;
-        this.parkedCar = parkedCar;
     }
 
     public ParkingSpace() {
@@ -49,20 +44,12 @@ public class ParkingSpace {
         this.parkingSpaceNumber = parkingSpaceNumber;
     }
 
-    public boolean isSpaceOccupied() {
-        return spaceIsOccupied;
+    public Boolean getOccupied() {
+        return isOccupied;
     }
 
-    public void setOccupied(boolean spaceIsOccupied) {
-        this.spaceIsOccupied = spaceIsOccupied;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setOccupied(Boolean occupied) {
+        isOccupied = occupied;
     }
 
     public Airport getAirport() {
@@ -73,12 +60,20 @@ public class ParkingSpace {
         this.airport = airport;
     }
 
-    public Car getParkedCar() {
-        return parkedCar;
+    public List<ParkingActivity> getParkingActivities() {
+        return parkingActivities;
     }
 
-    public void setParkedCar(Car parkedCar) {
-        this.parkedCar = parkedCar;
+    public void setParkingActivities(List<ParkingActivity> parkingActivities) {
+        this.parkingActivities = parkingActivities;
+    }
+
+    public ParkingCost getParkingCost() {
+        return parkingCost;
+    }
+
+    public void setParkingCost(ParkingCost parkingCost) {
+        this.parkingCost = parkingCost;
     }
 
 

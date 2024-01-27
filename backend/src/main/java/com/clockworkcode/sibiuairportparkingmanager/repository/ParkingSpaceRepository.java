@@ -8,8 +8,22 @@ import java.util.List;
 @Repository
 public interface ParkingSpaceRepository extends JpaRepository<ParkingSpace,Long> {
 
-    List<ParkingSpace> getParkingSpacesByAirport_AirportCode(String airportCode);
-    List<ParkingSpace>  getParkingSpacesBySpaceIsOccupied (Boolean parkingSpaceAvailable);
-    ParkingSpace getParkingSpaceByParkingSpaceNumber(String parkingSpaceNumber);
+    List<ParkingSpace> findParkingSpacesByAirport_AirportCode(String airportCode);
+    List<ParkingSpace> findParkingSpacesByAirport_AirportName(String airportName);
+
+    ParkingSpace findParkingSpaceByAirport_AirportCode(String airportCode);
+    ParkingSpace findParkingSpaceByAirport_AirportName(String airportName);
+
+    ParkingSpace findParkingSpaceByAirport_AirportCodeAndIsOccupied(String airportCode,Boolean isOccupied);
+    ParkingSpace findParkingSpaceByAirport_AirportNameAndIsOccupied(String airportName,Boolean isOccupied);
+
+    Integer countParkingSpaceByAirport_AirportCode(String airportCode);
+    Integer countParkingSpaceByAirport_AirportName(String airportName);
+
+    Integer countParkingSpaceByAirport_AirportCodeAndIsOccupiedFalse(String airportCode);
+    Integer countParkingSpaceByAirport_AirportNameAndIsOccupiedFalse(String airportName);
+
+
 
 }
+
