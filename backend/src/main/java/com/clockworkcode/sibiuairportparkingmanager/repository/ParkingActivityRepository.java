@@ -18,4 +18,6 @@ public interface ParkingActivityRepository extends JpaRepository<ParkingActivity
     List<ParkingActivity> findParkingActivitiesByStartTime(Date startTime);
     List<ParkingActivity> findParkingActivitiesByStartTimeAndEndTime(Date startTime,Date endTime);
 
+    ParkingActivity findParkingActivityByCarAndStartTimeOrderByStartTimeDesc(Car car);
+
 }

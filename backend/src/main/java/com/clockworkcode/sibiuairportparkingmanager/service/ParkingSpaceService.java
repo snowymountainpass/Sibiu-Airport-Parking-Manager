@@ -21,16 +21,14 @@ public class ParkingSpaceService {
         return null;
     }
 
-    public boolean isParkingSpaceOccupied(String parkingSpaceNumber, boolean isOccupied){
+    public boolean isParkingSpaceOccupied(String parkingSpaceNumber){
         ParkingSpace parkingSpace = getParkingSpaceByParkingSpaceNumber(parkingSpaceNumber);
 
-//        return parkingSpace.isSpaceOccupied();
-        return true;
+        return parkingSpace.getOccupied();
     }
 
     public List<ParkingSpace> getParkingSpacesByByAirportCode(String airportCode){
-        return null;
+        return parkingSpaceRepository.findParkingSpacesByAirport_AirportCode(airportCode);
     }
 
 }
-//TODO: 2)see todo 1

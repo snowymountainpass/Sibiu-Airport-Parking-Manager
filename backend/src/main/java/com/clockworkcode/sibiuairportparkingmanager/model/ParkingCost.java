@@ -67,5 +67,7 @@ public class ParkingCost {
 }
 
 
-//TODO: 3) create service & repository class to add a new ParkingCost (add the moment when the endTime is set
+//TODO: 3) create service class @ ParkingCost (adding a new parking cost)
+//TODO: 3.1) create repository class @ ParkingCost - done (29.01.2024)
+//TODO: 3.2) add the moment when the endTime is set in ParkingActivity Service class - done (31.01.2024)
 // TODO: 4) must be sent (together with Car object) to the frontend

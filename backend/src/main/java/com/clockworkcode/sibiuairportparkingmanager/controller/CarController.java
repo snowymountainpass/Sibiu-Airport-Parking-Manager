@@ -3,6 +3,7 @@ package com.clockworkcode.sibiuairportparkingmanager.controller;
 import com.clockworkcode.sibiuairportparkingmanager.DTO.CarDTO;
 import com.clockworkcode.sibiuairportparkingmanager.model.Car;
 import com.clockworkcode.sibiuairportparkingmanager.service.CarService;
+import com.clockworkcode.sibiuairportparkingmanager.service.ParkingActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ public class CarController {
 
     @Autowired
     private CarService carService;
+    private ParkingActivityService parkingActivityService;
 
     @GetMapping("/getCarDetails/{licensePlate}")
     public ResponseEntity<CarDTO> getCarByLicensePlate(@PathVariable String licensePlate){
@@ -35,7 +37,7 @@ public class CarController {
 
     @PostMapping("/addCar/{licensePlate}")
     public void addCar(@PathVariable String licensePlate){
-        carService.addCar(licensePlate);
+        parkingActivityService.addCar(licensePlate);
     }
 
 
