@@ -51,7 +51,7 @@ public class ParkingActivityService {
     public void setDepartureTime(Car car, Date endTime){
         //add 5 min to the departure time to account for the time it takes to exit the parking lot
         ParkingActivity latestParkingActivity = parkingActivityRepository.findParkingActivityByCarAndStartTimeOrderByStartTimeDesc(car);//find activity (for this car) that has a that has the closest startDate to the current time
-        latestParkingActivity.setEndTime(endTime); //TODO: 6) figure out how to add 5 minutes to the end date
+        latestParkingActivity.setEndTime(endTime); //TODO: 6) figure out how to add 5 minutes to the end date - DONE (04.02.2024)
     }
 
     public void deleteCar(String licensePlate){
