@@ -35,3 +35,4 @@ build/
 
 ###Node Modules###
 node_modules
+!/backend/src/main/resources/application.properties
