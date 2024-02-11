@@ -15,29 +15,28 @@ public class CarController {
 
     @Autowired
     private CarService carService;
+    @Autowired
     private ParkingActivityService parkingActivityService;
 
-    @GetMapping("/getCarDetails/{licensePlate}")
-    public ResponseEntity<CarDTO> getCarByLicensePlate(@PathVariable String licensePlate){
+    @GetMapping("/getCarDetails")
+    public ResponseEntity<Car> getCarByLicensePlate(@RequestBody CarDTO carDTO){
 
-        Car car = carService.getCarByLicensePlate(licensePlate);
+        Car car = carService.getCarByLicensePlate(carDTO.getLicensePlate());
 
         if(car!=null){
-            return new ResponseEntity<>(converToDTO(car), HttpStatus.OK);
+            return new ResponseEntity<>(car, HttpStatus.OK);
+//            return ResponseEntity.ok(car);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
 
-    private CarDTO converToDTO(Car car){
-//        return new CarDTO(car.getNumberPlate(),car.isPaymentFlag());
-        return null;
-    }
+    @PostMapping("/addCar")
+    public ResponseEntity<String> addCar(@RequestBody CarDTO carDTO){
+        parkingActivityService.addCar(carDTO.getLicensePlate());
 
-    @PostMapping("/addCar/{licensePlate}")
-    public void addCar(@PathVariable String licensePlate){
-        parkingActivityService.addCar(licensePlate);
+        return ResponseEntity.ok("Car with license plate "+carDTO.getLicensePlate()+" added successfully");
     }
 
 

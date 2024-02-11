@@ -9,11 +9,6 @@ public class CarDTO {
     public CarDTO() {
     }
 
-    public CarDTO(String licensePlate, boolean paymentFlag) {
-        this.licensePlate = licensePlate;
-        this.paymentFlag = paymentFlag;
-    }
-
     public String getLicensePlate() {
         return licensePlate;
     }

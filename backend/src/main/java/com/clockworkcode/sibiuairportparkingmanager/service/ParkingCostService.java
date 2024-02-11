@@ -16,17 +16,17 @@ import java.util.concurrent.TimeUnit;
 public class ParkingCostService {
 
     private final ParkingCostRepository parkingCostRepository;
-    private final ParkingActivityRepository parkingActivityRepository;
+    private final ParkingActivityService parkingActivityService;
 
     @Autowired
-    public ParkingCostService(ParkingCostRepository parkingCostRepository,ParkingActivityRepository parkingActivityRepository){
+    public ParkingCostService(ParkingCostRepository parkingCostRepository,ParkingActivityService parkingActivityService){
         this.parkingCostRepository=parkingCostRepository;
-        this.parkingActivityRepository=parkingActivityRepository;
+        this.parkingActivityService=parkingActivityService;
     }
 
     public Float getAmountToBePaid(Car car){
 
-        ParkingActivity carParkingActivity = parkingActivityRepository.findParkingActivityByCarAndStartTimeOrderByStartTimeDesc(car);
+        ParkingActivity carParkingActivity =parkingActivityService.getLatestParkingActivity(car);
 
         Float airportCostPerMinute = carParkingActivity.getParkingSpace().getAirport().getCostPerMinute();
 
@@ -43,7 +43,7 @@ public class ParkingCostService {
 
     public void addParkingCostForCar(Car car){
 
-        ParkingActivity activity = parkingActivityRepository.findParkingActivityByCarAndStartTimeOrderByStartTimeDesc(car);
+        ParkingActivity activity = parkingActivityService.getLatestParkingActivity(car);
 
         ParkingCost cost = parkingCostRepository.findParkingCostByParkingActivity(activity);
 

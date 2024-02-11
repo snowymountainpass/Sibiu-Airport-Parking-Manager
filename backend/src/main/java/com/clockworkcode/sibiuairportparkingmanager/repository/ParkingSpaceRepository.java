@@ -14,7 +14,7 @@ public interface ParkingSpaceRepository extends JpaRepository<ParkingSpace,Long>
     ParkingSpace findParkingSpaceByAirport_AirportCode(String airportCode);
     ParkingSpace findParkingSpaceByAirport_AirportName(String airportName);
 
-    ParkingSpace findParkingSpaceByAirport_AirportCodeAndIsOccupied(String airportCode,Boolean isOccupied);
+    ParkingSpace findFirstByAirport_AirportCodeAndIsOccupied(String airportCode,Boolean isOccupied);
     ParkingSpace findParkingSpaceByAirport_AirportNameAndIsOccupied(String airportName,Boolean isOccupied);
 
     Integer countParkingSpaceByAirport_AirportCode(String airportCode);
@@ -24,8 +24,8 @@ public interface ParkingSpaceRepository extends JpaRepository<ParkingSpace,Long>
     Integer countParkingSpaceByAirport_AirportNameAndIsOccupiedFalse(String airportName);
 
 
-    List<ParkingSpace> findParkingSpacesByParkingCostExistsAndAirport_AirportCode(String airportCode);
-    List<ParkingSpace> findParkingSpacesByParkingCostExistsAndAirport_AirportName(String airportName);
+//    List<ParkingSpace> findParkingSpacesByParkingCostExistsAndAirport_AirportCode(String airportCode);
+//    List<ParkingSpace> findParkingSpacesByParkingCostExistsAndAirport_AirportName(String airportName);
 
 
 }

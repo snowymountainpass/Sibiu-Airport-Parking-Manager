@@ -3,7 +3,7 @@ package com.clockworkcode.sibiuairportparkingmanager.service;
 import com.clockworkcode.sibiuairportparkingmanager.model.Payment;
 import com.clockworkcode.sibiuairportparkingmanager.repository.CarRepository;
 import com.clockworkcode.sibiuairportparkingmanager.repository.ParkingSpaceRepository;
-import com.clockworkcode.sibiuairportparkingmanager.repository.PaymentDetailRepository;
+import com.clockworkcode.sibiuairportparkingmanager.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class PaymentService {
 
     @Autowired
-    private PaymentDetailRepository paymentDetailRepository;
+    private PaymentRepository paymentRepository;
 
     @Autowired
     private CarRepository carRepository;

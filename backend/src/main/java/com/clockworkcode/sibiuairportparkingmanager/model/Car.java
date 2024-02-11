@@ -13,7 +13,6 @@ public class Car {
 
     private String carLicensePlate;
 
-
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ParkingActivity> parkingActivities = new ArrayList<>();
 

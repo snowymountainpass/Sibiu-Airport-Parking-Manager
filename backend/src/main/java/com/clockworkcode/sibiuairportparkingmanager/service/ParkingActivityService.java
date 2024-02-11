@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ParkingActivityService {
@@ -35,23 +36,33 @@ public class ParkingActivityService {
     }
     public void assignToParkingSpace(Car car,String airportCode){
 
-        ParkingSpace unoccupiedParkingSpace = parkingSpaceRepository.findParkingSpaceByAirport_AirportCodeAndIsOccupied(airportCode, false);
-        assignParkingActivity(car,unoccupiedParkingSpace);
+        ParkingSpace unoccupiedParkingSpace = parkingSpaceRepository.findFirstByAirport_AirportCodeAndIsOccupied(airportCode, false);
         unoccupiedParkingSpace.setOccupied(true);
+        assignParkingActivity(car,unoccupiedParkingSpace);
+
     }
 
     public void assignParkingActivity(Car car,ParkingSpace parkingSpace){
-        List<ParkingActivity> listParkingActivities = parkingActivityRepository.findParkingActivitiesByParkingSpace(parkingSpace);
+//        List<ParkingActivity> listParkingActivities = parkingActivityRepository.findParkingActivitiesByParkingSpace(parkingSpace);
 
         ParkingActivity parkingActivity = new ParkingActivity(parkingSpace,car,new Date());
-
-        listParkingActivities.add(parkingActivity);
+        parkingActivityRepository.save(parkingActivity);
     }
 
     public void setDepartureTime(Car car, Date endTime){
         //add 5 min to the departure time to account for the time it takes to exit the parking lot
-        ParkingActivity latestParkingActivity = parkingActivityRepository.findParkingActivityByCarAndStartTimeOrderByStartTimeDesc(car);//find activity (for this car) that has a that has the closest startDate to the current time
-        latestParkingActivity.setEndTime(endTime); //TODO: 6) figure out how to add 5 minutes to the end date - DONE (04.02.2024)
+
+        ParkingActivity latestParkingActivity = getLatestParkingActivity(car);
+
+        latestParkingActivity.setEndTime(endTime);
+    }
+
+    public ParkingActivity getLatestParkingActivity(Car car){
+
+        List<ParkingActivity> parkingActivities = parkingActivityRepository.findParkingActivitiesByCarOrderByStartTimeDesc(car);
+
+        Optional<ParkingActivity> latestParkingActivity = parkingActivities.stream().findFirst();//find activity (for this car) that has the closest startDate to the current time
+        return latestParkingActivity.orElse(null);
     }
 
     public void deleteCar(String licensePlate){
