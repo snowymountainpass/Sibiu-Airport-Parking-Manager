@@ -9,6 +9,10 @@ import com.clockworkcode.sibiuairportparkingmanager.repository.ParkingSpaceRepos
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -49,12 +53,13 @@ public class ParkingActivityService {
         parkingActivityRepository.save(parkingActivity);
     }
 
-    public void setDepartureTime(Car car, Date endTime){
-        //add 5 min to the departure time to account for the time it takes to exit the parking lot
-
+    public void setDepartureTime(Car car){
         ParkingActivity latestParkingActivity = getLatestParkingActivity(car);
 
-        latestParkingActivity.setEndTime(endTime);
+        //add 5 min to the departure time to account for the time it takes to exit the parking lot
+        LocalDateTime extendedEndTime = LocalDateTime.now().plus(Duration.of(5, ChronoUnit.MINUTES));
+        Date billableDepartureTime = Date.from(extendedEndTime.atZone(ZoneId.systemDefault()).toInstant());
+        latestParkingActivity.setEndTime(billableDepartureTime);
     }
 
     public ParkingActivity getLatestParkingActivity(Car car){
