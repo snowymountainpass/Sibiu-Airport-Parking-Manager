@@ -1,8 +1,8 @@
 // PaymentPageBody.js
 import React, {useEffect, useState} from 'react';
 import { Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
-import CheckoutForm from "./CheckoutForm";
-import {Elements} from "@stripe/react-stripe-js";
+// import CheckoutForm from "./CheckoutForm";
+import {Elements, EmbeddedCheckoutProvider,EmbeddedCheckout} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
 // import PaymentForm from './PaymentForm';
 
@@ -28,16 +28,16 @@ const PaymentPageBody = ({ paymentDetails }) => {
 
     const [clientSecret, setClientSecret] = useState("");
 
-    useEffect(() => {
-        // Create PaymentIntent as soon as the page loads
-        fetch("/create-payment-intent", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
-        })
-            .then((res) => res.json())
-            .then((data) => setClientSecret(data.clientSecret));
-    }, []);
+    // useEffect(() => {
+    //     // Create PaymentIntent as soon as the page loads
+    //     fetch("/create-payment-intent", {
+    //         method: "POST",
+    //         headers: { "content-type": "application/json" },
+    //         body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+    //     })
+    //         .then((res) => res.json())
+    //         .then((data) => setClientSecret(data.clientSecret));
+    // }, []);
 
     const appearance = {
         theme: 'stripe',
@@ -49,6 +49,21 @@ const PaymentPageBody = ({ paymentDetails }) => {
 
     //Stripe Payment Form - End
 
+    //18.02.2024
+
+    useEffect(() => {
+        // Create a Checkout Session as soon as the page loads
+        fetch("/create-checkout-session", {
+            method: "POST",
+        })
+            .then((res) => res.json())
+            .then((data) => setClientSecret(data.clientSecret));
+    }, []);
+
+
+
+    //18.02.2024
+
 
     return (
         <div>
@@ -56,37 +71,48 @@ const PaymentPageBody = ({ paymentDetails }) => {
 
             <Divider style={{ margin: '20px 0' }} />
 
-            <Typography variant="h6" gutterBottom>
-                Payment Details Table
-            </Typography>
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Car License Number</TableCell>
-                            <TableCell>Start Date & Time</TableCell>
-                            <TableCell>End Date & Time</TableCell>
-                            <TableCell>Payment Amount</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>{carLicenseNumber}</TableCell>
-                            <TableCell>{startDate}</TableCell>
-                            <TableCell>{endDate}</TableCell>
-                            <TableCell>{paymentDetails.amount/100} EUR</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            {/*<Typography variant="h6" gutterBottom>*/}
+            {/*    Payment Details Table*/}
+            {/*</Typography>*/}
+            {/*<TableContainer component={Paper}>*/}
+            {/*    <Table>*/}
+            {/*        <TableHead>*/}
+            {/*            <TableRow>*/}
+            {/*                <TableCell>Car License Number</TableCell>*/}
+            {/*                <TableCell>Start Date & Time</TableCell>*/}
+            {/*                <TableCell>End Date & Time</TableCell>*/}
+            {/*                <TableCell>Payment Amount</TableCell>*/}
+            {/*            </TableRow>*/}
+            {/*        </TableHead>*/}
+            {/*        <TableBody>*/}
+            {/*            <TableRow>*/}
+            {/*                <TableCell>{carLicenseNumber}</TableCell>*/}
+            {/*                <TableCell>{startDate}</TableCell>*/}
+            {/*                <TableCell>{endDate}</TableCell>*/}
+            {/*                <TableCell>{paymentDetails.amount/100} EUR</TableCell>*/}
+            {/*            </TableRow>*/}
+            {/*        </TableBody>*/}
+            {/*    </Table>*/}
+            {/*</TableContainer>*/}
 
             <Divider style={{ margin: '20px 0' }} />
 
             {clientSecret && (
                 <Elements options={options} stripe={stripePromise}>
-                    <CheckoutForm />
+                    {/*<CheckoutForm />*/}
                 </Elements>
             )}
+
+            <div id="checkout">
+                {clientSecret && (
+                    <EmbeddedCheckoutProvider
+                        stripe={stripePromise}
+                        options={options}
+                    >
+                        <EmbeddedCheckout />
+                    </EmbeddedCheckoutProvider>
+                )}
+            </div>
 
         </div>
     );

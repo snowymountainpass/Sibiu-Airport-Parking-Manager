@@ -16,19 +16,16 @@ const InputField = () => {
     };
 
 
-    const HandlePayment = async () =>{
+    const getCarDetails = async () =>{
+
         try {
-            // const response = await axios.post('http://localhost:8080/licenseplate', { licensePlate });
-            // console.log('API Response:', response.data);
 
-            console.log('License plate data sent successfully!');
-            localStorage.setItem("carLicenseNumber", `${licensePlate}`);
-            navigate("/payment");
-            console.log('Redirecting to Payment Page');
+            const response = await axios.post('/api/sendString', { licensePlate });
 
-        } catch (error) {
-            console.error('Error sending request:', error);
+        }catch (error){
+            console.error(error);
         }
+
     }
 
 
