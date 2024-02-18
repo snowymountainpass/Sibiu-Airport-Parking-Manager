@@ -25,6 +25,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/payment")
+@CrossOrigin
 public class StripeChargeController {
 
     @Autowired
@@ -39,7 +40,7 @@ public class StripeChargeController {
     @Autowired
     private ParkingCostService parkingCostService;
 
-    @GetMapping("/payment_details")
+    @PostMapping("/payment_details")
     public ResponseEntity<PaymentDTO> getPaymentDetails(@RequestBody CarDTO carDTO){
 
         Car car = carService.getCarByLicensePlate(carDTO.getLicensePlate());
