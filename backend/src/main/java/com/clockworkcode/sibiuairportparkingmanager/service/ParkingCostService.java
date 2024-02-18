@@ -35,8 +35,7 @@ public class ParkingCostService {
         long differenceInMinutes=0;
         if(startTime!=null && endTime!=null){
             long diffInMilliseconds = Math.abs(endTime.getTime() - startTime.getTime());
-            differenceInMinutes= TimeUnit.DAYS.convert(diffInMilliseconds, TimeUnit.MINUTES)+5; //5 is an arbitrary value that represents
-                                                                                                // the amount of time necessary to exit the parking lot
+            differenceInMinutes= TimeUnit.MILLISECONDS.toMinutes(diffInMilliseconds);
         }
         return differenceInMinutes*airportCostPerMinute;
     }
@@ -45,9 +44,13 @@ public class ParkingCostService {
 
         ParkingActivity activity = parkingActivityService.getLatestParkingActivity(car);
 
-        ParkingCost cost = parkingCostRepository.findParkingCostByParkingActivity(activity);
+//        ParkingCost cost = parkingCostRepository.findParkingCostByParkingActivity(activity);
 
-        cost.setAmount(getAmountToBePaid(car));
+        ParkingCost parkingCost = new ParkingCost(activity.getParkingSpace(),activity,0f);
+
+        parkingCost.setAmount(getAmountToBePaid(car));
+
+//        parkingCostRepository.save(parkingCost);
     }
 
     //TODO: 5) here we have to add a method which handles

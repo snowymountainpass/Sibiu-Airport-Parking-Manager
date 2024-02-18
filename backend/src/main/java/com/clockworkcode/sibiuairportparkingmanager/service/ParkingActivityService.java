@@ -60,6 +60,7 @@ public class ParkingActivityService {
         LocalDateTime extendedEndTime = LocalDateTime.now().plus(Duration.of(5, ChronoUnit.MINUTES));
         Date billableDepartureTime = Date.from(extendedEndTime.atZone(ZoneId.systemDefault()).toInstant());
         latestParkingActivity.setEndTime(billableDepartureTime);
+        parkingActivityRepository.save(latestParkingActivity);
     }
 
     public ParkingActivity getLatestParkingActivity(Car car){

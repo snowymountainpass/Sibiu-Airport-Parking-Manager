@@ -13,7 +13,7 @@ public class StripeCharge {
     public StripeCharge(long amount, String receiptEmail) {
         this.amount = amount;
         this.source = "tok_visa";
-        this.currency = "aud";
+        this.currency = "eur";
         this.receiptEmail = receiptEmail;
     }
 
