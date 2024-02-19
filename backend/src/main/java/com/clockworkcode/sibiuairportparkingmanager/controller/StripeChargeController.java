@@ -45,7 +45,9 @@ public class StripeChargeController {
 
         Car car = carService.getCarByLicensePlate(carDTO.getLicensePlate());
         ParkingActivity parkingActivity = parkingActivityService.getLatestParkingActivity(car);
-        parkingActivityService.setDepartureTime(car);
+        if(parkingActivity.getEndTime()==null){
+            parkingActivityService.setDepartureTime(car);
+        }
 
         //Retrieve the details from the ParkingCost
         parkingCostService.addParkingCostForCar(car);
