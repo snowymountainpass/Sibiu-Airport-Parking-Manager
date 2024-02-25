@@ -14,17 +14,17 @@ public class Airport {
 
     private String airportName;
     private String airportCode;
-    private Float costPerMinute;
+    private Long costPerMinute;
 
     @OneToMany(mappedBy = "airport", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ParkingSpace> parkingSpaces = new ArrayList<>();
 
 
-    public Float getCostPerMinute() {
+    public Long getCostPerMinute() {
         return costPerMinute;
     }
 
-    public Airport(String airportName, String airportCode, Float costPerMinute, List<ParkingSpace> parkingSpaces) {
+    public Airport(String airportName, String airportCode, Long costPerMinute, List<ParkingSpace> parkingSpaces) {
         this.airportName = airportName;
         this.airportCode = airportCode;
         this.costPerMinute = costPerMinute;
@@ -50,7 +50,7 @@ public class Airport {
         this.airportCode = aiportCode;
     }
 
-    public void setCostPerMinute(Float costPerMinute) {
+    public void setCostPerMinute(Long costPerMinute) {
         this.costPerMinute = costPerMinute;
     }
 

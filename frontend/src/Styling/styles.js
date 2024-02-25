@@ -1,5 +1,6 @@
 // styles.js
 import { makeStyles } from '@emotion/react';
+import {blueGrey} from "@mui/material/colors";
 
 export const useStyles = makeStyles((theme) => ({
     container: {
@@ -20,7 +21,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     body: {
         flex: 3,
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: blueGrey, //theme.palette.background.default
         padding: theme.spacing(2),
     },
     footer: {

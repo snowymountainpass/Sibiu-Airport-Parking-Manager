@@ -10,7 +10,7 @@ public class PaymentDTO {
     private Date endTime;
     private String airportCode;
     private String airportName;
-    private Float billableAmount;
+    private Long billableAmount;
 
     public PaymentDTO() {
     }
@@ -63,11 +63,11 @@ public class PaymentDTO {
         this.airportName = airportName;
     }
 
-    public Float getBillableAmount() {
+    public Long getBillableAmount() {
         return billableAmount;
     }
 
-    public void setBillableAmount(Float billableAmount) {
+    public void setBillableAmount(Long billableAmount) {
         this.billableAmount = billableAmount;
     }
 }

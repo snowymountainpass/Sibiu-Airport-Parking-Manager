@@ -19,12 +19,12 @@ public class ParkingCost {
     @JoinColumn(name = "parking_activity_id")
     private ParkingActivity parkingActivity;
 
-    private Float amount;
+    private Long amount;
 
     @OneToOne(mappedBy = "parkingCost", cascade = CascadeType.ALL, orphanRemoval = true)
     private Payment payment;
 
-    public ParkingCost(ParkingSpace parkingSpace, ParkingActivity parkingActivity, Float amount) {
+    public ParkingCost(ParkingSpace parkingSpace, ParkingActivity parkingActivity, Long amount) {
         this.parkingSpace = parkingSpace;
         this.parkingActivity = parkingActivity;
         this.amount = amount;
@@ -49,11 +49,11 @@ public class ParkingCost {
         this.parkingActivity = parkingActivity;
     }
 
-    public Float getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

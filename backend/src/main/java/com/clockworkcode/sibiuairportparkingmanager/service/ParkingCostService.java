@@ -24,11 +24,11 @@ public class ParkingCostService {
         this.parkingActivityService=parkingActivityService;
     }
 
-    public Float getAmountToBePaid(Car car){
+    public Long getAmountToBePaid(Car car){
 
         ParkingActivity carParkingActivity =parkingActivityService.getLatestParkingActivity(car);
 
-        Float airportCostPerMinute = carParkingActivity.getParkingSpace().getAirport().getCostPerMinute();
+        Long airportCostPerMinute = carParkingActivity.getParkingSpace().getAirport().getCostPerMinute();
 
         Date startTime = carParkingActivity.getStartTime();
         Date endTime = carParkingActivity.getEndTime();
@@ -46,7 +46,7 @@ public class ParkingCostService {
 
 //        ParkingCost cost = parkingCostRepository.findParkingCostByParkingActivity(activity);
 
-        ParkingCost parkingCost = new ParkingCost(activity.getParkingSpace(),activity,0f);
+        ParkingCost parkingCost = new ParkingCost(activity.getParkingSpace(),activity,0L);
 
         parkingCost.setAmount(getAmountToBePaid(car));
 
