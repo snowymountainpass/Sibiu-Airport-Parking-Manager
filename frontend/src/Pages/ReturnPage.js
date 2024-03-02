@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import {
     Navigate
 } from "react-router-dom";
+import Header from "../Sections/Header";
+import Footer from "../Sections/Footer";
+import Body from "../Sections/Body";
 
 const ReturnPage = () => {
     const [status, setStatus] = useState(null);
@@ -22,19 +25,25 @@ const ReturnPage = () => {
 
     if (status === 'open') {
         return (
-            <Navigate to="/order/checkout" />
+            <Navigate to="'http://localhost:8080/order/checkout"/>
         )
     }
 
     if (status === 'complete') {
         return (
-            <section id="success">
-                <p>
-                    We appreciate your business! A confirmation email will be sent to {customerEmail}.
+            <div>
+                <Header/>
+                    <Body>
+                        <section id="success">
+                            <p>
+                            We appreciate your business! A confirmation email will be sent to {customerEmail}.
 
-                    If you have any questions, please email <a href="mailto:orders@example.com">orders@example.com</a>.
-                </p>
-            </section>
+                            If you have any questions, please email <a href="mailto:orders@example.com">orders@example.com</a>.
+                            </p>
+                        </section>
+                    </Body>
+                <Footer />
+            </div>
         )
     }
 

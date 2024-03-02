@@ -24,8 +24,7 @@ public class ParkingCostService {
         this.parkingActivityService=parkingActivityService;
     }
 
-    public Long getAmountToBePaid(Car car){
-
+    public long calculateAmountToBePaid(Car car){
         ParkingActivity carParkingActivity =parkingActivityService.getLatestParkingActivity(car);
 
         Long airportCostPerMinute = carParkingActivity.getParkingSpace().getAirport().getCostPerMinute();
@@ -40,6 +39,15 @@ public class ParkingCostService {
         return differenceInMinutes*airportCostPerMinute;
     }
 
+    public Long getAmountToBePaid(Car car){
+
+        ParkingActivity carParkingActivity =parkingActivityService.getLatestParkingActivity(car);
+
+        ParkingCost parkingActivityCost = parkingCostRepository.findParkingCostByParkingActivity(carParkingActivity);
+
+        return parkingActivityCost.getAmount();
+    }
+
     public void addParkingCostForCar(Car car){
 
         ParkingActivity activity = parkingActivityService.getLatestParkingActivity(car);
@@ -48,9 +56,9 @@ public class ParkingCostService {
 
         ParkingCost parkingCost = new ParkingCost(activity.getParkingSpace(),activity,0L);
 
-        parkingCost.setAmount(getAmountToBePaid(car));
+        parkingCost.setAmount(calculateAmountToBePaid(car));
 
-//        parkingCostRepository.save(parkingCost);
+        parkingCostRepository.save(parkingCost);
     }
 
     //TODO: 5) here we have to add a method which handles

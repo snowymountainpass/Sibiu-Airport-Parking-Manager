@@ -84,7 +84,6 @@ public class OrderController {
         PaymentDTO paymentDTO = getPaymentDetails(carDTO);
 
         Session session = orderService.createSession(paymentDTO);
-        StripeResponse stripeResponse = new StripeResponse(session.getId());
 
         // Prepare response map with client secret
         Map<String, String> responseMap = new HashMap<>();

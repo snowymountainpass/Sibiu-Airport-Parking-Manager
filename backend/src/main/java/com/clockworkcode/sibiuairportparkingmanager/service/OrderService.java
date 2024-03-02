@@ -12,8 +12,6 @@ import com.stripe.param.checkout.SessionCreateParams;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -55,22 +53,7 @@ public class OrderService {
 
     public Session createSession(PaymentDTO paymentDTO) throws StripeException {
 
-        //success URL
-        String successURL = baseURL+"/payment/success";
-        //failure URL
-        String failureURL = baseURL+"/payment/failure";
-
         Stripe.apiKey=apiKey;
-
-
-//        String productName = paymentDTO.getLicensePlate()+" -- "+paymentDTO.getStartTime()+" -- "+paymentDTO.getEndTime();
-//        SessionCreateParams.LineItem lineItem = SessionCreateParams.LineItem.builder()//
-//                .setQuantity(1L)//
-//                .setPrice(paymentDTO.getBillableAmount().toString())//
-//                .setPriceData(SessionCreateParams.LineItem.PriceData.builder().setCurrency("eur")//
-//                        .setProduct(String.valueOf(SessionCreateParams.LineItem.PriceData.ProductData.builder().setName(productName).setDescription(productDescription)))
-////                        .build())
-//                .build();
 
         Product product = createProduct(paymentDTO);
         Price price = createPrice(paymentDTO, product);
@@ -86,9 +69,9 @@ public class OrderService {
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)//
                 .setMode(SessionCreateParams.Mode.PAYMENT)//
                 .setUiMode(SessionCreateParams.UiMode.EMBEDDED)//
-                .setReturnUrl("http://localhost:8080/order/checkout/return?session_id={CHECKOUT_SESSION_ID}")//
-                .setSuccessUrl(successURL)//
-                .setCancelUrl(failureURL)//
+                .setReturnUrl("http://localhost:8080/order/session-status/return?session_id={CHECKOUT_SESSION_ID}")//
+//                .setSuccessUrl(successURL)//
+//                .setCancelUrl(failureURL)//
                 .addLineItem(lineItem)//
                 .build();
 

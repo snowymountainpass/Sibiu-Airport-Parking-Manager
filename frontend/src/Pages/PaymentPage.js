@@ -11,18 +11,26 @@ const stripePromise = loadStripe("pk_test_51KtS1vIBvoqhBs9FLAT83yqmV0oLxIprG0qQu
 const PaymentPage = () => {
 
     const [clientSecret, setClientSecret] = useState("");
+    const options = {clientSecret};
 
     useEffect(() => {
         // Create a Checkout Session as soon as the page loads
         console.log("Reached the useEffect in the PaymentPage!")
         fetch("http://localhost:8080/order/checkout", {
             method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+            },
+            // Send the string in the request body as JSON
+            body: JSON.stringify({ licensePlate: JSON.parse(localStorage.getItem('licensePlate')) })
         })
             .then((res) => res.json())
             .then((data) => setClientSecret(data.clientSecret));
     }, []);
 
-    const options = {clientSecret};
+
 
     return (
         <div>
