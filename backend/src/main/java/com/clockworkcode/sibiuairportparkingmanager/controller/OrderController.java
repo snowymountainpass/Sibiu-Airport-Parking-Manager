@@ -48,10 +48,9 @@ public class OrderController {
         ParkingActivity parkingActivity = parkingActivityService.getLatestParkingActivity(car);
         if(parkingActivity.getEndTime()==null){
             parkingActivityService.setDepartureTime(car);
+            parkingCostService.addParkingCostForCar(parkingActivity);
         }
 
-        //Retrieve the details from the ParkingCost
-        parkingCostService.addParkingCostForCar(car);
         Long amountToBePaid = parkingCostService.getAmountToBePaid(car);
 
         final PaymentDTO paymentDTO = new PaymentDTO();
@@ -67,17 +66,6 @@ public class OrderController {
         return paymentDTO;
     }
 
-//    @PostMapping("/checkout")
-//    public ResponseEntity<StripeResponse> checkout(@RequestBody CarDTO carDTO) throws StripeException {
-//
-//        PaymentDTO paymentDTO = getPaymentDetails(carDTO);
-//
-//        Session session = orderService.createSession(paymentDTO);
-//        StripeResponse stripeResponse = new StripeResponse(session.getId());
-//
-//        return new ResponseEntity<>(stripeResponse,HttpStatus.OK);
-//    } // WORKS - 25.02.2024 - generates a response that is a sessionID
-
     @PostMapping("/checkout")
     public ResponseEntity<Map<String, String>> checkout(@RequestBody CarDTO carDTO) throws StripeException {
 
@@ -89,9 +77,14 @@ public class OrderController {
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("clientSecret", session.getClientSecret());
 
+        Car car = carService.getCarByLicensePlate(carDTO.getLicensePlate());
+        ParkingActivity parkingActivity = parkingActivityService.getLatestParkingActivity(car);
+
+        parkingActivityService.clearParkingSpace(parkingActivity);
+
         return new ResponseEntity<>(responseMap,HttpStatus.OK);
 
-//        return new ResponseEntity<>(stripeResponse,HttpStatus.OK);
+
     }
 
     @GetMapping("/session-status")

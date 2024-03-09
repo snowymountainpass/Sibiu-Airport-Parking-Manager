@@ -48,21 +48,15 @@ public class ParkingCostService {
         return parkingActivityCost.getAmount();
     }
 
-    public void addParkingCostForCar(Car car){
-
-        ParkingActivity activity = parkingActivityService.getLatestParkingActivity(car);
+    public void addParkingCostForCar(ParkingActivity activity){
 
 //        ParkingCost cost = parkingCostRepository.findParkingCostByParkingActivity(activity);
 
-        ParkingCost parkingCost = new ParkingCost(activity.getParkingSpace(),activity,0L);
+        ParkingCost parkingCost = new ParkingCost(activity,0L);
 
-        parkingCost.setAmount(calculateAmountToBePaid(car));
+        parkingCost.setAmount(calculateAmountToBePaid(activity.getCar()));
 
         parkingCostRepository.save(parkingCost);
     }
-
-    //TODO: 5) here we have to add a method which handles
-    // the calculation for the amount to be paid
-    // amount will be initiated when ParkingActivity startTime is initiated - DONE (04.02.2024)
 
 }

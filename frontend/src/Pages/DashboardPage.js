@@ -1,27 +1,22 @@
-// LandingPage.js
 import React from 'react';
 import Header from "../Sections/Header";
 import Body from "../Sections/Body";
+import DashboardInputField from "../Components/DashboardInputField";
 import Footer from "../Sections/Footer";
-import InputField from "../Components/InputField";
-import TableComponent from "../Components/Table";
-import {Link} from "react-router-dom";
 
-const LandingPage = () => {
+
+const DashboardPage = () => {
 
     return (
         <div>
             <Header />
             <Body>
                 <div className="landing-page-content">
-                    <InputField/>
-                    <TableComponent />
-                    <Link to={"/dashboard"}>Go to Dashboard</Link>
+                    <DashboardInputField/>
                 </div>
             </Body>
             <Footer />
         </div>
     );
 };
-
-export default LandingPage;
+export default DashboardPage;

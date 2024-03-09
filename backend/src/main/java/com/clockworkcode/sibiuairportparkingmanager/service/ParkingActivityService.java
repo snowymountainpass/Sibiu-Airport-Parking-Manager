@@ -32,24 +32,28 @@ public class ParkingActivityService {
     }
 
     public void addCar(String licensePlate) {
-        carRepository.save(new Car(licensePlate));
-        Car car = carRepository.getCarByCarLicensePlate(licensePlate);
-
-        assignToParkingSpace(car,"SIA");
+        if(carRepository.getCarByCarLicensePlate(licensePlate)!=null){
+            assignToParkingSpace(carRepository.getCarByCarLicensePlate(licensePlate),"SIA");
+        }else {
+            carRepository.save(new Car(licensePlate));
+            Car car = carRepository.getCarByCarLicensePlate(licensePlate);
+            assignToParkingSpace(car,"SIA");
+        }
 
     }
     public void assignToParkingSpace(Car car,String airportCode){
-
         ParkingSpace unoccupiedParkingSpace = parkingSpaceRepository.findFirstByAirport_AirportCodeAndIsOccupied(airportCode, false);
         unoccupiedParkingSpace.setOccupied(true);
         assignParkingActivity(car,unoccupiedParkingSpace);
-
     }
 
     public void assignParkingActivity(Car car,ParkingSpace parkingSpace){
-//        List<ParkingActivity> listParkingActivities = parkingActivityRepository.findParkingActivitiesByParkingSpace(parkingSpace);
-
         ParkingActivity parkingActivity = new ParkingActivity(parkingSpace,car,new Date());
+        parkingActivityRepository.save(parkingActivity);
+    }
+
+    public void clearParkingSpace(ParkingActivity parkingActivity){
+        parkingActivity.getParkingSpace().setOccupied(false);
         parkingActivityRepository.save(parkingActivity);
     }
 

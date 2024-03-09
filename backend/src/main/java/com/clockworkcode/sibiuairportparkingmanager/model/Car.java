@@ -9,7 +9,7 @@ import java.util.List;
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cardId;
+    private Long carId;
 
     private String carLicensePlate;
 
@@ -23,8 +23,8 @@ public class Car {
     public Car() {
     }
 
-    public Long getCardId() {
-        return cardId;
+    public Long getCarId() {
+        return carId;
     }
 
     public String getCarLicensePlate() {

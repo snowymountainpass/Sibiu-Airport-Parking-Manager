@@ -22,10 +22,6 @@ public class ParkingSpace {
     @OneToMany(mappedBy = "parkingSpace",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ParkingActivity> parkingActivities = new ArrayList<>();
 
-    @OneToOne(mappedBy = "parkingSpace", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ParkingCost parkingCost;
-
-
     public ParkingSpace(String parkingSpaceNumber, Boolean isOccupied, Airport airport) {
         this.parkingSpaceNumber = parkingSpaceNumber;
         this.isOccupied = isOccupied;
@@ -66,14 +62,5 @@ public class ParkingSpace {
     public void setParkingActivities(List<ParkingActivity> parkingActivities) {
         this.parkingActivities = parkingActivities;
     }
-
-    public ParkingCost getParkingCost() {
-        return parkingCost;
-    }
-
-    public void setParkingCost(ParkingCost parkingCost) {
-        this.parkingCost = parkingCost;
-    }
-
 
 }
