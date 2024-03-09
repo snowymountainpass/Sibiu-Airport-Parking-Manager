@@ -20,6 +20,4 @@ public interface ParkingActivityRepository extends JpaRepository<ParkingActivity
 
     List<ParkingActivity> findParkingActivitiesByCarOrderByStartTimeDesc(Car car);
 
-
-
 }

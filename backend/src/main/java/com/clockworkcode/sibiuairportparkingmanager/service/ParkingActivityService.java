@@ -8,7 +8,6 @@ import com.clockworkcode.sibiuairportparkingmanager.repository.ParkingActivityRe
 import com.clockworkcode.sibiuairportparkingmanager.repository.ParkingSpaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ParkingActivityService {
 
     private final CarRepository carRepository;
@@ -34,16 +32,14 @@ public class ParkingActivityService {
     }
 
     public void addCar(String licensePlate) {
-        if(carRepository.getCarByCarLicensePlate(licensePlate)!=null){
-            assignToParkingSpace(carRepository.getCarByCarLicensePlate(licensePlate),"SIA");
-        }else {
-            carRepository.save(new Car(licensePlate));
-            Car car = carRepository.getCarByCarLicensePlate(licensePlate);
-            assignToParkingSpace(car,"SIA");
-        }
-    }
+        carRepository.save(new Car(licensePlate));
+        Car car = carRepository.getCarByCarLicensePlate(licensePlate);
 
+        assignToParkingSpace(car,"SIA");
+
+    }
     public void assignToParkingSpace(Car car,String airportCode){
+
         ParkingSpace unoccupiedParkingSpace = parkingSpaceRepository.findFirstByAirport_AirportCodeAndIsOccupied(airportCode, false);
         unoccupiedParkingSpace.setOccupied(true);
         assignParkingActivity(car,unoccupiedParkingSpace);
@@ -51,12 +47,9 @@ public class ParkingActivityService {
     }
 
     public void assignParkingActivity(Car car,ParkingSpace parkingSpace){
-        ParkingActivity parkingActivity = new ParkingActivity(parkingSpace,car,new Date());
-        parkingActivityRepository.save(parkingActivity);
-    }
+//        List<ParkingActivity> listParkingActivities = parkingActivityRepository.findParkingActivitiesByParkingSpace(parkingSpace);
 
-    public void clearParkingSpace(ParkingActivity parkingActivity){
-        parkingActivity.getParkingSpace().setOccupied(false);
+        ParkingActivity parkingActivity = new ParkingActivity(parkingSpace,car,new Date());
         parkingActivityRepository.save(parkingActivity);
     }
 
@@ -71,6 +64,7 @@ public class ParkingActivityService {
     }
 
     public ParkingActivity getLatestParkingActivity(Car car){
+
         List<ParkingActivity> parkingActivities = parkingActivityRepository.findParkingActivitiesByCarOrderByStartTimeDesc(car);
 
         Optional<ParkingActivity> latestParkingActivity = parkingActivities.stream().findFirst();//find activity (for this car) that has the closest startDate to the current time

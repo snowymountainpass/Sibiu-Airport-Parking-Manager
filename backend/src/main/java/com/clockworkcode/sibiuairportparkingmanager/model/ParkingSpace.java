@@ -9,8 +9,8 @@ import java.util.List;
 public class ParkingSpace {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String parkingSpaceId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long parkingSpaceId;
 
     private String parkingSpaceNumber;
     private Boolean isOccupied;

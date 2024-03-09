@@ -15,7 +15,7 @@ const ReturnPage = () => {
         const urlParams = new URLSearchParams(queryString);
         const sessionId = urlParams.get('session_id');
 
-        fetch(`/order/return/return?session_id=${sessionId}`)
+        fetch(`/session-status?session_id=${sessionId}`)
             .then((res) => res.json())
             .then((data) => {
                 setStatus(data.status);
