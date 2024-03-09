@@ -88,25 +88,21 @@ public class OrderController {
     }
 
     @GetMapping("/session-status")
-    public Map<String, String> getSessionStatus(@RequestParam("session_id") String sessionId) throws StripeException {
-        // Set your Stripe API key
-//        Stripe.apiKey = "sk_test_TyMeY76Ef4pXsM1rA5rznKax";
+    public ResponseEntity<Map<String, String>> getSessionStatus(@RequestParam("session_id") String sessionId) throws StripeException {
 
         // Retrieve the session from Stripe using the session ID
         Session session = Session.retrieve(sessionId);
 
         // Extract status and customer email from the session
         String status = session.getStatus();
-        String customerEmail = session.getCustomerEmail();
+        String customerEmail = session.getCustomerDetails().getEmail();
 
         // Prepare response map with status and customer email
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("status", status);
         responseMap.put("customer_email", customerEmail);
 
-        return responseMap;
+        return new ResponseEntity<>(responseMap,HttpStatus.OK);
     }
 
-//    Map<String, String> map = new HashMap();
-//        map.put("clientSecret", session.getRawJsonObject().getAsJsonPrimitive("client_secret").getAsString());
 }

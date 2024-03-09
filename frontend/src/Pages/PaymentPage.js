@@ -5,32 +5,35 @@ import Body from "../Sections/Body";
 import Footer from "../Sections/Footer";
 import {EmbeddedCheckoutProvider,EmbeddedCheckout} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
+import axios from "axios";
 
-const stripePromise = loadStripe("pk_test_51KtS1vIBvoqhBs9FLAT83yqmV0oLxIprG0qQuGaLfvKZcu3c9ZVZGATygdBDOkTjLxoFPsq06sqijzLJagg65YJ400GnDhe2av");
-
+const stripePubKey = 'pk_test_51KtS1vIBvoqhBs9FLAT83yqmV0oLxIprG0qQuGaLfvKZcu3c9ZVZGATygdBDOkTjLxoFPsq06sqijzLJagg65YJ400GnDhe2av';
 const PaymentPage = () => {
-
+    const [stripePromise, setStripePromise] = useState(() => loadStripe(stripePubKey))
     const [clientSecret, setClientSecret] = useState("");
     const options = {clientSecret};
-
+    
     useEffect(() => {
         // Create a Checkout Session as soon as the page loads
-        console.log("Reached the useEffect in the PaymentPage!")
-        fetch("http://localhost:8080/order/checkout", {
-            method: "POST",
+        console.log("Reached the useEffect in the PaymentPage (Axios)!")
+        axios.post('http://localhost:8080/order/checkout', {
+            licensePlate: JSON.parse(localStorage.getItem('licensePlate'))
+        }, {
             headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
-            },
-            // Send the string in the request body as JSON
-            body: JSON.stringify({ licensePlate: JSON.parse(localStorage.getItem('licensePlate')) })
+            }
         })
-            .then((res) => res.json())
-            .then((data) => setClientSecret(data.clientSecret));
+            .then(function (response) {
+                console.log(response);
+                setClientSecret(response.data.clientSecret);
+            })
+            .catch(function (error) {
+                console.log('Error fetching data:', error);
+            })
+
     }, []);
-
-
 
     return (
         <div>

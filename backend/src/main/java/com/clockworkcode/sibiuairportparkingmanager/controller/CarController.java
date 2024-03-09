@@ -26,7 +26,6 @@ public class CarController {
 
         if(car!=null){
             return new ResponseEntity<>(car, HttpStatus.OK);
-//            return ResponseEntity.ok(CarDTO);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

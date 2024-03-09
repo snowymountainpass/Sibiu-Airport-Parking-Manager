@@ -15,12 +15,16 @@ const ReturnPage = () => {
         const urlParams = new URLSearchParams(queryString);
         const sessionId = urlParams.get('session_id');
 
-        fetch(`/session-status?session_id=${sessionId}`)
+        console.log("Session_id:"+sessionId);
+
+        fetch(`http://localhost:8080/order/session-status?session_id=${sessionId}`)
             .then((res) => res.json())
             .then((data) => {
                 setStatus(data.status);
                 setCustomerEmail(data.customer_email);
             });
+        console.log("Status:"+status);
+        console.log("CustomerEmail:"+customerEmail);
     }, []);
 
     if (status === 'open') {
@@ -38,7 +42,7 @@ const ReturnPage = () => {
                             <p>
                             We appreciate your business! A confirmation email will be sent to {customerEmail}.
 
-                            If you have any questions, please email <a href="mailto:orders@example.com">orders@example.com</a>.
+                            If you have any issues, please email <a href="mailto:sibiuairport@roairport.ro">sibiuairport@roairport.ro</a>.
                             </p>
                         </section>
                     </Body>

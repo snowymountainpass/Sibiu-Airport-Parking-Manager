@@ -3,9 +3,11 @@ package com.clockworkcode.sibiuairportparkingmanager.service;
 import com.clockworkcode.sibiuairportparkingmanager.DTO.PaymentDTO;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
 import com.stripe.model.Price;
 import com.stripe.model.Product;
 import com.stripe.model.checkout.Session;
+import com.stripe.param.PaymentIntentCreateParams;
 import com.stripe.param.PriceCreateParams;
 import com.stripe.param.ProductCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -49,8 +51,6 @@ public class OrderService {
         return Price.create(params);
     }
 
-
-
     public Session createSession(PaymentDTO paymentDTO) throws StripeException {
 
         Stripe.apiKey=apiKey;
@@ -69,7 +69,7 @@ public class OrderService {
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)//
                 .setMode(SessionCreateParams.Mode.PAYMENT)//
                 .setUiMode(SessionCreateParams.UiMode.EMBEDDED)//
-                .setReturnUrl("http://localhost:3000/")//
+                .setReturnUrl("http://localhost:3000/return?session_id={CHECKOUT_SESSION_ID}")//
                 .addLineItem(lineItem)//
                 .build();
 
