@@ -8,8 +8,8 @@ import java.util.List;
 @Entity
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cardId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String carid;
 
     private String carLicensePlate;
 
@@ -23,8 +23,8 @@ public class Car {
     public Car() {
     }
 
-    public Long getCardId() {
-        return cardId;
+    public String getCarId() {
+        return carid;
     }
 
     public String getCarLicensePlate() {

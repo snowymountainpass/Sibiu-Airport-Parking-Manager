@@ -40,7 +40,7 @@ public class OrderService {
     public Price createPrice(PaymentDTO paymentDTO,Product product) throws StripeException {
         PriceCreateParams params =
                 PriceCreateParams.builder()//
-                        .setUnitAmount(paymentDTO.getBillableAmount())//
+                        .setUnitAmount(paymentDTO.getBillableAmount()*100)// //amount * 100 euro cents
                         .setCurrency("eur")//
                         .setNickname(product.getDescription())
                         .setProduct(product.getId())
@@ -69,9 +69,7 @@ public class OrderService {
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)//
                 .setMode(SessionCreateParams.Mode.PAYMENT)//
                 .setUiMode(SessionCreateParams.UiMode.EMBEDDED)//
-                .setReturnUrl("http://localhost:8080/order/session-status/return?session_id={CHECKOUT_SESSION_ID}")//
-//                .setSuccessUrl(successURL)//
-//                .setCancelUrl(failureURL)//
+                .setReturnUrl("http://localhost:3000/order/return/return?session_id={CHECKOUT_SESSION_ID}")//
                 .addLineItem(lineItem)//
                 .build();
 

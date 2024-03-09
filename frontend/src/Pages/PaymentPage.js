@@ -5,6 +5,7 @@ import Body from "../Sections/Body";
 import Footer from "../Sections/Footer";
 import {EmbeddedCheckoutProvider,EmbeddedCheckout} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
+import { useNavigate } from 'react-router-dom';
 
 const stripePromise = loadStripe("pk_test_51KtS1vIBvoqhBs9FLAT83yqmV0oLxIprG0qQuGaLfvKZcu3c9ZVZGATygdBDOkTjLxoFPsq06sqijzLJagg65YJ400GnDhe2av");
 
@@ -12,6 +13,7 @@ const PaymentPage = () => {
 
     const [clientSecret, setClientSecret] = useState("");
     const options = {clientSecret};
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Create a Checkout Session as soon as the page loads
@@ -28,6 +30,7 @@ const PaymentPage = () => {
         })
             .then((res) => res.json())
             .then((data) => setClientSecret(data.clientSecret));
+            // .then(navigate('/return'));
     }, []);
 
 

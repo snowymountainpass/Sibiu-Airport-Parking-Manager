@@ -7,8 +7,8 @@ import java.util.Date;
 @Entity
 public class ParkingActivity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long activityId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String activityId;
 
     @ManyToOne
     @JoinColumn(name = "parking_space_id")
@@ -34,6 +34,10 @@ public class ParkingActivity {
 
     public ParkingSpace getParkingSpace() {
         return parkingSpace;
+    }
+
+    public String getActivityId() {
+        return activityId;
     }
 
     public Car getCar() {

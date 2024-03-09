@@ -1,18 +1,20 @@
 package com.clockworkcode.sibiuairportparkingmanager.service;
 
-import com.clockworkcode.sibiuairportparkingmanager.model.Airport;
 import com.clockworkcode.sibiuairportparkingmanager.model.Car;
 import com.clockworkcode.sibiuairportparkingmanager.model.ParkingActivity;
 import com.clockworkcode.sibiuairportparkingmanager.model.ParkingCost;
-import com.clockworkcode.sibiuairportparkingmanager.repository.ParkingActivityRepository;
 import com.clockworkcode.sibiuairportparkingmanager.repository.ParkingCostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Transactional
 public class ParkingCostService {
 
     private final ParkingCostRepository parkingCostRepository;
@@ -24,13 +26,10 @@ public class ParkingCostService {
         this.parkingActivityService=parkingActivityService;
     }
 
-    public long calculateAmountToBePaid(Car car){
-        ParkingActivity carParkingActivity =parkingActivityService.getLatestParkingActivity(car);
-
-        Long airportCostPerMinute = carParkingActivity.getParkingSpace().getAirport().getCostPerMinute();
-
-        Date startTime = carParkingActivity.getStartTime();
-        Date endTime = carParkingActivity.getEndTime();
+    public long calculateAmountToBePaid(ParkingActivity parkingActivity){
+        Long airportCostPerMinute = parkingActivity.getParkingSpace().getAirport().getCostPerMinute();
+        Date startTime = parkingActivity.getStartTime();
+        Date endTime = parkingActivity.getEndTime();
         long differenceInMinutes=0;
         if(startTime!=null && endTime!=null){
             long diffInMilliseconds = Math.abs(endTime.getTime() - startTime.getTime());
@@ -48,21 +47,24 @@ public class ParkingCostService {
         return parkingActivityCost.getAmount();
     }
 
-    public void addParkingCostForCar(Car car){
 
-        ParkingActivity activity = parkingActivityService.getLatestParkingActivity(car);
+    public void addParkingCostForCar(ParkingActivity activity){
 
-//        ParkingCost cost = parkingCostRepository.findParkingCostByParkingActivity(activity);
+        ParkingCost currentParkingCost = parkingCostRepository.findParkingCostByParkingActivity(activity);
 
-        ParkingCost parkingCost = new ParkingCost(activity.getParkingSpace(),activity,0L);
-
-        parkingCost.setAmount(calculateAmountToBePaid(car));
-
-        parkingCostRepository.save(parkingCost);
+        if(currentParkingCost==null){
+            ParkingCost parkingCost = new ParkingCost(activity.getParkingSpace(),activity,0L);
+            System.out.println("V1"+"--"+LocalDateTime.now()+" - "+parkingCost.getParkingActivity().getActivityId()+" - " +parkingCost.getParkingActivity().getCar()+"--"+parkingCost.getParkingActivity().getStartTime()+"- -"+parkingCost.getParkingActivity().getEndTime());
+            parkingCost.setAmount(calculateAmountToBePaid(activity));
+            parkingCostRepository.save(parkingCost);
+            System.out.println("V1"+"--"+LocalDateTime.now()+" - "+parkingCost.getParkingActivity().getActivityId());
+        }
+        else{
+            System.out.println("V2"+"--"+LocalDateTime.now()+" - "+currentParkingCost.getParkingActivity().getActivityId());
+            currentParkingCost.setAmount(calculateAmountToBePaid(activity));
+            parkingCostRepository.save(currentParkingCost);
+            System.out.println("V2"+"--"+LocalDateTime.now()+" - "+currentParkingCost.getParkingActivity().getActivityId());
+        }
     }
-
-    //TODO: 5) here we have to add a method which handles
-    // the calculation for the amount to be paid
-    // amount will be initiated when ParkingActivity startTime is initiated - DONE (04.02.2024)
 
 }

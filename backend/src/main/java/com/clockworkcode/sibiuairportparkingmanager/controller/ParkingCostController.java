@@ -1,4 +1,4 @@
-package com.clockworkcode.sibiuairportparkingmanager.model;
+package com.clockworkcode.sibiuairportparkingmanager.controller;
 
 public class ParkingCostController {
 

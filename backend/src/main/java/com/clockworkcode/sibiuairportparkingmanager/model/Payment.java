@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String paymentId;
 
     @OneToOne
     @JoinColumn(name = "parking_cost_id")

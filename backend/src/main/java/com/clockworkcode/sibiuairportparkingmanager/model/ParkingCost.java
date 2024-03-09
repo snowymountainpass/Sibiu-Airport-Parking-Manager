@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 public class ParkingCost {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long parkingCostId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String parkingCostId;
 
     @OneToOne
     @JoinColumn(name = "parking_space_id")
