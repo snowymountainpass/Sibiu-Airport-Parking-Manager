@@ -17,12 +17,13 @@ public class ParkingSpaceService {
         this.parkingSpaceRepository = parkingSpaceRepository;
     }
 
-    public ParkingSpace getParkingSpaceByParkingSpaceNumber(String parkingSpaceNumber){
-        return null;
+    public ParkingSpace getParkingSpaceByParkingSpaceNumber(String airportCode,String parkingSpaceNumber){
+
+        return parkingSpaceRepository.findParkingSpaceByAirport_AirportCodeAndParkingSpaceNumber(airportCode,parkingSpaceNumber);
     }
 
-    public boolean isParkingSpaceOccupied(String parkingSpaceNumber){
-        ParkingSpace parkingSpace = getParkingSpaceByParkingSpaceNumber(parkingSpaceNumber);
+    public boolean isParkingSpaceOccupied(String airportCode,String parkingSpaceNumber){
+        ParkingSpace parkingSpace = getParkingSpaceByParkingSpaceNumber(airportCode,parkingSpaceNumber);
 
         return parkingSpace.getOccupied();
     }

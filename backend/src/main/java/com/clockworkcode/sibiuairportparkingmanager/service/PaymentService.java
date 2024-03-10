@@ -21,12 +21,6 @@ public class PaymentService {
 
     public void processPaymentAndUpdateEntities(Payment paymentDetail) {
 
-        // Business logic - processing payment
-
-
-//        Car car = paymentDetail.getCar();
-//        ParkingSpace parkingSpace = paymentDetail.getParkingSpace();
-
     }
 
 }

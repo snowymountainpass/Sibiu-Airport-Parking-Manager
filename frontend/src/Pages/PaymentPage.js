@@ -15,7 +15,6 @@ const PaymentPage = () => {
     
     useEffect(() => {
         // Create a Checkout Session as soon as the page loads
-        console.log("Reached the useEffect in the PaymentPage (Axios)!")
         axios.post('http://localhost:8080/order/checkout', {
             licensePlate: JSON.parse(localStorage.getItem('licensePlate'))
         }, {
@@ -26,18 +25,15 @@ const PaymentPage = () => {
             }
         })
             .then(function (response) {
-                console.log(response);
                 setClientSecret(response.data.clientSecret);
             })
             .catch(function (error) {
                 console.log('Error fetching data:', error);
             })
-
     }, []);
 
     return (
         <div>
-
             <Header />
             <Body>
                 <div id="checkout">
@@ -55,26 +51,4 @@ const PaymentPage = () => {
         </div>
     );
 };
-
 export default PaymentPage;
-
-
-//V1
-// const PaymentPage = () => {
-//
-//     const paymentDetails={
-//         amount:500
-//     }
-//
-//     return (
-//         <div>
-//             <Header />
-//             <Body>
-//                 <PaymentPageBody paymentDetails={paymentDetails} />
-//             </Body>
-//             <Footer />
-//         </div>
-//     );
-// };
-
-//V1

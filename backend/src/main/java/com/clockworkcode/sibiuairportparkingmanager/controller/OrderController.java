@@ -4,7 +4,6 @@ import com.clockworkcode.sibiuairportparkingmanager.DTO.CarDTO;
 import com.clockworkcode.sibiuairportparkingmanager.DTO.PaymentDTO;
 import com.clockworkcode.sibiuairportparkingmanager.model.Car;
 import com.clockworkcode.sibiuairportparkingmanager.model.ParkingActivity;
-import com.clockworkcode.sibiuairportparkingmanager.model.StripeResponse;
 import com.clockworkcode.sibiuairportparkingmanager.service.CarService;
 import com.clockworkcode.sibiuairportparkingmanager.service.OrderService;
 import com.clockworkcode.sibiuairportparkingmanager.service.ParkingActivityService;
@@ -16,7 +15,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,9 +23,6 @@ import java.util.Map;
 @RequestMapping("/order")
 @CrossOrigin
 public class OrderController {
-
-    @Autowired
-    private Environment env;
 
     @Autowired
     private CarService carService;
@@ -41,20 +36,15 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-//    @PostMapping("/payment_details")
     public PaymentDTO getPaymentDetails(CarDTO carDTO){
-
         Car car = carService.getCarByLicensePlate(carDTO.getLicensePlate());
         ParkingActivity parkingActivity = parkingActivityService.getLatestParkingActivity(car);
         if(parkingActivity.getEndTime()==null){
             parkingActivityService.setDepartureTime(car);
             parkingCostService.addParkingCostForCar(parkingActivity);
         }
-
         Long amountToBePaid = parkingCostService.getAmountToBePaid(car);
-
         final PaymentDTO paymentDTO = new PaymentDTO();
-
         paymentDTO.setLicensePlate(carDTO.getLicensePlate());
         paymentDTO.setStartTime(parkingActivity.getStartTime());
         paymentDTO.setEndTime(parkingActivity.getEndTime());
@@ -68,28 +58,20 @@ public class OrderController {
 
     @PostMapping("/checkout")
     public ResponseEntity<Map<String, String>> checkout(@RequestBody CarDTO carDTO) throws StripeException {
-
         PaymentDTO paymentDTO = getPaymentDetails(carDTO);
-
         Session session = orderService.createSession(paymentDTO);
-
         // Prepare response map with client secret
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("clientSecret", session.getClientSecret());
-
         Car car = carService.getCarByLicensePlate(carDTO.getLicensePlate());
         ParkingActivity parkingActivity = parkingActivityService.getLatestParkingActivity(car);
-
         parkingActivityService.clearParkingSpace(parkingActivity);
 
         return new ResponseEntity<>(responseMap,HttpStatus.OK);
-
-
     }
 
     @GetMapping("/session-status")
     public ResponseEntity<Map<String, String>> getSessionStatus(@RequestParam("session_id") String sessionId) throws StripeException {
-
         // Retrieve the session from Stripe using the session ID
         Session session = Session.retrieve(sessionId);
 

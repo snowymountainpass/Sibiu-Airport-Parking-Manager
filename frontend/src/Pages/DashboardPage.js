@@ -4,9 +4,7 @@ import Body from "../Sections/Body";
 import DashboardInputField from "../Components/DashboardInputField";
 import Footer from "../Sections/Footer";
 
-
 const DashboardPage = () => {
-
     return (
         <div>
             <Header />

@@ -3,19 +3,14 @@ import {useNavigate} from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-
 const DashboardInputField = () => {
-
     const [licensePlate, setLicensePlate] = useState('');
-
     const navigate = useNavigate();
 
     const handleInputChange = (event) => {
         setLicensePlate(event.target.value);
     };
 
-
-    //v2
     const addCar = async (e) => {
         e.preventDefault();
 
@@ -36,7 +31,6 @@ const DashboardInputField = () => {
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
-
     }
 
     return (
@@ -54,6 +48,5 @@ const DashboardInputField = () => {
             )}
         </div>
     );
-
 };
 export default DashboardInputField;

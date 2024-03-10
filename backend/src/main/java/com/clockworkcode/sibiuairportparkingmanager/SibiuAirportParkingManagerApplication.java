@@ -8,15 +8,5 @@ public class SibiuAirportParkingManagerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SibiuAirportParkingManagerApplication.class, args);
-
-
-
-
-
     }
-
-
-
-
-
 }

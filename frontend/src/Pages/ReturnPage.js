@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-    Navigate
-} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import Header from "../Sections/Header";
 import Footer from "../Sections/Footer";
 import Body from "../Sections/Body";
@@ -15,16 +13,12 @@ const ReturnPage = () => {
         const urlParams = new URLSearchParams(queryString);
         const sessionId = urlParams.get('session_id');
 
-        console.log("Session_id:"+sessionId);
-
         fetch(`http://localhost:8080/order/session-status?session_id=${sessionId}`)
             .then((res) => res.json())
             .then((data) => {
                 setStatus(data.status);
                 setCustomerEmail(data.customer_email);
             });
-        console.log("Status:"+status);
-        console.log("CustomerEmail:"+customerEmail);
     }, []);
 
     if (status === 'open') {

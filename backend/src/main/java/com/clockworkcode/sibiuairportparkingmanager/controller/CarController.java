@@ -21,7 +21,6 @@ public class CarController {
 
     @GetMapping("/getCarDetails")
     public ResponseEntity<Car> getCarByLicensePlate(@RequestBody CarDTO carDTO){
-
         Car car = carService.getCarByLicensePlate(carDTO.getLicensePlate());
 
         if(car!=null){
@@ -29,7 +28,6 @@ public class CarController {
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
 
     @PostMapping("/addCar")
@@ -38,7 +36,5 @@ public class CarController {
 
         return ResponseEntity.ok("Car with license plate "+carDTO.getLicensePlate()+" added successfully");
     }
-
-
 
 }

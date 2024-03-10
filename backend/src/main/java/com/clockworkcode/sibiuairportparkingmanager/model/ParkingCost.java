@@ -2,8 +2,6 @@ package com.clockworkcode.sibiuairportparkingmanager.model;
 
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-
 @Entity
 public class ParkingCost {
 
@@ -23,17 +21,8 @@ public class ParkingCost {
     public ParkingCost( ParkingActivity parkingActivity, Long amount) {
         this.parkingActivity = parkingActivity;
         this.amount = amount;
-
     }
     public ParkingCost() {}
-
-//    public ParkingSpace getParkingSpace() {
-//        return parkingSpace;
-//    }
-//
-//    public void setParkingSpace(ParkingSpace parkingSpace) {
-//        this.parkingSpace = parkingSpace;
-//    }
 
     public ParkingActivity getParkingActivity() {
         return parkingActivity;

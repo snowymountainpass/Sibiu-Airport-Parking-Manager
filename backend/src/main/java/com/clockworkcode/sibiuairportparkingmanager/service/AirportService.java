@@ -22,5 +22,4 @@ public class AirportService {
     public Airport getAiportByAirportName(String airportName){
         return airportRepository.getAirportByAirportName(airportName);
     }
-
 }

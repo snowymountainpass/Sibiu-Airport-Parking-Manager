@@ -11,12 +11,5 @@ import java.util.List;
 
 @Repository
 public interface ParkingCostRepository extends JpaRepository<ParkingCost,Long> {
-
     ParkingCost findParkingCostByParkingActivity(ParkingActivity parkingActivity);
-//    ParkingCost findParkingCostByParkingSpaceAndParkingActivity(ParkingSpace parkingSpace, ParkingActivity parkingActivity);
-//
-//    ParkingCost findParkingCostByParkingSpaceAndParkingActivityAndPayment(ParkingSpace parkingSpace, ParkingActivity parkingActivity, Payment payment);
-
-
-
 }

@@ -19,7 +19,6 @@ public class Airport {
     @OneToMany(mappedBy = "airport", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ParkingSpace> parkingSpaces = new ArrayList<>();
 
-
     public Long getCostPerMinute() {
         return costPerMinute;
     }
@@ -31,8 +30,7 @@ public class Airport {
         this.parkingSpaces = parkingSpaces;
     }
 
-    public Airport() {
-    }
+    public Airport() {}
 
     public String getAirportName() {
         return airportName;

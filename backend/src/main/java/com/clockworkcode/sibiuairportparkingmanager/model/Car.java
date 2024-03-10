@@ -20,8 +20,7 @@ public class Car {
         this.carLicensePlate = carLicensePlate;
     }
 
-    public Car() {
-    }
+    public Car() {}
 
     public Long getCarId() {
         return carId;
@@ -30,7 +29,6 @@ public class Car {
     public String getCarLicensePlate() {
         return carLicensePlate;
     }
-
 
     public void setCarLicensePlate(String carLicensePlate) {
         this.carLicensePlate = carLicensePlate;

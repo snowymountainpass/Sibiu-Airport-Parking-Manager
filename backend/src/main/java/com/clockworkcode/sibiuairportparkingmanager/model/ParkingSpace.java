@@ -28,8 +28,7 @@ public class ParkingSpace {
         this.airport = airport;
     }
 
-    public ParkingSpace() {
-    }
+    public ParkingSpace() {}
 
     public String getParkingSpaceNumber() {
         return parkingSpaceNumber;

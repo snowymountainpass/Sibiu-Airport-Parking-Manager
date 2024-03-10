@@ -8,7 +8,6 @@ import TableComponent from "../Components/Table";
 import {Link} from "react-router-dom";
 
 const LandingPage = () => {
-
     return (
         <div>
             <Header />
@@ -16,7 +15,7 @@ const LandingPage = () => {
                 <div className="landing-page-content">
                     <InputField/>
                     <TableComponent />
-                    <Link to={"/dashboard"}>Go to Dashboard</Link>
+                    <Link to={"/dashboard"}>Dashboard</Link>
                 </div>
             </Body>
             <Footer />

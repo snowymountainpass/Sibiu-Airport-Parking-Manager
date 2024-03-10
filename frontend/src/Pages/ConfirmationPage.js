@@ -1,4 +1,3 @@
-// ConfirmationPage.js
 import React from 'react';
 import Header from "../Sections/Header";
 import Body from "../Sections/Body";
@@ -16,5 +15,4 @@ const ConfirmationPage = ({paymentDetails}) => {
         </div>
     );
 };
-
 export default ConfirmationPage;

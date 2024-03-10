@@ -39,7 +39,6 @@ public class ParkingActivityService {
             Car car = carRepository.getCarByCarLicensePlate(licensePlate);
             assignToParkingSpace(car,"SIA");
         }
-
     }
     public void assignToParkingSpace(Car car,String airportCode){
         ParkingSpace unoccupiedParkingSpace = parkingSpaceRepository.findFirstByAirport_AirportCodeAndIsOccupied(airportCode, false);
@@ -59,7 +58,6 @@ public class ParkingActivityService {
 
     public void setDepartureTime(Car car){
         ParkingActivity latestParkingActivity = getLatestParkingActivity(car);
-
         //add 5 min to the departure time to account for the time it takes to exit the parking lot
         LocalDateTime extendedEndTime = LocalDateTime.now().plus(Duration.of(5, ChronoUnit.MINUTES));
         Date billableDepartureTime = Date.from(extendedEndTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -68,16 +66,13 @@ public class ParkingActivityService {
     }
 
     public ParkingActivity getLatestParkingActivity(Car car){
-
         List<ParkingActivity> parkingActivities = parkingActivityRepository.findParkingActivitiesByCarOrderByStartTimeDesc(car);
-
         Optional<ParkingActivity> latestParkingActivity = parkingActivities.stream().findFirst();//find activity (for this car) that has the closest startDate to the current time
+
         return latestParkingActivity.orElse(null);
     }
 
     public void deleteCar(String licensePlate){
         carRepository.deleteCarByCarLicensePlate(licensePlate);
     }
-
-
 }
