@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import {Snackbar} from "@mui/material";
+import {Grid, Snackbar} from "@mui/material";
 import {atom, useAtom} from "jotai";
 
 export const numberOfAirportsAtom = atom(0);
@@ -60,30 +60,34 @@ const DashboardAirportInput = () => {
     }
 
     return (
-        <div>
-            <TextField
-                label="Airport Name"
-                helperText="Enter the airport name"
-                onChange={(e) => {
-                    handleInputChange(e,setAirportName,airportNamePattern);
+            <div>
+                <TextField
+                    label="Airport Name"
+                    helperText="Enter the airport name"
+                    onChange={(e) => {
+                        handleInputChange(e,setAirportName,airportNamePattern);
+                        }
                     }
-                }
-            />
-            <TextField
-                label="Airport Code"
-                helperText="Enter the airport code (3 letters)"
-                onChange={(e) => handleInputChange(e,setAirportCode,airportCodePattern)}
-            />
-            <TextField
-                label="Cost per Minute"
-                helperText="Enter the parking space cost/minute"
-                onChange={(e) => handleInputChange(e,setCostPerMinute,costPattern)}
-            />
-            {isButtonVisible && (
-                <Button variant="contained" onClick={addAirport}>
-                    Add Airport
-                </Button>
-            )}
+                />
+
+                <TextField
+                    label="Airport Code"
+                    helperText="Enter the airport code (3 letters)"
+                    onChange={(e) => handleInputChange(e,setAirportCode,airportCodePattern)}
+                />
+
+                <TextField
+                    label="Cost per Minute"
+                    helperText="Enter the parking space cost/minute"
+                    onChange={(e) => handleInputChange(e,setCostPerMinute,costPattern)}
+                />
+
+                {isButtonVisible && (
+                    <Button variant="contained" onClick={addAirport}>
+                        Add Airport
+                    </Button>
+                )}
+
             {
                 isSnackBarVisible && (<Snackbar
                     color="primary"

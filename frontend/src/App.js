@@ -6,6 +6,8 @@ import PaymentPage from './Pages/PaymentPage';
 import ConfirmationPage from './Pages/ConfirmationPage';
 import ReturnPage from "./Pages/ReturnPage";
 import DashboardPage from "./Pages/DashboardPage";
+import './Styling/styles.css';
+
 
 function App() {
   return (

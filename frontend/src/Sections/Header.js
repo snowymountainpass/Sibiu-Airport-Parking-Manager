@@ -8,7 +8,7 @@ const Header = () => {
         redirect('/');
     }
     return (
-        <AppBar position="fixed" >
+        <AppBar position="fixed">
             <Toolbar>
                 <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Typography variant="h6" onClick={HandleLogoClick}>

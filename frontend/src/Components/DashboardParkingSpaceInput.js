@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import {FormControl, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
+import {FormControl, Grid, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
 import {useAtom} from "jotai";
 import {numberOfAirportsAtom} from "./DashboardAirportInput";
 
@@ -93,6 +93,7 @@ const DashboardParkingSpaceInput = () => {
     return (
 
         <div>
+
             {isSectionVisible&&(<TextField
                 label="Parking Space Number"
                 variant="outlined"
@@ -100,6 +101,7 @@ const DashboardParkingSpaceInput = () => {
                 error={!isValidParkingSpaceName && parkingSpaceName!==''}
                 helperText={!isValidParkingSpaceName ? 'Invalid format - try 0001 to 9999' : ''}
             />)}
+
 
             {isSectionVisible&&(
                 <FormControl fullWidth>
@@ -111,6 +113,8 @@ const DashboardParkingSpaceInput = () => {
                         onChange={handleAirportSelectionChange}
                         defaultValue=""
                         displayEmpty
+                        style={{ minWidth: 223 }}
+                        fullWidth
                     >
                         {/*<MenuItem value="" disabled>*/}
                         {/*    Select an Airport*/}
@@ -150,3 +154,62 @@ const DashboardParkingSpaceInput = () => {
 };
 
 export default DashboardParkingSpaceInput;
+
+
+// return (
+//
+//     <div>
+//         {isSectionVisible&&(<TextField
+//             label="Parking Space Number"
+//             variant="outlined"
+//             onChange={handleParkingSpaceInput}
+//             error={!isValidParkingSpaceName && parkingSpaceName!==''}
+//             helperText={!isValidParkingSpaceName ? 'Invalid format - try 0001 to 9999' : ''}
+//         />)}
+//
+//         {isSectionVisible&&(
+//             <FormControl fullWidth>
+//                 <InputLabel id="demo-simple-select-label">Airport</InputLabel>
+//                 <Select
+//                     labelId="demo-simple-select-label"
+//                     id="demo-simple-select"
+//                     label="Airports"
+//                     onChange={handleAirportSelectionChange}
+//                     defaultValue=""
+//                     displayEmpty
+//                 >
+//                     {/*<MenuItem value="" disabled>*/}
+//                     {/*    Select an Airport*/}
+//                     {/*</MenuItem>*/}
+//                     {airportsNames.map((value, index) => (
+//                         <MenuItem key={index} value={value}>
+//                             {value}
+//                         </MenuItem>
+//                     ))}
+//                 </Select>
+//             </FormControl>
+//         )}
+//
+//
+//         {isButtonVisible && (
+//             <Button variant="contained" onClick={addParkingSpace}>
+//                 Add Parking Space
+//             </Button>
+//         )}
+//
+//         {
+//             isSnackBarVisible && (<Snackbar
+//                 color="primary"
+//                 size="md"
+//                 variant="soft"
+//                 onClose={(event, reason) => {
+//                     if (reason === 'clickaway') {
+//                         console.log("New Parking Space Added: "+new Date().getTime());
+//                     }
+//                 }}
+//             >
+//                 New Parking Space Added
+//             </Snackbar>)
+//         }
+//     </div>
+// );
