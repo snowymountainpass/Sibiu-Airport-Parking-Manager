@@ -30,6 +30,12 @@ public class Airport {
         this.parkingSpaces = parkingSpaces;
     }
 
+    public Airport(String airportName, String airportCode, Long costPerMinute) {
+        this.airportName = airportName;
+        this.airportCode = airportCode;
+        this.costPerMinute = costPerMinute;
+    }
+
     public Airport() {}
 
     public String getAirportName() {

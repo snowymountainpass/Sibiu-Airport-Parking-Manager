@@ -1,13 +1,21 @@
 import React from 'react';
-import { Paper, Container } from '@mui/material';
+import {Paper, Container, Box} from '@mui/material';
 
 const Body = ({ children }) => {
     return (
-        <Container >
-            <Paper elevation={3} >
+            <Box mt={8} mb={8} width="100%" display="flex" justifyContent="center" alignItems="center">
                 {children}
-            </Paper>
-        </Container>
+            </Box>
     );
 };
 export default Body;
+
+// <Container >
+//     <Box mt={8} mb={8} width="100%">
+//         {children}
+//     </Box>
+// </Container>
+
+// <Box mt={8} mb={8} width="100%">
+//     {children}
+// </Box> // looks good

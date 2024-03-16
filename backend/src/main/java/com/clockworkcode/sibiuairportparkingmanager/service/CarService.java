@@ -17,13 +17,11 @@ public class CarService {
     }
 
     public Car getCarByLicensePlate(String licensePlate){
-        Car car = null;
         try {
-            car = carRepository.getCarByCarLicensePlate(licensePlate);
+            return carRepository.getCarByCarLicensePlate(licensePlate);
         }catch (NullPointerException e){
-            System.out.println(licensePlate+" doesn't exist!");
             System.out.println(Arrays.toString(e.getStackTrace()));
+            return null;
         }
-        return car;
     }
 }
