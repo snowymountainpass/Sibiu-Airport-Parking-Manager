@@ -9,7 +9,7 @@ import java.util.List;
 public interface ParkingSpaceRepository extends JpaRepository<ParkingSpace,Long> {
 
     List<ParkingSpace> findParkingSpacesByAirport_AirportCode(String airportCode);
-    List<ParkingSpace> findParkingSpacesByAirport_AirportName(String airportName);
+    List<ParkingSpace> findParkingSpacesByAirport_AirportNameAndIsOccupied(String airportName,boolean isOccupied);
 
     ParkingSpace findParkingSpaceByAirport_AirportCodeAndParkingSpaceNumber(String airportCode,String parkingSpaceNumber);
     ParkingSpace findParkingSpaceByAirport_AirportNameAndParkingSpaceNumber(String airportName,String parkingSpaceNumber);

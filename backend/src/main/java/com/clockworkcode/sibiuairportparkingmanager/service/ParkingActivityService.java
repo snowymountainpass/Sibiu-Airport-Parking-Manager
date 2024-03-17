@@ -31,19 +31,27 @@ public class ParkingActivityService {
         this.parkingActivityRepository = parkingActivityRepository;
     }
 
-    public void addCar(String licensePlate) {
+    public void addCar(String licensePlate,String airportName,String parkingSpaceName) {
         if(carRepository.getCarByCarLicensePlate(licensePlate)!=null){
-            assignToParkingSpace(carRepository.getCarByCarLicensePlate(licensePlate),"SIA");
+//            assignToParkingSpace(carRepository.getCarByCarLicensePlate(licensePlate),"SIA"); //hardcoded
+            assignToAirportAndParkingSpace(carRepository.getCarByCarLicensePlate(licensePlate),airportName,parkingSpaceName);
         }else {
             carRepository.save(new Car(licensePlate));
             Car car = carRepository.getCarByCarLicensePlate(licensePlate);
-            assignToParkingSpace(car,"SIA");
+//            assignToParkingSpace(car,"SIA"); //hardcoded
+            assignToAirportAndParkingSpace(car,airportName, parkingSpaceName);
         }
     }
     public void assignToParkingSpace(Car car,String airportCode){
         ParkingSpace unoccupiedParkingSpace = parkingSpaceRepository.findFirstByAirport_AirportCodeAndIsOccupied(airportCode, false);
         unoccupiedParkingSpace.setOccupied(true);
         assignParkingActivity(car,unoccupiedParkingSpace);
+    }
+
+    public void assignToAirportAndParkingSpace(Car car,String airportName,String parkingSpaceName){
+        ParkingSpace parkingSpace = parkingSpaceRepository.findParkingSpaceByAirport_AirportNameAndParkingSpaceNumber(airportName,parkingSpaceName);
+        parkingSpace.setOccupied(true);
+        assignParkingActivity(car,parkingSpace);
     }
 
     public void assignParkingActivity(Car car,ParkingSpace parkingSpace){

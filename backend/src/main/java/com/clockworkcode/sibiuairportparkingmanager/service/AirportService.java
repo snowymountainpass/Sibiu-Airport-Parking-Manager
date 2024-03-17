@@ -25,7 +25,8 @@ public class AirportService {
         boolean validCost = Validator.isValidPattern(costPerMinute.toString(),Validator.costValidPattern);
 
         if(validAirportName&&validAirportCode&&validCost){
-            airportRepository.save(new Airport(airportName,airportCode, costPerMinute));
+            Airport newAirport = new Airport(airportName, airportCode, costPerMinute);
+            airportRepository.save(newAirport);
             result=true;
         }
         return result;

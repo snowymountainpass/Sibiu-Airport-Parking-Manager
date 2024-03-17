@@ -63,7 +63,11 @@ public class ParkingSpaceService {
 //        return parkingSpace.getOccupied();
 //    }
 
-    public List<ParkingSpace> getParkingSpacesByByAirportCode(String airportCode){
+    public List<ParkingSpace> getEmptyParkingSpacesByAirportName(String airportName){
+        return parkingSpaceRepository.findParkingSpacesByAirport_AirportNameAndIsOccupied(airportName,false);
+    }
+
+    public List<ParkingSpace> getParkingSpacesByAirportCode(String airportCode){
         return parkingSpaceRepository.findParkingSpacesByAirport_AirportCode(airportCode);
     }
 

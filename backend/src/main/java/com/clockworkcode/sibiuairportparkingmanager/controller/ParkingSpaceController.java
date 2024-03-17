@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/parkingSpaces")
@@ -40,4 +40,16 @@ public class ParkingSpaceController {
 
         return new ResponseEntity<>(responseMap, HttpStatus.OK);
     }
+
+    @GetMapping("/getParkingSpace/{airportName}")
+    public ResponseEntity<Map<String,List<String>>> getParkingSpacesByAirport(@PathVariable String airportName){
+        Map<String,List<String>> responseMap = new HashMap<>();
+
+        List<ParkingSpace> parkingSpaces = parkingSpaceService.getEmptyParkingSpacesByAirportName(airportName);
+        List<String> listParkingSpaceNames =parkingSpaces.stream().map(parkingSpace -> parkingSpace.getParkingSpaceNumber()).collect(Collectors.toList());
+        responseMap.put("result",listParkingSpaceNames);
+        //TODO: if list is empty
+        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+    }
+
 }

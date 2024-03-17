@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import {Grid, Snackbar} from "@mui/material";
-import {atom, useAtom} from "jotai";
-
-export const numberOfAirportsAtom = atom(0);
+import {Alert, Snackbar} from "@mui/material";
+import {useAtom} from "jotai";
+import {numberOfAirportsAtom} from "../Pages/DashboardPage";
 
 const DashboardAirportInput = () => {
 
-    const [setNumberOfAirports] = useAtom(numberOfAirportsAtom);
+    const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
 
     const [airportName, setAirportName] = useState('');
     const [airportCode, setAirportCode] = useState('');
@@ -17,20 +16,39 @@ const DashboardAirportInput = () => {
     const [isButtonVisible,setIsButtonVisible] = useState(false);
     const [isSnackBarVisible,setIsSnackBarVisible] = useState(false);
 
-    const airportNamePattern = RegExp(
-        "^(?!.*(?:DROP\s+(?:TABLE|DATABASE)|TRUNCATE\s+TABLE|ALTER\s+TABLE|UPDATE|DELETE|GRANT|REVOKE|INSERT\s+INTO|CREATE\s+(?:TABLE|INDEX)|DROP\s+INDEX))(?=[\p{L}\p{N}-]{1,150}$).*");
+    const airportNamePattern = new RegExp("^(?!.*(?:DROP\\s+(?:TABLE|DATABASE)|TRUNCATE\\s+TABLE|ALTER\\s+TABLE|UPDATE|DELETE|GRANT|REVOKE|INSERT\\s+INTO|CREATE\\s+(?:TABLE|INDEX)|DROP\\s+INDEX))(?=[a-zA-Z0-9\\s-]{1,150}$).*");
     const airportCodePattern = RegExp("^[a-zA-Z]{0,4}$");
     const costPattern = RegExp("^[1-9]\\d*$");
     const dataMap = new Map();
 
-    const handleInputChange = (event,setterFunction,regexPattern) => {
-        const { value } = event.target;
-        if(new RegExp(regexPattern).test(value)){
-                setterFunction(value);
+    useEffect(()=>{
+        if(airportName!==''&&airportCode!==''&&costPerMinute!==''){
+            if(airportNamePattern.test(airportName)&&airportCodePattern.test(airportCode)&&costPattern.test(costPerMinute)){
+                setIsButtonVisible(true);
+            }
+        }else{
+            setIsButtonVisible(false);
         }
-        if (airportName && airportCode && costPerMinute) {
-            setIsButtonVisible(true);
+    },[airportName,airportCode,costPerMinute])
+
+    const handleAirportNameInput = (event) => {
+        const result = event.target.value;
+        setAirportName(result);
+    };
+    const handleAirportCodeInput = (event) => {
+        const result = event.target.value;
+        setAirportCode(result);
+    };
+    const handleCostInput = (event) => {
+        const result = event.target.value;
+        setCostPerMinute(result);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
         }
+        setIsSnackBarVisible(false);
     };
 
     const addAirport = async (e) => {
@@ -38,20 +56,20 @@ const DashboardAirportInput = () => {
         dataMap.set("airportName",airportName);
         dataMap.set("airportCode",airportCode);
         dataMap.set("costPerMinute", costPerMinute);
-
         const dataObject = Object.fromEntries(dataMap);
-
-        axios.post('http://localhost:8080/airports/addAirport',{dataObject},{headers: {
+        console.log("dataMap: "+dataMap);
+        axios.post('http://localhost:8080/airports/addAirport',dataObject,{headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
             }})//
             .then((response)=>{
-                console.log(response.data);
-                console.log(response.data.result);
-                // setIsSnackBarVisible(true); //V1 - hardcoded - works out of the box (test it!)
-                setIsSnackBarVisible(response.data.result); // V2 - dynamic (test it!)
-                setNumberOfAirports(numberOfAirports => numberOfAirports++);
+                setIsSnackBarVisible(response.data.result);
+                setNumberOfAirports((numberOfAirports) => numberOfAirports++);
+                console.log("numberOfAirports: "+numberOfAirports)
+                setAirportName('');
+                setAirportCode('');
+                setCostPerMinute('');
             })
             .catch(function (error) {
                 console.log('Error fetching data:', error);
@@ -60,92 +78,52 @@ const DashboardAirportInput = () => {
     }
 
     return (
-            <div>
-                <TextField
-                    label="Airport Name"
-                    helperText="Enter the airport name"
-                    onChange={(e) => {
-                        handleInputChange(e,setAirportName,airportNamePattern);
-                        }
-                    }
-                />
+        <div>
+            <TextField
+                label="Airport Name"
+                helperText="Enter the airport name"
+                value={airportName}
+                onChange={handleAirportNameInput}
+            />
 
-                <TextField
-                    label="Airport Code"
-                    helperText="Enter the airport code (3 letters)"
-                    onChange={(e) => handleInputChange(e,setAirportCode,airportCodePattern)}
-                />
+            <TextField
+                label="Airport Code"
+                helperText="Enter the airport code (3 letters)"
+                value={airportCode}
+                onChange={handleAirportCodeInput}
+            />
 
-                <TextField
-                    label="Cost per Minute"
-                    helperText="Enter the parking space cost/minute"
-                    onChange={(e) => handleInputChange(e,setCostPerMinute,costPattern)}
-                />
+            <TextField
+                label="Cost per Minute"
+                helperText="Enter the parking space cost/minute"
+                value={costPerMinute}
+                onChange={handleCostInput}
+            />
 
-                {isButtonVisible && (
-                    <Button variant="contained" onClick={addAirport}>
-                        Add Airport
-                    </Button>
-                )}
+            {isButtonVisible && (
+                <Button variant="contained" onClick={addAirport}>
+                    Add Airport
+                </Button>
+            )}
 
-            {
-                isSnackBarVisible && (<Snackbar
-                    color="primary"
-                    size="md"
-                    variant="soft"
-                    onClose={(event, reason) => {
-                        if (reason === 'clickaway') {
-                            console.log("New Airport Added: "+new Date().getTime());
-                        }
-                    }}
-                >
-                    New Airport Added
-                </Snackbar>)
-            }
+             <Snackbar
+                open={isSnackBarVisible}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                // action={SnackbarButton}
+                color="primary"
+                size="md"
+                variant="soft"
+                anchorOrigin={{vertical:'bottom', horizontal:'right'}}>
+                 <Alert
+                     onClose={handleClose}
+                     severity="success"
+                     variant="filled"
+                     sx={{ width: '100%' }}>
+                     New Airport Added!
+                 </Alert>
+             </Snackbar>
         </div>
     );
 };
 export default DashboardAirportInput;
-
-//
-// return (
-//     <div>
-//         <TextField
-//             label="Airport Name"
-//             helperText="Enter the airport name"
-//             onChange={(e) => {
-//                 handleInputChange(e,setAirportName,airportNamePattern);
-//             }
-//             }
-//         />
-//         <TextField
-//             label="Airport Code"
-//             helperText="Enter the airport code (3 letters)"
-//             onChange={(e) => handleInputChange(e,setAirportCode,airportCodePattern)}
-//         />
-//         <TextField
-//             label="Cost per Minute"
-//             helperText="Enter the parking space cost/minute"
-//             onChange={(e) => handleInputChange(e,setCostPerMinute,costPattern)}
-//         />
-//         {isButtonVisible && (
-//             <Button variant="contained" onClick={addAirport}>
-//                 Add Airport
-//             </Button>
-//         )}
-//         {
-//             isSnackBarVisible && (<Snackbar
-//                 color="primary"
-//                 size="md"
-//                 variant="soft"
-//                 onClose={(event, reason) => {
-//                     if (reason === 'clickaway') {
-//                         console.log("New Airport Added: "+new Date().getTime());
-//                     }
-//                 }}
-//             >
-//                 New Airport Added
-//             </Snackbar>)
-//         }
-//     </div>
-// );

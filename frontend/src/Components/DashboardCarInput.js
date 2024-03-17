@@ -1,23 +1,105 @@
-import React, {useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import React, {useState,useEffect} from 'react';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {Snackbar} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
+import {atom, useAtom} from "jotai";
+import {listOfAirportNamesAtom, numberOfAirportsAtom, numberOfParkingSpacesAtom} from "../Pages/DashboardPage";
+import axios from "axios";
 
 const DashboardCarInput = () => {
+
+    const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
+    const [numberOfParkingSpaces,setNumberOfParkingSpaces] = useAtom(numberOfParkingSpacesAtom);
+
     const [licensePlate, setLicensePlate] = useState('');
-    //TODO: add frontend regex to check valididty of License Plate
+    const licensePlateValidPattern = new RegExp("^(?!.*(?:DROP\s+(?:TABLE|DATABASE)|TRUNCATE\s+TABLE|ALTER\s+TABLE|UPDATE|DELETE|GRANT|REVOKE|INSERT\s+INTO|CREATE\s+(?:TABLE|INDEX)|DROP\s+INDEX))[\p{L}\p{N}\s-]+$/");
+    //TODO: licensePlateValidPattern - apply it
     const [validLicensePlate, setValidLicensePlate] = useState(true);
     const [isSnackBarVisible,setIsSnackBarVisible] = useState(false);
 
-    const navigate = useNavigate();
+    const [airportsNames, setAirportsNames] = atom((get)=>get(listOfAirportNamesAtom));
+    const [airportSelection, setAirportSelection] = useState('');
+    const [isValidAirportSelection, setIsValidAirportSelection] = useState(false);
+    const [isButtonVisible,setIsButtonVisible] = useState(false);
+
+    const [parkingSpaceNames, setParkingSpaceNames] = useState([]);
+    const [parkingSpaceSelection, setParkingSpaceSelection] = useState('');
+    const [isValidParkingSpaceSelection, setIsValidParkingSpaceSelection] = useState(false);
+
+    const [isSectionVisible,setIsSectionVisible]=useState(false);
+
+    const dataMap = new Map();
 
     const handleInputChange = (event) => {
         setLicensePlate(event.target.value);
     };
 
+    const handleAirportSelectionChange = (event) => {
+        const result = event.target.value;
+        if(result!=='' || result!==null){
+            setAirportSelection(result);
+            setIsValidAirportSelection(true);
+        }
+        else {
+            setIsValidAirportSelection(false);
+        }
+    };
+
+    const handleAParkingSpaceSelectionChange = (event) => {
+        const result = event.target.value;
+        if(result!=='' || result!==null){
+            setParkingSpaceSelection(result)
+            setIsValidParkingSpaceSelection(true);
+        }
+        else {
+            setIsValidParkingSpaceSelection(false);
+        }
+    }
+
+    useEffect(() => {
+        axios.get('http://localhost:8080/parkingSpaces/getParkingSpace/${airportSelection}')
+            .then(response => {
+                setParkingSpaceNames(response.data.result); //TODO: test it
+            })//
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    },[airportSelection]);
+
+    useEffect(() => {
+        if(isValidAirportSelection&&isValidParkingSpaceSelection){
+            setIsSectionVisible(true);
+        }
+        else{
+            setIsSectionVisible(false);
+        }
+    },[isValidAirportSelection]);
+
     const addCar = async (e) => {
         e.preventDefault();
+
+        dataMap.set("licensePlate",licensePlate);
+        dataMap.set("parkingSpaceName",parkingSpaceSelection);
+        dataMap.set("airportName",airportSelection);
+
+        const dataObject = Object.fromEntries(dataMap);
+
+        axios.post('http://localhost:8080/parkedCars/addCar',{dataObject},{headers: {
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+            }})//
+            .then((response)=>{
+                console.log(response.data);
+                console.log(response.data.result);
+                // setIsSnackBarVisible(true);//V1 - hardcoded - works out of the box (test it!)
+                setNumberOfParkingSpaces((nr)=>nr++);//TODO: TEST IT
+                setIsSnackBarVisible(response.data.result); //TODO: TEST IT -- V2 - dynamic (test it!)
+            })
+            .catch(function (error) {
+                console.log('Error fetching data:', error);
+            });
+
 
         await fetch('http://localhost:8080/parkedCars/addCar', {
             method: 'POST',
@@ -36,22 +118,73 @@ const DashboardCarInput = () => {
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
             });
-        // if(validLicensePlate===true){
-        //     navigate('/');
-        // }
+
 
     }
 
     return (
         <div>
-            <TextField
-                label="Car License Plate"
-                helperText="Enter your car license plate"
-                value={licensePlate}
-                onChange={handleInputChange}
-                error={!validLicensePlate}
-            />
-            {licensePlate && (
+            {
+                (numberOfAirports>0 && numberOfParkingSpaces>0)&&<TextField
+                    label="Car License Plate"
+                    helperText="Enter your car license plate"
+                    value={licensePlate}
+                    onChange={handleInputChange}
+                    error={!validLicensePlate}
+                />
+            }
+
+            {/*{(numberOfAirports>0 && validLicensePlate)&&(*/}
+            {/*    <FormControl fullWidth>*/}
+            {/*        <InputLabel id="demo-simple-select-label">Airport</InputLabel>*/}
+            {/*        <Select*/}
+            {/*            labelId="demo-simple-select-label"*/}
+            {/*            id="demo-simple-select"*/}
+            {/*            label="Airports"*/}
+            {/*            onChange={handleAirportSelectionChange}*/}
+            {/*            defaultValue=""*/}
+            {/*            displayEmpty*/}
+            {/*            style={{ minWidth: 223 }}*/}
+            {/*            fullWidth*/}
+            {/*        >*/}
+            {/*            /!*<MenuItem value="" disabled>*!/*/}
+            {/*            /!*    Select an Airport*!/*/}
+            {/*            /!*</MenuItem>*!/*/}
+            {/*            {airportsNames.map((value, index) => (*/}
+            {/*                <MenuItem key={index} value={value}>*/}
+            {/*                    {value}*/}
+            {/*                </MenuItem>*/}
+            {/*            ))}*/}
+            {/*        </Select>*/}
+            {/*    </FormControl>*/}
+            {/*)}*/}
+
+            {/*{isSectionVisible&&(*/}
+            {/*    <FormControl fullWidth>*/}
+            {/*        <InputLabel id="demo-simple-select-label">Parking Space</InputLabel>*/}
+            {/*        <Select*/}
+            {/*            labelId="demo-simple-select-label"*/}
+            {/*            id="demo-simple-select"*/}
+            {/*            label="Parking Space"*/}
+            {/*            onChange={handleAParkingSpaceSelectionChange}*/}
+            {/*            defaultValue=""*/}
+            {/*            displayEmpty*/}
+            {/*            style={{ minWidth: 223 }}*/}
+            {/*            fullWidth*/}
+            {/*        >*/}
+            {/*            /!*<MenuItem value="" disabled>*!/*/}
+            {/*            /!*    Select an Airport*!/*/}
+            {/*            /!*</MenuItem>*!/*/}
+            {/*            {parkingSpaceNames.map((value, index) => (*/}
+            {/*                <MenuItem key={index} value={value}>*/}
+            {/*                    {value}*/}
+            {/*                </MenuItem>*/}
+            {/*            ))}*/}
+            {/*        </Select>*/}
+            {/*    </FormControl>*/}
+            {/*)}*/}
+
+            {isButtonVisible && (
                 <Button variant="contained" onClick={addCar}>
                     Add Car
                 </Button>

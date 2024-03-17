@@ -3,16 +3,19 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import {FormControl, Grid, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
-import {useAtom} from "jotai";
-import {numberOfAirportsAtom} from "./DashboardAirportInput";
+import {atom, useAtom} from "jotai";
+import {listOfAirportNamesAtom, numberOfAirportsAtom, numberOfParkingSpacesAtom} from "../Pages/DashboardPage";
 
 
 const DashboardParkingSpaceInput = () => {
 
-    const numberOfAirports = useAtom(numberOfAirportsAtom);
-    const [isSectionVisible,seIsSectionVisible]=useState(false);
+    const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
+    const [numberOfParkingSpaces,setNumberOfParkingSpaces] = useAtom(numberOfParkingSpacesAtom);
 
-    const [airportsNames, setAirportsNames] = useState([]);
+    const [isSectionVisible,setIsSectionVisible]=useState(false);
+
+    // const [airportsNames, setAirportsNames] = useAtom(listOfAirportNamesAtom);
+    const [airportsNames, setAirportsNames] = atom((get)=>get(listOfAirportNamesAtom));
     const [airportSelection, setAirportSelection] = useState('');
     const [isValidAirportSelection, setIsValidAirportSelection] = useState(false);
     const [isButtonVisible,setIsButtonVisible] = useState(false);
@@ -23,17 +26,25 @@ const DashboardParkingSpaceInput = () => {
     const parkingSpacePattern = RegExp("^(?!0000)[0-9]{4}$");
     const dataMap = new Map();
 
+    // //List of Airport names
+    // useEffect(() => {
+    //     axios.get('http://localhost:8080/airports/airportsNames')
+    //         .then(response => {
+    //             setAirportsNames(response.data);
+    //             // setNumberOfAirports(airportsNames.length);
+    //             setIsSectionVisible(true);
+    //         })//
+    //         .catch(error => {
+    //         console.error('There was a problem with the fetch operation:', error);
+    //     });
+    // }, []);
+
     //List of Airport names
     useEffect(() => {
-        axios.get('http://localhost:8080/airports/airportsNames')
-            .then(response => {
-                setAirportsNames(response.data);
-                seIsSectionVisible(true);
-            })//
-            .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
-    }, []);
+        if(numberOfAirports>0){
+            setIsSectionVisible(true);
+        }
+    }, [numberOfAirports]);
 
     useEffect(()=>{
         if(isValidParkingSpaceName&&isValidAirportSelection){
@@ -82,7 +93,8 @@ const DashboardParkingSpaceInput = () => {
                 console.log(response.data);
                 console.log(response.data.result);
                 // setIsSnackBarVisible(true);//V1 - hardcoded - works out of the box (test it!)
-                setIsSnackBarVisible(response.data.result); // V2 - dynamic (test it!)
+                setNumberOfParkingSpaces((nr)=>nr++);//TODO: TEST IT
+                setIsSnackBarVisible(response.data.result); //TODO: TEST IT -- V2 - dynamic (test it!)
             })
             .catch(function (error) {
                 console.log('Error fetching data:', error);
@@ -103,30 +115,30 @@ const DashboardParkingSpaceInput = () => {
             />)}
 
 
-            {isSectionVisible&&(
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Airport</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Airports"
-                        onChange={handleAirportSelectionChange}
-                        defaultValue=""
-                        displayEmpty
-                        style={{ minWidth: 223 }}
-                        fullWidth
-                    >
-                        {/*<MenuItem value="" disabled>*/}
-                        {/*    Select an Airport*/}
-                        {/*</MenuItem>*/}
-                        {airportsNames.map((value, index) => (
-                            <MenuItem key={index} value={value}>
-                                {value}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            )}
+            {/*{isSectionVisible&&(*/}
+            {/*    <FormControl fullWidth>*/}
+            {/*        <InputLabel id="demo-simple-select-label">Airport</InputLabel>*/}
+            {/*        <Select*/}
+            {/*            labelId="demo-simple-select-label"*/}
+            {/*            id="demo-simple-select"*/}
+            {/*            label="Airports"*/}
+            {/*            onChange={handleAirportSelectionChange}*/}
+            {/*            defaultValue=""*/}
+            {/*            displayEmpty*/}
+            {/*            style={{ minWidth: 223 }}*/}
+            {/*            fullWidth*/}
+            {/*        >*/}
+            {/*            /!*<MenuItem value="" disabled>*!/*/}
+            {/*            /!*    Select an Airport*!/*/}
+            {/*            /!*</MenuItem>*!/*/}
+            {/*            {airportsNames.map((value, index) => (*/}
+            {/*                <MenuItem key={index} value={value}>*/}
+            {/*                    {value}*/}
+            {/*                </MenuItem>*/}
+            {/*            ))}*/}
+            {/*        </Select>*/}
+            {/*    </FormControl>*/}
+            {/*)}*/}
 
 
             {isButtonVisible && (

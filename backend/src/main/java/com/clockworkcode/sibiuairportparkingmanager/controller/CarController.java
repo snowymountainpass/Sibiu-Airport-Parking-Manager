@@ -41,7 +41,7 @@ public class CarController {
     public ResponseEntity<Map<String,Boolean>> addCar(@RequestBody CarDTO carDTO){
         Map<String, Boolean> responseMap = new HashMap<>();
         if(Validator.isValidPattern(carDTO.getLicensePlate(),Validator.licensePlateValidPattern)){
-            parkingActivityService.addCar(carDTO.getLicensePlate());
+            parkingActivityService.addCar(carDTO.getLicensePlate(),carDTO.getAirportName(),carDTO.getParkingSpaceName());
             logger.info("Car with license plate "+carDTO.getLicensePlate()+" added successfully");
             responseMap.put("validLicensePlate", true);
         }

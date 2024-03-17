@@ -5,21 +5,33 @@ import Footer from "../Sections/Footer";
 import DashboardCarInput from "../Components/DashboardCarInput";
 import DashboardAirportInput from "../Components/DashboardAirportInput";
 import DashboardParkingSpaceInput from "../Components/DashboardParkingSpaceInput";
-import {Divider, Grid, Typography} from "@mui/material";
+import {atom, useAtom} from "jotai";
+import SectionHeader from "../Components/SectionHeader";
+import axios from "axios";
 
-const SectionHeader = ({ children }) => {
-    return (
-        <>
-            <Typography variant="h6" align="left" gutterBottom style={{ paddingLeft: 4 }}>
-                {children}
-            </Typography>
-            {/*<Divider />*/}
-        </>
-    );
-};
+
+export const numberOfAirportsAtom = atom(0);
+export const numberOfParkingSpacesAtom = atom(0);
+export const listOfAirportNamesAtom = atom([]);
+
 
 
 const DashboardPage = () => {
+
+    const [airportsNames, setAirportsNames] = useAtom(listOfAirportNamesAtom);
+    const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
+
+    //List of Airport names
+    useEffect(() => {
+        axios.get('http://localhost:8080/airports/airportsNames')
+            .then(response => {
+                setAirportsNames(response.data);
+            })//
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }, [numberOfAirports]);
+
 
     return (
         <>
@@ -28,9 +40,9 @@ const DashboardPage = () => {
                 <SectionHeader>Airport Information</SectionHeader>
                 <DashboardAirportInput />
                 <SectionHeader>Parking Space Information</SectionHeader>
-                <DashboardParkingSpaceInput />
+                {/*<DashboardParkingSpaceInput />*/}
                 <SectionHeader>Car Information</SectionHeader>
-                <DashboardCarInput />
+                {/*<DashboardCarInput />*/}
 
                 {/*<div className="landing-page-content"></div>*/}
             </Body>
