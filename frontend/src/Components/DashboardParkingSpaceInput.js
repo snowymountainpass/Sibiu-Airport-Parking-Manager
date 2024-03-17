@@ -115,30 +115,30 @@ const DashboardParkingSpaceInput = () => {
             />)}
 
 
-            {/*{isSectionVisible&&(*/}
-            {/*    <FormControl fullWidth>*/}
-            {/*        <InputLabel id="demo-simple-select-label">Airport</InputLabel>*/}
-            {/*        <Select*/}
-            {/*            labelId="demo-simple-select-label"*/}
-            {/*            id="demo-simple-select"*/}
-            {/*            label="Airports"*/}
-            {/*            onChange={handleAirportSelectionChange}*/}
-            {/*            defaultValue=""*/}
-            {/*            displayEmpty*/}
-            {/*            style={{ minWidth: 223 }}*/}
-            {/*            fullWidth*/}
-            {/*        >*/}
-            {/*            /!*<MenuItem value="" disabled>*!/*/}
-            {/*            /!*    Select an Airport*!/*/}
-            {/*            /!*</MenuItem>*!/*/}
-            {/*            {airportsNames.map((value, index) => (*/}
-            {/*                <MenuItem key={index} value={value}>*/}
-            {/*                    {value}*/}
-            {/*                </MenuItem>*/}
-            {/*            ))}*/}
-            {/*        </Select>*/}
-            {/*    </FormControl>*/}
-            {/*)}*/}
+            {isSectionVisible&&(
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Airport</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Airports"
+                        onChange={handleAirportSelectionChange}
+                        defaultValue=""
+                        displayEmpty
+                        style={{ minWidth: 223 }}
+                        fullWidth
+                    >
+                        {/*<MenuItem value="" disabled>*/}
+                        {/*    Select an Airport*/}
+                        {/*</MenuItem>*/}
+                        {airportsNames.map((value, index) => (
+                            <MenuItem key={index} value={value}>
+                                {value}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            )}
 
 
             {isButtonVisible && (

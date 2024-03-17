@@ -57,7 +57,6 @@ const DashboardAirportInput = () => {
         dataMap.set("airportCode",airportCode);
         dataMap.set("costPerMinute", costPerMinute);
         const dataObject = Object.fromEntries(dataMap);
-        console.log("dataMap: "+dataMap);
         axios.post('http://localhost:8080/airports/addAirport',dataObject,{headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*",
@@ -65,8 +64,8 @@ const DashboardAirportInput = () => {
             }})//
             .then((response)=>{
                 setIsSnackBarVisible(response.data.result);
-                setNumberOfAirports((numberOfAirports) => numberOfAirports++);
-                console.log("numberOfAirports: "+numberOfAirports)
+                setNumberOfAirports((prev) => prev+1);
+                // console.log("numberOfAirports: "+numberOfAirports)
                 setAirportName('');
                 setAirportCode('');
                 setCostPerMinute('');

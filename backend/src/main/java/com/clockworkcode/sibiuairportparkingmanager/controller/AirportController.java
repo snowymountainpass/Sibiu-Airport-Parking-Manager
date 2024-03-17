@@ -31,11 +31,11 @@ public class AirportController {
     }
 
     @GetMapping("/airportsNames")
-    public ResponseEntity<List<String>> getAirportNames(){
-
+    public ResponseEntity<Map<String,List<String>>> getAirportNames(){
+        Map<String, List<String>> responseMap = new HashMap<>();
         List<String> airportNamesList = airportService.getAllAirportNames();
-
-        return new ResponseEntity<>(airportNamesList, HttpStatus.OK);
+        responseMap.put("result",airportNamesList);
+        return new ResponseEntity<>(responseMap, HttpStatus.OK);
     }
 
 

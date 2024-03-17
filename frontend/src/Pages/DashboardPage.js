@@ -5,7 +5,7 @@ import Footer from "../Sections/Footer";
 import DashboardCarInput from "../Components/DashboardCarInput";
 import DashboardAirportInput from "../Components/DashboardAirportInput";
 import DashboardParkingSpaceInput from "../Components/DashboardParkingSpaceInput";
-import {atom, useAtom} from "jotai";
+import {atom, useAtom, useAtomValue, useSetAtom} from "jotai";
 import SectionHeader from "../Components/SectionHeader";
 import axios from "axios";
 
@@ -18,20 +18,24 @@ export const listOfAirportNamesAtom = atom([]);
 
 const DashboardPage = () => {
 
-    const [airportsNames, setAirportsNames] = useAtom(listOfAirportNamesAtom);
-    const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
+    // const [listAirportNames,setListAirportNames] = useState([]);//works
+    const setListAirportNames = useSetAtom(listOfAirportNamesAtom);
+    const listAirportNames = useAtomValue(listOfAirportNamesAtom);
 
-    //List of Airport names
     useEffect(() => {
         axios.get('http://localhost:8080/airports/airportsNames')
             .then(response => {
-                setAirportsNames(response.data);
-            })//
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    }, [numberOfAirports]);
+                // console.log("response.data: "+response.data.result.type);
+                setListAirportNames(response.data.result);
+            }).catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+    },[]);
 
+    useEffect(() => {
+        console.log(listAirportNames);
+        // console.log("listAirportNames: "+listAirportNames);
+    },[listAirportNames]);
 
     return (
         <>
@@ -40,7 +44,7 @@ const DashboardPage = () => {
                 <SectionHeader>Airport Information</SectionHeader>
                 <DashboardAirportInput />
                 <SectionHeader>Parking Space Information</SectionHeader>
-                {/*<DashboardParkingSpaceInput />*/}
+                <DashboardParkingSpaceInput />
                 <SectionHeader>Car Information</SectionHeader>
                 {/*<DashboardCarInput />*/}
 
