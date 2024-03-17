@@ -7,6 +7,7 @@ import com.clockworkcode.sibiuairportparkingmanager.repository.ParkingSpaceRepos
 import com.clockworkcode.sibiuairportparkingmanager.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ParkingSpaceService {
         this.parkingSpaceRepository = parkingSpaceRepository;
         this.airportRepository = airportRepository;
     }
-
+    @Transactional
     public boolean addParkingSpace(String parkingSpaceName,String airportName){
         boolean result = false;
 
@@ -34,7 +35,9 @@ public class ParkingSpaceService {
         }
 
         if(validParkingSpaceName && airport!=null){
-            parkingSpaceRepository.save(new ParkingSpace(parkingSpaceName,false,airport));
+            ParkingSpace parkingSpace = new ParkingSpace(parkingSpaceName, false, airport);
+            parkingSpaceRepository.save(parkingSpace);
+            parkingSpaceRepository.flush();
             result=true;
         }
 

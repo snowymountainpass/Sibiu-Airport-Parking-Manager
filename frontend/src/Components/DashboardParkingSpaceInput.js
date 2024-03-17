@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import {FormControl, Grid, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
+import {Alert, FormControl, Grid, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
 import {atom, useAtom, useAtomValue, useSetAtom} from "jotai";
 import {listOfAirportNamesAtom, numberOfAirportsAtom, numberOfParkingSpacesAtom} from "../Pages/DashboardPage";
 
@@ -79,11 +79,18 @@ const DashboardParkingSpaceInput = () => {
         // setAirportSelection(value);
         if(value!=='' || value!==null){
             setAirportSelection(value);
+            // setIsValidAirportSelection(value !== ''); //original - works
             setIsValidAirportSelection(airportNamePattern.test(value));
         }
         else {
             setIsButtonVisible(false);
         }
+    };
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setIsSnackBarVisible(false);
     };
 
     const addParkingSpace = async (e) => {
@@ -94,17 +101,19 @@ const DashboardParkingSpaceInput = () => {
 
         const dataObject = Object.fromEntries(dataMap);
 
-        axios.post('http://localhost:8080/parkingSpaces/addParkingSpace',{dataObject},{headers: {
+        axios.post('http://localhost:8080/parkingSpaces/addParkingSpace',dataObject,{headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
             }})//
             .then((response)=>{
-                console.log(response.data);
-                console.log(response.data.result);
-                // setIsSnackBarVisible(true);//V1 - hardcoded - works out of the box (test it!)
-                // setNumberOfParkingSpaces((nr)=>nr++);//TODO: TEST IT
-                setIsSnackBarVisible(response.data.result); //TODO: TEST IT -- V2 - dynamic (test it!)
+
+                // setNumberOfParkingSpaces((nr)=>nr++);//TODO: Test a new version - with useSetAtom
+                setIsSnackBarVisible(response.data.result); //works
+
+                setParkingSpaceName('');
+                setAirportSelection('');
+
             })
             .catch(function (error) {
                 console.log('Error fetching data:', error);
@@ -157,20 +166,37 @@ const DashboardParkingSpaceInput = () => {
                 </Button>
             )}
 
-            {
-                isSnackBarVisible && (<Snackbar
-                    color="primary"
-                    size="md"
-                    variant="soft"
-                    onClose={(event, reason) => {
-                        if (reason === 'clickaway') {
-                            console.log("New Parking Space Added: "+new Date().getTime());
-                        }
-                    }}
-                >
-                    New Parking Space Added
-                </Snackbar>)
-            }
+            {/*{*/}
+            {/*    isSnackBarVisible && (<Snackbar*/}
+            {/*        color="primary"*/}
+            {/*        size="md"*/}
+            {/*        variant="soft"*/}
+            {/*        onClose={(event, reason) => {*/}
+            {/*            if (reason === 'clickaway') {*/}
+            {/*                console.log("New Parking Space Added: "+new Date().getTime());*/}
+            {/*            }*/}
+            {/*        }}*/}
+            {/*    >*/}
+            {/*        New Parking Space Added*/}
+            {/*    </Snackbar>)*/}
+            {/*}*/}
+            <Snackbar
+                open={isSnackBarVisible}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                // action={SnackbarButton}
+                color="primary"
+                size="md"
+                variant="soft"
+                anchorOrigin={{vertical:'bottom', horizontal:'right'}}>
+                <Alert
+                    onClose={handleClose}
+                    severity="success"
+                    variant="filled"
+                    sx={{ width: '100%' }}>
+                    New Airport Added!
+                </Alert>
+            </Snackbar>
         </div>
     );
 };

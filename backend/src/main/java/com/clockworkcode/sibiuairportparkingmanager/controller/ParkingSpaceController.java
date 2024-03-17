@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/parkingSpaces")
+@CrossOrigin
 public class ParkingSpaceController {
 
     @Autowired
