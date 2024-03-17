@@ -26,6 +26,7 @@ const DashboardParkingSpaceInput = () => {
 
     const [parkingSpaceName,setParkingSpaceName]=useState('');
     const [isValidParkingSpaceName, setIsValidParkingSpaceName] = useState(true);
+    const airportNamePattern = new RegExp("^(?!.*(?:DROP\\s+(?:TABLE|DATABASE)|TRUNCATE\\s+TABLE|ALTER\\s+TABLE|UPDATE|DELETE|GRANT|REVOKE|INSERT\\s+INTO|CREATE\\s+(?:TABLE|INDEX)|DROP\\s+INDEX))(?=[a-zA-Z0-9\\s-]{1,150}$).*");
     const parkingSpacePattern = RegExp("^(?!0000)[0-9]{4}$");
     const dataMap = new Map();
 
@@ -75,9 +76,10 @@ const DashboardParkingSpaceInput = () => {
 
     const handleAirportSelectionChange = (event) => {
         const value = event.target.value;
-        setAirportSelection(value);
+        // setAirportSelection(value);
         if(value!=='' || value!==null){
-            setIsValidAirportSelection(value !== '');
+            setAirportSelection(value);
+            setIsValidAirportSelection(airportNamePattern.test(value));
         }
         else {
             setIsButtonVisible(false);
