@@ -3,19 +3,22 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import {FormControl, Grid, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
-import {atom, useAtom} from "jotai";
+import {atom, useAtom, useAtomValue, useSetAtom} from "jotai";
 import {listOfAirportNamesAtom, numberOfAirportsAtom, numberOfParkingSpacesAtom} from "../Pages/DashboardPage";
 
 
 const DashboardParkingSpaceInput = () => {
 
-    const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
-    const [numberOfParkingSpaces,setNumberOfParkingSpaces] = useAtom(numberOfParkingSpacesAtom);
+    // const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
+    // const [numberOfParkingSpaces,setNumberOfParkingSpaces] = useAtom(numberOfParkingSpacesAtom);
 
     const [isSectionVisible,setIsSectionVisible]=useState(false);
 
     // const [airportsNames, setAirportsNames] = useAtom(listOfAirportNamesAtom);
-    const [airportsNames, setAirportsNames] = atom((get)=>get(listOfAirportNamesAtom));
+    // const [airportsNames, setAirportsNames] = atom((get)=>get(listOfAirportNamesAtom));
+    // const setListAirportNames = useSetAtom(listOfAirportNamesAtom);
+    const listAirportNames = useAtomValue(listOfAirportNamesAtom);
+
     const [airportSelection, setAirportSelection] = useState('');
     const [isValidAirportSelection, setIsValidAirportSelection] = useState(false);
     const [isButtonVisible,setIsButtonVisible] = useState(false);
@@ -38,13 +41,18 @@ const DashboardParkingSpaceInput = () => {
     //         console.error('There was a problem with the fetch operation:', error);
     //     });
     // }, []);
-
-    //List of Airport names
+    const lengthOfList = Array.isArray(listAirportNames) ? listAirportNames.length : 0;
     useEffect(() => {
-        if(numberOfAirports>0){
+        console.log("listAirportNames (parking): "+listAirportNames);
+    }, [listAirportNames]);
+
+    useEffect(() => {
+
+        if(lengthOfList>0){
+            console.log("lengthOfList:" +lengthOfList);
             setIsSectionVisible(true);
         }
-    }, [numberOfAirports]);
+    }, [lengthOfList]);
 
     useEffect(()=>{
         if(isValidParkingSpaceName&&isValidAirportSelection){
@@ -93,7 +101,7 @@ const DashboardParkingSpaceInput = () => {
                 console.log(response.data);
                 console.log(response.data.result);
                 // setIsSnackBarVisible(true);//V1 - hardcoded - works out of the box (test it!)
-                setNumberOfParkingSpaces((nr)=>nr++);//TODO: TEST IT
+                // setNumberOfParkingSpaces((nr)=>nr++);//TODO: TEST IT
                 setIsSnackBarVisible(response.data.result); //TODO: TEST IT -- V2 - dynamic (test it!)
             })
             .catch(function (error) {
@@ -131,7 +139,7 @@ const DashboardParkingSpaceInput = () => {
                         {/*<MenuItem value="" disabled>*/}
                         {/*    Select an Airport*/}
                         {/*</MenuItem>*/}
-                        {airportsNames.map((value, index) => (
+                        {listAirportNames.map((value, index) => (
                             <MenuItem key={index} value={value}>
                                 {value}
                             </MenuItem>

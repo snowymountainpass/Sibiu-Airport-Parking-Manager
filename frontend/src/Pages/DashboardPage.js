@@ -32,10 +32,10 @@ const DashboardPage = () => {
                 });
     },[]);
 
-    useEffect(() => {
-        console.log(listAirportNames);
-        // console.log("listAirportNames: "+listAirportNames);
-    },[listAirportNames]);
+    // useEffect(() => {
+    //     console.log(listAirportNames);
+    //     // console.log("listAirportNames: "+listAirportNames);
+    // },[listAirportNames]);
 
     return (
         <>
