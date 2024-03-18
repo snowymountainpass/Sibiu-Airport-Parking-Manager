@@ -9,51 +9,26 @@ import {listOfAirportNamesAtom, numberOfAirportsAtom, numberOfParkingSpacesAtom}
 
 const DashboardParkingSpaceInput = () => {
 
-    // const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
-    // const [numberOfParkingSpaces,setNumberOfParkingSpaces] = useAtom(numberOfParkingSpacesAtom);
-
-    const [isSectionVisible,setIsSectionVisible]=useState(false);
-
-    // const [airportsNames, setAirportsNames] = useAtom(listOfAirportNamesAtom);
-    // const [airportsNames, setAirportsNames] = atom((get)=>get(listOfAirportNamesAtom));
-    // const setListAirportNames = useSetAtom(listOfAirportNamesAtom);
     const listAirportNames = useAtomValue(listOfAirportNamesAtom);
-
     const [airportSelection, setAirportSelection] = useState('');
     const [isValidAirportSelection, setIsValidAirportSelection] = useState(false);
-    const [isButtonVisible,setIsButtonVisible] = useState(false);
-    const [isSnackBarVisible,setIsSnackBarVisible] = useState(false);
+    const [isValidParkingSpaceName, setIsValidParkingSpaceName] = useState(false);
+    const airportNamePattern = new RegExp("^(?!.*(?:DROP\\s+(?:TABLE|DATABASE)|TRUNCATE\\s+TABLE|ALTER\\s+TABLE|UPDATE|DELETE|GRANT|REVOKE|INSERT\\s+INTO|CREATE\\s+(?:TABLE|INDEX)|DROP\\s+INDEX))(?=[a-zA-Z0-9\\s-]{1,150}$).*");
 
     const [parkingSpaceName,setParkingSpaceName]=useState('');
-    const [isValidParkingSpaceName, setIsValidParkingSpaceName] = useState(true);
-    const airportNamePattern = new RegExp("^(?!.*(?:DROP\\s+(?:TABLE|DATABASE)|TRUNCATE\\s+TABLE|ALTER\\s+TABLE|UPDATE|DELETE|GRANT|REVOKE|INSERT\\s+INTO|CREATE\\s+(?:TABLE|INDEX)|DROP\\s+INDEX))(?=[a-zA-Z0-9\\s-]{1,150}$).*");
     const parkingSpacePattern = RegExp("^(?!0000)[0-9]{4}$");
+
+    const [isSectionVisible,setIsSectionVisible]=useState(false);
+    const [isButtonVisible,setIsButtonVisible] = useState(false);
+    const [isSnackBarVisible,setIsSnackBarVisible] = useState(false);
+    const numberOfAirports = Array.isArray(listAirportNames) ? listAirportNames.length : 0;
     const dataMap = new Map();
 
-    // //List of Airport names
-    // useEffect(() => {
-    //     axios.get('http://localhost:8080/airports/airportsNames')
-    //         .then(response => {
-    //             setAirportsNames(response.data);
-    //             // setNumberOfAirports(airportsNames.length);
-    //             setIsSectionVisible(true);
-    //         })//
-    //         .catch(error => {
-    //         console.error('There was a problem with the fetch operation:', error);
-    //     });
-    // }, []);
-    const lengthOfList = Array.isArray(listAirportNames) ? listAirportNames.length : 0;
     useEffect(() => {
-        console.log("listAirportNames (parking): "+listAirportNames);
-    }, [listAirportNames]);
-
-    useEffect(() => {
-
-        if(lengthOfList>0){
-            console.log("lengthOfList:" +lengthOfList);
+        if(numberOfAirports>0){
             setIsSectionVisible(true);
         }
-    }, [lengthOfList]);
+    }, [numberOfAirports]);
 
     useEffect(()=>{
         if(isValidParkingSpaceName&&isValidAirportSelection){
@@ -66,23 +41,25 @@ const DashboardParkingSpaceInput = () => {
     const handleParkingSpaceInput = (event) =>{
         const value = event.target.value;
         setParkingSpaceName(value);
-        if(value!=='' || value!==null){
+        if(value!==''){
             setIsValidParkingSpaceName(parkingSpacePattern.test(value));
         }
         else {
             setIsValidParkingSpaceName(false);
+            setIsButtonVisible(false);
         }
     }
 
     const handleAirportSelectionChange = (event) => {
         const value = event.target.value;
-        // setAirportSelection(value);
-        if(value!=='' || value!==null){
-            setAirportSelection(value);
-            // setIsValidAirportSelection(value !== ''); //original - works
-            setIsValidAirportSelection(airportNamePattern.test(value));
+        setAirportSelection(value);
+        if(value!==''){
+            if(airportNamePattern.test(value)){
+                setIsValidAirportSelection(airportNamePattern.test(value));
+            }
         }
         else {
+            setIsValidAirportSelection(false);
             setIsButtonVisible(false);
         }
     };
@@ -107,13 +84,12 @@ const DashboardParkingSpaceInput = () => {
                 "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
             }})//
             .then((response)=>{
-
-                // setNumberOfParkingSpaces((nr)=>nr++);//TODO: Test a new version - with useSetAtom
-                setIsSnackBarVisible(response.data.result); //works
-
+                setIsSnackBarVisible(response.data.result);
                 setParkingSpaceName('');
                 setAirportSelection('');
-
+                setIsValidParkingSpaceName(false);
+                setIsValidAirportSelection(false)
+                setIsButtonVisible(false);
             })
             .catch(function (error) {
                 console.log('Error fetching data:', error);
@@ -122,34 +98,31 @@ const DashboardParkingSpaceInput = () => {
     }
 
     return (
-
         <div>
-
             {isSectionVisible&&(<TextField
                 label="Parking Space Number"
                 variant="outlined"
+                value={parkingSpaceName}
                 onChange={handleParkingSpaceInput}
                 error={!isValidParkingSpaceName && parkingSpaceName!==''}
                 helperText={!isValidParkingSpaceName ? 'Invalid format - try 0001 to 9999' : ''}
             />)}
 
-
             {isSectionVisible&&(
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Airport</InputLabel>
+                    <InputLabel id="simple-select-label">Airport</InputLabel>
                     <Select
-                        labelId="demo-simple-select-label"
+                        labelId="simple-select-label"
                         id="demo-simple-select"
                         label="Airports"
+                        // placeholder="Select an Airport"
                         onChange={handleAirportSelectionChange}
                         defaultValue=""
                         displayEmpty
                         style={{ minWidth: 223 }}
                         fullWidth
                     >
-                        {/*<MenuItem value="" disabled>*/}
-                        {/*    Select an Airport*/}
-                        {/*</MenuItem>*/}
+                        <MenuItem value="" disabled/>
                         {listAirportNames.map((value, index) => (
                             <MenuItem key={index} value={value}>
                                 {value}
@@ -159,27 +132,12 @@ const DashboardParkingSpaceInput = () => {
                 </FormControl>
             )}
 
-
             {isButtonVisible && (
                 <Button variant="contained" onClick={addParkingSpace}>
                     Add Parking Space
                 </Button>
             )}
 
-            {/*{*/}
-            {/*    isSnackBarVisible && (<Snackbar*/}
-            {/*        color="primary"*/}
-            {/*        size="md"*/}
-            {/*        variant="soft"*/}
-            {/*        onClose={(event, reason) => {*/}
-            {/*            if (reason === 'clickaway') {*/}
-            {/*                console.log("New Parking Space Added: "+new Date().getTime());*/}
-            {/*            }*/}
-            {/*        }}*/}
-            {/*    >*/}
-            {/*        New Parking Space Added*/}
-            {/*    </Snackbar>)*/}
-            {/*}*/}
             <Snackbar
                 open={isSnackBarVisible}
                 autoHideDuration={6000}
@@ -194,7 +152,7 @@ const DashboardParkingSpaceInput = () => {
                     severity="success"
                     variant="filled"
                     sx={{ width: '100%' }}>
-                    New Airport Added!
+                    New Parking Space Added!
                 </Alert>
             </Snackbar>
         </div>
@@ -202,62 +160,3 @@ const DashboardParkingSpaceInput = () => {
 };
 
 export default DashboardParkingSpaceInput;
-
-
-// return (
-//
-//     <div>
-//         {isSectionVisible&&(<TextField
-//             label="Parking Space Number"
-//             variant="outlined"
-//             onChange={handleParkingSpaceInput}
-//             error={!isValidParkingSpaceName && parkingSpaceName!==''}
-//             helperText={!isValidParkingSpaceName ? 'Invalid format - try 0001 to 9999' : ''}
-//         />)}
-//
-//         {isSectionVisible&&(
-//             <FormControl fullWidth>
-//                 <InputLabel id="demo-simple-select-label">Airport</InputLabel>
-//                 <Select
-//                     labelId="demo-simple-select-label"
-//                     id="demo-simple-select"
-//                     label="Airports"
-//                     onChange={handleAirportSelectionChange}
-//                     defaultValue=""
-//                     displayEmpty
-//                 >
-//                     {/*<MenuItem value="" disabled>*/}
-//                     {/*    Select an Airport*/}
-//                     {/*</MenuItem>*/}
-//                     {airportsNames.map((value, index) => (
-//                         <MenuItem key={index} value={value}>
-//                             {value}
-//                         </MenuItem>
-//                     ))}
-//                 </Select>
-//             </FormControl>
-//         )}
-//
-//
-//         {isButtonVisible && (
-//             <Button variant="contained" onClick={addParkingSpace}>
-//                 Add Parking Space
-//             </Button>
-//         )}
-//
-//         {
-//             isSnackBarVisible && (<Snackbar
-//                 color="primary"
-//                 size="md"
-//                 variant="soft"
-//                 onClose={(event, reason) => {
-//                     if (reason === 'clickaway') {
-//                         console.log("New Parking Space Added: "+new Date().getTime());
-//                     }
-//                 }}
-//             >
-//                 New Parking Space Added
-//             </Snackbar>)
-//         }
-//     </div>
-// );
