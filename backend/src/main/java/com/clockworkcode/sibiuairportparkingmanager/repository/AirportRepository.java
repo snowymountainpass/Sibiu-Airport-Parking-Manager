@@ -15,4 +15,11 @@ public interface AirportRepository extends JpaRepository<Airport,Long> {
     @Query("select a.airportName from Airport a")
     List<String> getAllAirportNames();
 
+    @Query("""
+            SELECT DISTINCT ap.airportName\s
+            FROM Airport ap
+            JOIN ParkingSpace ps on ap.airportId = ps.airport.airportId\s
+            where ps.isOccupied=false""")
+    List<String> getAirportsWithEmptyParkingSpaces();
+
 }

@@ -38,8 +38,8 @@ const DashboardPage = () => {
                 <DashboardAirportInput />
                 <SectionHeader>Parking Space Information</SectionHeader>
                 <DashboardParkingSpaceInput />
-                <SectionHeader>Car Information</SectionHeader>
-                {/*<DashboardCarInput />*/}
+                <SectionHeader>Car Activity Information</SectionHeader>
+                <DashboardCarInput />
 
                 {/*<div className="landing-page-content"></div>*/}
             </Body>

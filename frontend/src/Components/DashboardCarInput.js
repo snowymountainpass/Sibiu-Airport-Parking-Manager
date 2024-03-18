@@ -2,14 +2,17 @@ import React, {useState,useEffect} from 'react';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {FormControl, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
-import {atom, useAtom} from "jotai";
+import {atom, useAtom,useAtomValue} from "jotai";
 import {listOfAirportNamesAtom, numberOfAirportsAtom, numberOfParkingSpacesAtom} from "../Pages/DashboardPage";
 import axios from "axios";
 
 const DashboardCarInput = () => {
 
-    const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
-    const [numberOfParkingSpaces,setNumberOfParkingSpaces] = useAtom(numberOfParkingSpacesAtom);
+    // const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
+    // const [numberOfParkingSpaces,setNumberOfParkingSpaces] = useAtom(numberOfParkingSpacesAtom);
+
+    const listAirportNames = useAtomValue(listOfAirportNamesAtom);
+    const numberOfAirports = Array.isArray(listAirportNames) ? listAirportNames.length : 0;
 
     const [licensePlate, setLicensePlate] = useState('');
     const licensePlateValidPattern = new RegExp("^(?!.*(?:DROP\s+(?:TABLE|DATABASE)|TRUNCATE\s+TABLE|ALTER\s+TABLE|UPDATE|DELETE|GRANT|REVOKE|INSERT\s+INTO|CREATE\s+(?:TABLE|INDEX)|DROP\s+INDEX))[\p{L}\p{N}\s-]+$/");
@@ -17,7 +20,7 @@ const DashboardCarInput = () => {
     const [validLicensePlate, setValidLicensePlate] = useState(true);
     const [isSnackBarVisible,setIsSnackBarVisible] = useState(false);
 
-    const [airportsNames, setAirportsNames] = atom((get)=>get(listOfAirportNamesAtom));
+
     const [airportSelection, setAirportSelection] = useState('');
     const [isValidAirportSelection, setIsValidAirportSelection] = useState(false);
     const [isButtonVisible,setIsButtonVisible] = useState(false);
@@ -56,15 +59,15 @@ const DashboardCarInput = () => {
         }
     }
 
-    useEffect(() => {
-        axios.get('http://localhost:8080/parkingSpaces/getParkingSpace/${airportSelection}')
-            .then(response => {
-                setParkingSpaceNames(response.data.result); //TODO: test it
-            })//
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-    },[airportSelection]);
+    // useEffect(() => {
+    //     axios.get('http://localhost:8080/parkingSpaces/getParkingSpace/${airportSelection}')
+    //         .then(response => {
+    //             setParkingSpaceNames(response.data.result); //TODO: test it
+    //         })//
+    //         .catch(error => {
+    //             console.error('There was a problem with the fetch operation:', error);
+    //         });
+    // },[airportSelection]);
 
     useEffect(() => {
         if(isValidAirportSelection&&isValidParkingSpaceSelection){
@@ -93,7 +96,7 @@ const DashboardCarInput = () => {
                 console.log(response.data);
                 console.log(response.data.result);
                 // setIsSnackBarVisible(true);//V1 - hardcoded - works out of the box (test it!)
-                setNumberOfParkingSpaces((nr)=>nr++);//TODO: TEST IT
+                // setNumberOfParkingSpaces((nr)=>nr++);//TODO: TEST IT
                 setIsSnackBarVisible(response.data.result); //TODO: TEST IT -- V2 - dynamic (test it!)
             })
             .catch(function (error) {
@@ -125,7 +128,7 @@ const DashboardCarInput = () => {
     return (
         <div>
             {
-                (numberOfAirports>0 && numberOfParkingSpaces>0)&&<TextField
+                (numberOfAirports>0)&&<TextField //&& numberOfParkingSpaces>0 (TODO: Fetch if there is at least one airport with an empty parking space)
                     label="Car License Plate"
                     helperText="Enter your car license plate"
                     value={licensePlate}

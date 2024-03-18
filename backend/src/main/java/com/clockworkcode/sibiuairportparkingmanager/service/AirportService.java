@@ -41,11 +41,10 @@ public class AirportService {
     }
 
     public List<String> getAllAirportNames(){
-//        List<Airport> airportList = airportRepository.getAllByAirportNameExists();
-//        List<String> airportNamesList= new ArrayList<>();
-//        airportList.forEach(airport -> airportNamesList.add(airport.getAirportName()));
-//        return airportNamesList;
         return airportRepository.getAllAirportNames();
+    }
 
+    public List<String> getAirportsWithEmptyParkingSpaces(){
+        return airportRepository.getAirportsWithEmptyParkingSpaces();
     }
 }
