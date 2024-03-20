@@ -98,7 +98,7 @@ const DashboardCarInput = () => {
     },[airportSelection]);
 
     useEffect(() => {
-        if(isValidAirportSelection&&isValidParkingSpaceSelection){
+        if(isValidAirportSelection&&validLicensePlate){
             setIsSectionVisible(true);
         }
         else{
@@ -170,7 +170,7 @@ const DashboardCarInput = () => {
                 />
             }
 
-            {(validLicensePlate )&&( //&& validLicensePlate //numberOfAirports>0
+            {(validLicensePlate )&&(
                 <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Airport</InputLabel>
                     <Select
@@ -194,30 +194,29 @@ const DashboardCarInput = () => {
                 </FormControl>
             )}
 
-            {/*{isSectionVisible&&(*/}
-            {/*    <FormControl fullWidth>*/}
-            {/*        <InputLabel id="demo-simple-select-label">Parking Space</InputLabel>*/}
-            {/*        <Select*/}
-            {/*            labelId="demo-simple-select-label"*/}
-            {/*            id="demo-simple-select"*/}
-            {/*            label="Parking Space"*/}
-            {/*            onChange={handleAParkingSpaceSelectionChange}*/}
-            {/*            defaultValue=""*/}
-            {/*            displayEmpty*/}
-            {/*            style={{ minWidth: 223 }}*/}
-            {/*            fullWidth*/}
-            {/*        >*/}
-            {/*            /!*<MenuItem value="" disabled>*!/*/}
-            {/*            /!*    Select an Airport*!/*/}
-            {/*            /!*</MenuItem>*!/*/}
-            {/*            {parkingSpaceNames.map((value, index) => (*/}
-            {/*                <MenuItem key={index} value={value}>*/}
-            {/*                    {value}*/}
-            {/*                </MenuItem>*/}
-            {/*            ))}*/}
-            {/*        </Select>*/}
-            {/*    </FormControl>*/}
-            {/*)}*/}
+            {isSectionVisible&&(
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Parking Space</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Parking Space"
+                        onChange={handleAParkingSpaceSelectionChange}
+                        defaultValue=""
+                        displayEmpty
+                        style={{ minWidth: 223 }}
+                        fullWidth
+                    >
+                        <MenuItem value="" disabled/>
+                        {parkingSpaceNames.map((value, index) => (
+                            <MenuItem key={index} value={value}>
+                                {value}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <FormHelperText>Select an Parking Space</FormHelperText>
+                </FormControl>
+            )}
 
             {isButtonVisible && (
                 <Button variant="contained" onClick={addCar}>
