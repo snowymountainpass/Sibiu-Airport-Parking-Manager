@@ -42,7 +42,7 @@ public class ParkingSpaceController {
         return new ResponseEntity<>(responseMap, HttpStatus.OK);
     }
 
-    @GetMapping("/getParkingSpace/{airportName}")
+    @PostMapping("/getParkingSpaces/{airportName}")
     public ResponseEntity<Map<String,List<String>>> getParkingSpacesByAirport(@PathVariable String airportName){
         Map<String,List<String>> responseMap = new HashMap<>();
 

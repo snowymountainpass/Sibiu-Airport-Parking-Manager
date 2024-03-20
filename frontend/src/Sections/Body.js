@@ -8,7 +8,7 @@ const Body = ({ children }) => {
         <Box
              component="main"
              flexGrow={1} // Ensure the main content area fills available space
-             bgcolor="white" //"#cb5a6b"
+             bgcolor="#CDCDCD" //"#cb5a6b"
              paddingTop={15}
              paddingBottom={15}
              paddingLeft={1} // Add padding to the left and right to remove white space

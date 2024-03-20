@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {FormControl, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
+import {FormControl, FormHelperText, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
 import {atom, useAtom,useAtomValue} from "jotai";
 import {listOfAirportNamesAtom, numberOfAirportsAtom, numberOfParkingSpacesAtom} from "../Pages/DashboardPage";
 import axios from "axios";
@@ -13,34 +13,53 @@ const DashboardCarInput = () => {
 
     const listAirportNames = useAtomValue(listOfAirportNamesAtom);
     const numberOfAirports = Array.isArray(listAirportNames) ? listAirportNames.length : 0;
-
+    const[listAirportsWithEmptyParkingSpaces,setListAirportsWithEmptyParkingSpaces]= useState([]);
     const [licensePlate, setLicensePlate] = useState('');
-    const licensePlateValidPattern = new RegExp("^(?!.*(?:DROP\s+(?:TABLE|DATABASE)|TRUNCATE\s+TABLE|ALTER\s+TABLE|UPDATE|DELETE|GRANT|REVOKE|INSERT\s+INTO|CREATE\s+(?:TABLE|INDEX)|DROP\s+INDEX))[\p{L}\p{N}\s-]+$/");
-    //TODO: licensePlateValidPattern - apply it
-    const [validLicensePlate, setValidLicensePlate] = useState(true);
-    const [isSnackBarVisible,setIsSnackBarVisible] = useState(false);
+    // const licensePlateValidPattern = new RegExp("^(?!.*(?:DROP\s+(?:TABLE|DATABASE)|TRUNCATE\s+TABLE|ALTER\s+TABLE|UPDATE|DELETE|GRANT|REVOKE|INSERT\s+INTO|CREATE\s+(?:TABLE|INDEX)|DROP\s+INDEX))[\p{L}\p{N}\s-]+$/");
+    const licensePlateValidPattern = /^(?!.*(?:DROP\s+(?:TABLE|DATABASE)|TRUNCATE\s+TABLE|ALTER\s+TABLE|UPDATE|DELETE|GRANT|REVOKE|INSERT\s+INTO|CREATE\s+(?:TABLE|INDEX)|DROP\s+INDEX))[\p{L}\d\s-]+$/u;
 
+    const [validLicensePlate, setValidLicensePlate] = useState(false);
 
     const [airportSelection, setAirportSelection] = useState('');
     const [isValidAirportSelection, setIsValidAirportSelection] = useState(false);
-    const [isButtonVisible,setIsButtonVisible] = useState(false);
 
     const [parkingSpaceNames, setParkingSpaceNames] = useState([]);
     const [parkingSpaceSelection, setParkingSpaceSelection] = useState('');
     const [isValidParkingSpaceSelection, setIsValidParkingSpaceSelection] = useState(false);
 
     const [isSectionVisible,setIsSectionVisible]=useState(false);
+    const [isSnackBarVisible,setIsSnackBarVisible] = useState(false);
+    const [isButtonVisible,setIsButtonVisible] = useState(false);
 
     const dataMap = new Map();
 
     const handleInputChange = (event) => {
         setLicensePlate(event.target.value);
+        // console.log(licensePlate);
+        if(licensePlateValidPattern.test(licensePlate)){
+            setValidLicensePlate(true);
+            // console.log("ValidLicensePlate (true?):"+validLicensePlate);
+        }
+        else {
+            setValidLicensePlate(false);
+            // console.log("ValidLicensePlate (true?):"+validLicensePlate);
+        }
     };
+
+    const getAirportsWithEmptyParkingSpaces = (e) => {
+        axios.get('http://localhost:8080/airports/airportsWithEmptyParkingSpaces')
+            .then(response => {
+                console.log(response.data.result);
+                setListAirportsWithEmptyParkingSpaces(response.data.result);
+            }).catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+    }
 
     const handleAirportSelectionChange = (event) => {
         const result = event.target.value;
-        if(result!=='' || result!==null){
-            setAirportSelection(result);
+        setAirportSelection(result);
+        if(result!==''){
             setIsValidAirportSelection(true);
         }
         else {
@@ -59,15 +78,24 @@ const DashboardCarInput = () => {
         }
     }
 
-    // useEffect(() => {
-    //     axios.get('http://localhost:8080/parkingSpaces/getParkingSpace/${airportSelection}')
-    //         .then(response => {
-    //             setParkingSpaceNames(response.data.result); //TODO: test it
-    //         })//
-    //         .catch(error => {
-    //             console.error('There was a problem with the fetch operation:', error);
-    //         });
-    // },[airportSelection]);
+    useEffect(() => {
+        if(airportSelection!==''){
+            axios.post('http://localhost:8080/parkingSpaces/getParkingSpaces/'+airportSelection,{headers: {
+                'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+            }})
+                .then(response => {
+                    console.log("airport selection result: "+response.data.result);
+                    console.log(response.data.result);
+                    setParkingSpaceNames(response.data.result); //TODO: test it
+                })//
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+    },[airportSelection]);
 
     useEffect(() => {
         if(isValidAirportSelection&&isValidParkingSpaceSelection){
@@ -104,23 +132,23 @@ const DashboardCarInput = () => {
             });
 
 
-        await fetch('http://localhost:8080/parkedCars/addCar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
-            },
-            // Send the string in the request body as JSON
-            body: JSON.stringify({licensePlate: licensePlate})
-        }).then((response) => response.json())
-            .then((data)=>{
-                setValidLicensePlate(data.validLicensePlate);
-                setIsSnackBarVisible(true);
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
+        // await fetch('http://localhost:8080/parkedCars/addCar', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         "Access-Control-Allow-Origin": "*",
+        //         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+        //     },
+        //     // Send the string in the request body as JSON
+        //     body: JSON.stringify({licensePlate: licensePlate})
+        // }).then((response) => response.json())
+        //     .then((data)=>{
+        //         setValidLicensePlate(data.validLicensePlate);
+        //         setIsSnackBarVisible(true);
+        //     })
+        //     .catch(error => {
+        //         console.error('There was a problem with the fetch operation:', error);
+        //     });
 
 
     }
@@ -128,39 +156,43 @@ const DashboardCarInput = () => {
     return (
         <div>
             {
-                (numberOfAirports>0)&&<TextField //&& numberOfParkingSpaces>0 (TODO: Fetch if there is at least one airport with an empty parking space)
+                (numberOfAirports>0)&&<TextField
                     label="Car License Plate"
                     helperText="Enter your car license plate"
                     value={licensePlate}
                     onChange={handleInputChange}
-                    error={!validLicensePlate}
+                    error={licensePlate!==''?!validLicensePlate:validLicensePlate}
+                    onKeyDown={(event => {if(event.key==='Enter'){
+                        console.log('Enter pressed');
+                        console.log(listAirportsWithEmptyParkingSpaces);
+                        return getAirportsWithEmptyParkingSpaces;
+                    }})}
                 />
             }
 
-            {/*{(numberOfAirports>0 && validLicensePlate)&&(*/}
-            {/*    <FormControl fullWidth>*/}
-            {/*        <InputLabel id="demo-simple-select-label">Airport</InputLabel>*/}
-            {/*        <Select*/}
-            {/*            labelId="demo-simple-select-label"*/}
-            {/*            id="demo-simple-select"*/}
-            {/*            label="Airports"*/}
-            {/*            onChange={handleAirportSelectionChange}*/}
-            {/*            defaultValue=""*/}
-            {/*            displayEmpty*/}
-            {/*            style={{ minWidth: 223 }}*/}
-            {/*            fullWidth*/}
-            {/*        >*/}
-            {/*            /!*<MenuItem value="" disabled>*!/*/}
-            {/*            /!*    Select an Airport*!/*/}
-            {/*            /!*</MenuItem>*!/*/}
-            {/*            {airportsNames.map((value, index) => (*/}
-            {/*                <MenuItem key={index} value={value}>*/}
-            {/*                    {value}*/}
-            {/*                </MenuItem>*/}
-            {/*            ))}*/}
-            {/*        </Select>*/}
-            {/*    </FormControl>*/}
-            {/*)}*/}
+            {(validLicensePlate )&&( //&& validLicensePlate //numberOfAirports>0
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Airport</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Airports"
+                        onChange={handleAirportSelectionChange}
+                        defaultValue=""
+                        displayEmpty
+                        style={{ minWidth: 223 }}
+                        fullWidth
+                    >
+                        <MenuItem value="" disabled/>
+                        {listAirportsWithEmptyParkingSpaces.map((value, index) => ( //listAirportNames //listAirportsWithEmptyParkingSpaces
+                            <MenuItem key={index} value={value}>
+                                {value}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <FormHelperText>Select an Airport</FormHelperText>
+                </FormControl>
+            )}
 
             {/*{isSectionVisible&&(*/}
             {/*    <FormControl fullWidth>*/}

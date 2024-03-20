@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import {Alert, FormControl, Grid, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
+import {Alert, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
 import {atom, useAtom, useAtomValue, useSetAtom} from "jotai";
 import {listOfAirportNamesAtom, numberOfAirportsAtom, numberOfParkingSpacesAtom} from "../Pages/DashboardPage";
 
@@ -105,7 +105,7 @@ const DashboardParkingSpaceInput = () => {
                 value={parkingSpaceName}
                 onChange={handleParkingSpaceInput}
                 error={!isValidParkingSpaceName && parkingSpaceName!==''}
-                helperText={!isValidParkingSpaceName ? 'Invalid format - try 0001 to 9999' : ''}
+                helperText={!isValidParkingSpaceName ? 'Valid format - try 0001 to 9999' : ''}
             />)}
 
             {isSectionVisible&&(
@@ -115,7 +115,6 @@ const DashboardParkingSpaceInput = () => {
                         labelId="simple-select-label"
                         id="demo-simple-select"
                         label="Airports"
-                        // placeholder="Select an Airport"
                         onChange={handleAirportSelectionChange}
                         defaultValue=""
                         displayEmpty
@@ -129,6 +128,7 @@ const DashboardParkingSpaceInput = () => {
                             </MenuItem>
                         ))}
                     </Select>
+                    <FormHelperText>Select an Airport</FormHelperText>
                 </FormControl>
             )}
 

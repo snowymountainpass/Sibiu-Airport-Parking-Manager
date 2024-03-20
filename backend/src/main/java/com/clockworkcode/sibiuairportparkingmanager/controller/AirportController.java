@@ -38,5 +38,11 @@ public class AirportController {
         return new ResponseEntity<>(responseMap, HttpStatus.OK);
     }
 
-
+    @GetMapping("/airportsWithEmptyParkingSpaces")
+    public ResponseEntity<Map<String,List<String>>> getAirportsWithEmptyParkingSpaces(){
+        Map<String, List<String>> responseMap = new HashMap<>();
+        List<String> airportNamesList = airportService.getAirportsWithEmptyParkingSpaces();
+        responseMap.put("result",airportNamesList);
+        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+    }
 }
