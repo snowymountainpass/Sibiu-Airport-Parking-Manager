@@ -33,12 +33,10 @@ public class ParkingActivityService {
 
     public void addCar(String licensePlate,String airportName,String parkingSpaceName) {
         if(carRepository.getCarByCarLicensePlate(licensePlate)!=null){
-//            assignToParkingSpace(carRepository.getCarByCarLicensePlate(licensePlate),"SIA"); //hardcoded
             assignToAirportAndParkingSpace(carRepository.getCarByCarLicensePlate(licensePlate),airportName,parkingSpaceName);
         }else {
             carRepository.save(new Car(licensePlate));
             Car car = carRepository.getCarByCarLicensePlate(licensePlate);
-//            assignToParkingSpace(car,"SIA"); //hardcoded
             assignToAirportAndParkingSpace(car,airportName, parkingSpaceName);
         }
     }

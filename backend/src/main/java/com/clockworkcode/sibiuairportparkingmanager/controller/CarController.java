@@ -46,7 +46,7 @@ public class CarController {
             responseMap.put("validLicensePlate", true);
         }
         else{
-            logger.info("Car with license plate "+carDTO.getLicensePlate()+" added successfully");
+            logger.info("Invalid license plate: "+carDTO.getLicensePlate());
             responseMap.put("validLicensePlate", false);
         }
         return new ResponseEntity<>(responseMap, HttpStatus.OK);

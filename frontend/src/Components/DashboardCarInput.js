@@ -5,6 +5,7 @@ import {FormControl, FormHelperText, InputLabel, MenuItem, Select, Snackbar} fro
 import {atom, useAtom,useAtomValue} from "jotai";
 import {listOfAirportNamesAtom, numberOfAirportsAtom, numberOfParkingSpacesAtom} from "../Pages/DashboardPage";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const DashboardCarInput = () => {
 
@@ -32,6 +33,7 @@ const DashboardCarInput = () => {
     const [isButtonVisible,setIsButtonVisible] = useState(false);
 
     const dataMap = new Map();
+    const navigate = useNavigate();
 
     const handleInputChange = (event) => {
         setLicensePlate(event.target.value);
@@ -46,14 +48,15 @@ const DashboardCarInput = () => {
         }
     };
 
-    const getAirportsWithEmptyParkingSpaces = (e) => {
+    const getAirportsWithEmptyParkingSpaces = () => {
         axios.get('http://localhost:8080/airports/airportsWithEmptyParkingSpaces')
             .then(response => {
-                console.log(response.data.result);
+                // console.log(response.data.result);
                 setListAirportsWithEmptyParkingSpaces(response.data.result);
             }).catch(error => {
             console.error('There was a problem with the fetch operation:', error);
         });
+        // return '';
     }
 
     const handleAirportSelectionChange = (event) => {
@@ -86,8 +89,8 @@ const DashboardCarInput = () => {
                     "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
             }})
                 .then(response => {
-                    console.log("airport selection result: "+response.data.result);
-                    console.log(response.data.result);
+                    // console.log("airport selection result: "+response.data.result);
+                    // console.log(response.data.result);
                     setParkingSpaceNames(response.data.result); //TODO: test it
                 })//
                 .catch(error => {
@@ -106,50 +109,48 @@ const DashboardCarInput = () => {
         }
     },[isValidAirportSelection]);
 
+    useEffect(()=>{
+        if(validLicensePlate&&isValidAirportSelection){ //TODO: add this as well -> isValidParkingSpaceName
+            setIsButtonVisible(true);
+        }else{
+            setIsButtonVisible(false);
+        }
+    },[validLicensePlate,isValidAirportSelection]) //isValidParkingSpaceName
+
     const addCar = async (e) => {
         e.preventDefault();
+
+        // console.log("licensePlate",licensePlate);
+        // console.log("parkingSpaceName",parkingSpaceSelection);
+        // console.log("airportName",airportSelection);
 
         dataMap.set("licensePlate",licensePlate);
         dataMap.set("parkingSpaceName",parkingSpaceSelection);
         dataMap.set("airportName",airportSelection);
 
+        // console.log("licensePlate",dataMap.get(licensePlate.toString()));
+        // console.log("parkingSpaceName",dataMap.get(parkingSpaceSelection));
+        // console.log("airportName",dataMap.get(airportSelection));
+
         const dataObject = Object.fromEntries(dataMap);
 
-        axios.post('http://localhost:8080/parkedCars/addCar',{dataObject},{headers: {
+        axios.post('http://localhost:8080/parkedCars/addCar',dataObject,{headers: {
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
             }})//
             .then((response)=>{
-                console.log(response.data);
-                console.log(response.data.result);
+                // console.log(response.data);
+                // console.log(response.data.result);
                 // setIsSnackBarVisible(true);//V1 - hardcoded - works out of the box (test it!)
-                // setNumberOfParkingSpaces((nr)=>nr++);//TODO: TEST IT
-                setIsSnackBarVisible(response.data.result); //TODO: TEST IT -- V2 - dynamic (test it!)
+                // setNumberOfParkingSpaces((nr)=>nr++);
+                setIsSnackBarVisible(response.data.result);
             })
             .catch(function (error) {
                 console.log('Error fetching data:', error);
             });
 
-
-        // await fetch('http://localhost:8080/parkedCars/addCar', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         "Access-Control-Allow-Origin": "*",
-        //         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
-        //     },
-        //     // Send the string in the request body as JSON
-        //     body: JSON.stringify({licensePlate: licensePlate})
-        // }).then((response) => response.json())
-        //     .then((data)=>{
-        //         setValidLicensePlate(data.validLicensePlate);
-        //         setIsSnackBarVisible(true);
-        //     })
-        //     .catch(error => {
-        //         console.error('There was a problem with the fetch operation:', error);
-        //     });
-
+        navigate('/');
 
     }
 
@@ -162,11 +163,15 @@ const DashboardCarInput = () => {
                     value={licensePlate}
                     onChange={handleInputChange}
                     error={licensePlate!==''?!validLicensePlate:validLicensePlate}
-                    onKeyDown={(event => {if(event.key==='Enter'){
-                        console.log('Enter pressed');
-                        console.log(listAirportsWithEmptyParkingSpaces);
-                        return getAirportsWithEmptyParkingSpaces;
-                    }})}
+                    onKeyDown={
+                    (event =>
+                        {
+                            if(event.key==='Enter'){
+                                console.log('Enter pressed');
+                                getAirportsWithEmptyParkingSpaces();
+                            }
+                        }
+                    )}
                 />
             }
 
@@ -241,34 +246,3 @@ const DashboardCarInput = () => {
     );
 };
 export default DashboardCarInput;
-
-// return (
-//     <div>
-//         <TextField
-//             label="Car License Plate"
-//             helperText="Enter your car license plate"
-//             value={licensePlate}
-//             onChange={handleInputChange}
-//             error={!validLicensePlate}
-//         />
-//         {licensePlate && (
-//             <Button variant="contained" onClick={addCar}>
-//                 Add Car
-//             </Button>
-//         )}
-//         {
-//             isSnackBarVisible && (<Snackbar
-//                 color="primary"
-//                 size="md"
-//                 variant="soft"
-//                 onClose={(event, reason) => {
-//                     if (reason === 'clickaway') {
-//                         console.log("New Car Added: "+new Date().getTime());
-//                     }
-//                 }}
-//             >
-//                 New Airport Added
-//             </Snackbar>)
-//         }
-//     </div>
-// );
