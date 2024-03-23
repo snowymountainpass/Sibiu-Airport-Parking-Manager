@@ -8,6 +8,7 @@ import DashboardParkingSpaceInput from "../Components/DashboardParkingSpaceInput
 import {atom, useAtom, useAtomValue, useSetAtom} from "jotai";
 import SectionHeader from "../Components/SectionHeader";
 import axios from "axios";
+import DashboardTable from "../Components/DashboardTable";
 
 
 export const numberOfAirportsAtom = atom(0);
@@ -40,7 +41,9 @@ const DashboardPage = () => {
                 <DashboardParkingSpaceInput />
                 <SectionHeader>Car Activity Information</SectionHeader>
                 <DashboardCarInput />
-
+                <SectionHeader>Overview</SectionHeader>
+                <DashboardTable/>
+                TODO: Create a Update Table button => update table when clicked
                 {/*<div className="landing-page-content"></div>*/}
             </Body>
             <Footer/>

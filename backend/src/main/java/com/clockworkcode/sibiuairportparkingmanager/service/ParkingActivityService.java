@@ -1,5 +1,6 @@
 package com.clockworkcode.sibiuairportparkingmanager.service;
 
+import com.clockworkcode.sibiuairportparkingmanager.DTO.ParkingActivityDTO;
 import com.clockworkcode.sibiuairportparkingmanager.model.Car;
 import com.clockworkcode.sibiuairportparkingmanager.model.ParkingActivity;
 import com.clockworkcode.sibiuairportparkingmanager.model.ParkingSpace;
@@ -81,4 +82,9 @@ public class ParkingActivityService {
     public void deleteCar(String licensePlate){
         carRepository.deleteCarByCarLicensePlate(licensePlate);
     }
+
+    public List<ParkingActivityDTO> getParkedCars(){
+        return parkingActivityRepository.getListParkedCars();
+    }
+
 }
