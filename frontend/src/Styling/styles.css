@@ -39,26 +39,11 @@ body {
     background-color: #CDCDCD;
     overflow: hidden;
 }
-/*NEW*/
 
-/*.section-header {*/
-/*    margin-bottom: 10px;*/
-/*}*/
-
-/*NEW*/
 .section-header {
     margin-bottom: 5px; /* Increase margin bottom for more space between section headers and components */
 }
-/*NEW*/
 
-/*.input-field,*/
-/*.table-component,*/
-/*.dashboard-link {*/
-/*    width: 100%;*/
-/*    max-width: 600px;*/
-/*}*/
-
-/*NEW*/
 .input-field,
 .table-component,
 .dashboard-link {
@@ -114,101 +99,62 @@ body {
 
 }
 
+/*Payment Page*/
+.payment-page-container {
+    display: flex;
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    /*gap: 5px;*/
+    max-width: 800px ; /* Increase the maximum width 800px */
+    margin: 0 auto;
+    padding: 10px; /* Increase padding for more space inside the component */
+    background-color: #CDCDCD;
+    overflow: hidden;
+
+}
+
+.checkout-page {
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: initial;*/
+    padding-top: 35px;
+    padding-bottom: 35px;
+
+    /*justify-content: center;*/
+    /*max-width: 800px ;*/
+}
 
 
+.return-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 200px;
 
+}
 
+.return-page-layout{
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    /*gap: 50px;*/
+    /*max-width: 500px ; !* Increase the maximum width 800px *!*/
+    /*margin: 0 auto;*/
+    padding: 40px; /* Increase padding for more space inside the component */
+    background-color: #CDCDCD;
+    overflow: hidden;
 
+}
 
+.return-page-message{
+    /*width: 100%;*/
+    /*max-width: 1000px; !* Adjust as needed *!*/
+    /*padding: 15px; !* Adjust as needed *!*/
+    /*margin-bottom: 15px; !* Adjust as needed *!*/
+    text-align: center; /* Center the text */
+    font-size: 1.2rem; /* Increase the font size */
+    font-weight: bold;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*!* styles.css *!*/
-
-/*body {*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    !*font-family: 'Arial', sans-serif;*!*/
-/*    background-color: #cb5a6b;*/
-/*}*/
-
-
-
-/*.landing-page {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    align-items: center;*/
-/*    padding: 20px; !* Adjust as needed for spacing around the entire landing page *!*/
-
-/*    !*width: 100vw;*!*/
-/*    !*height: 100vh;*!*/
-/*    !*overflow: hidden; !* or overflow: auto; *!*!*/
-
-/*}*/
-
-/*.landing-page-content {*/
-/*    !*width: 100%;*!*/
-/*    !*max-width: 800px; !* Adjust the maximum width as needed *!*!*/
-/*    !*padding: 20px; !* Adjust as needed for spacing within the landing page content *!*!*/
-/*    !*width: calc(100% - 20px); !* Adjust as needed *!*!*/
-/*    bgcolor:#CDCDCD; !*"#cb5a6b"*!*/
-/*    overflow: hidden; !* or overflow: auto; *!*/
-/*    margin: 10px; !* Adjust as needed *!*/
-/*    padding: 10px; !* Adjust as needed *!*/
-/*    height:calc(100% - 20px);*/
-/*    display:flex;*/
-/*    flex-direction:column;*/
-/*    gap: 20px;*/
-/*    !*flexGrow={1} // Ensure the main content area fills available space*!*/
-/*}*/
-
-/*.section-header {*/
-/*    margin-bottom: 10px; !* Adjust as needed for spacing between section headers and components *!*/
-/*}*/
-
-/*.input-field,*/
-/*.table-component,*/
-/*.dashboard-link {*/
-/*    width: 100%;*/
-/*    max-width: 600px; !* Adjust the maximum width as needed *!*/
-/*    margin: 0 auto; !* Center horizontally *!*/
-/*}*/
-
-/*.table-component {*/
-/*    overflow-x: auto; !* Enable horizontal scrolling if necessary *!*/
-/*}*/
-
-/*!* Media query for responsive design *!*/
-/*@media (max-width: 768px) {*/
-/*    .landing-page-content {*/
-/*        padding: 10px; !* Adjust padding for smaller screens *!*/
-/*    }*/
-
-/*    .section-header {*/
-/*        margin-bottom: 5px; !* Adjust margin for smaller screens *!*/
-/*    }*/
-/*}*/
-/*!* styles.css *!*/

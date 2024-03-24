@@ -76,14 +76,14 @@ const DashboardAirportInput = () => {
     }
 
     return (
-        <div>
+        <div className="input-field">
             <TextField
                 label="Airport Name"
                 helperText="Enter the airport name"
                 value={airportName}
                 onChange={handleAirportNameInput}
             />
-
+            {/*change classname for 1st div*/}
             <TextField
                 label="Airport Code"
                 helperText="Enter the airport code (3 letters)"

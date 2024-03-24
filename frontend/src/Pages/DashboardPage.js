@@ -35,14 +35,17 @@ const DashboardPage = () => {
         <>
             <Header/>
             <Body>
-                <SectionHeader>Airport Information</SectionHeader>
-                <DashboardAirportInput />
-                <SectionHeader>Parking Space Information</SectionHeader>
-                <DashboardParkingSpaceInput />
-                <SectionHeader>Car Activity Information</SectionHeader>
-                <DashboardCarInput />
-                <SectionHeader>Overview</SectionHeader>
-                <DashboardTable/>
+                <div className="landing-page">
+                    <div className=""/>
+                    <SectionHeader>Airport Information</SectionHeader>
+                    <DashboardAirportInput />
+                    <SectionHeader>Parking Space Information</SectionHeader>
+                    <DashboardParkingSpaceInput />
+                    <SectionHeader>Car Activity Information</SectionHeader>
+                    <DashboardCarInput />
+                    <SectionHeader>Overview</SectionHeader>
+                    <DashboardTable/>
+                </div>
             </Body>
             <Footer/>
         </>

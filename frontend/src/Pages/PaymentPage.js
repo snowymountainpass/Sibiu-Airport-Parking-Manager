@@ -35,20 +35,55 @@ const PaymentPage = () => {
     return (
         <div>
             <Header />
-            <Body>
-                <div id="checkout">
+            <div >
+                {/*<div id="checkout" className="payment-page-container">*/}
+                <div id="checkout" className="checkout-page">
                     {clientSecret && (
                         <EmbeddedCheckoutProvider
                             stripe={stripePromise}
                             options={options}
                         >
-                            <EmbeddedCheckout />
+                            <div id="checkout" className="">
+                                <EmbeddedCheckout />
+                            </div>
                         </EmbeddedCheckoutProvider>
                     )}
                 </div>
-            </Body>
+            </div>
             <Footer />
         </div>
     );
 };
 export default PaymentPage;
+
+// <div className="checkout-page">
+//     {/*<div id="checkout" className="payment-page-container">*/}
+//     <div id="checkout">
+//         {clientSecret && (
+//             <EmbeddedCheckoutProvider
+//                 stripe={stripePromise}
+//                 options={options}
+//             >
+//                 <div id="checkout" className="payment-page-container">
+//                     <EmbeddedCheckout />
+//                 </div>
+//             </EmbeddedCheckoutProvider>
+//         )}
+//     </div>
+// </div>
+
+// <div className="checkout-page">
+//     {/*<div id="checkout" className="payment-page-container">*/}
+//     <div id="checkout" className="payment-page-container">
+//         {clientSecret && (
+//             <EmbeddedCheckoutProvider
+//                 stripe={stripePromise}
+//                 options={options}
+//             >
+//                 <div id="checkout" className="embedded-checkout-container">
+//                     <EmbeddedCheckout />
+//                 </div>
+//             </EmbeddedCheckoutProvider>
+//         )}
+//     </div>
+// </div>

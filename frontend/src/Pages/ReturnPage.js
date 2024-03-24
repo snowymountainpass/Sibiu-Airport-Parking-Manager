@@ -32,13 +32,15 @@ const ReturnPage = () => {
             <div>
                 <Header/>
                     <Body>
-                        <section id="success">
-                            <p>
-                            We appreciate your business! A confirmation email will be sent to {customerEmail}.
+                        <div className="return-page">
+                            <section id="success" className="return-page-layout">
+                                <p className="return-page-message">
+                                We appreciate your business! A confirmation email will be sent to {customerEmail}.
 
-                            If you have any issues, please email <a href="mailto:sibiuairport@roairport.ro">sibiuairport@roairport.ro</a>.
-                            </p>
-                        </section>
+                                If you have any issues, please email <a href="mailto:sibiuairport@roairport.ro">sibiuairport@roairport.ro</a>.
+                                </p>
+                            </section>
+                        </div>
                     </Body>
                 <Footer />
             </div>

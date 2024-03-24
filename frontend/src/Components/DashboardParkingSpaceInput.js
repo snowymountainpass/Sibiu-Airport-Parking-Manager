@@ -98,7 +98,7 @@ const DashboardParkingSpaceInput = () => {
     }
 
     return (
-        <div>
+        <div className="input-field">
             {isSectionVisible&&(<TextField
                 label="Parking Space Number"
                 variant="outlined"

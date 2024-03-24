@@ -33,6 +33,7 @@ public interface ParkingActivityRepository extends JpaRepository<ParkingActivity
        JOIN ParkingActivity pa ON Car.carId = pa.car.carId
        JOIN ParkingSpace ps ON ps.parkingSpaceId = pa.parkingSpace.parkingSpaceId
        JOIN Airport a ON a.airportId = ps.airport.airportId
+       WHERE pa.endTime IS null
        """)
     List<ParkingActivityDTO> getListParkedCars();
 
