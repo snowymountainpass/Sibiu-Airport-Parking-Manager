@@ -19,18 +19,21 @@ const InputField = ({ className }) => {
     }
 
     return (
-        <div className={className}>
-            <TextField
-                label="Car License Plate"
-                helperText="Enter your car license plate"
-                value={licensePlate}
-                onChange={handleInputChange}
-            />
-            {licensePlate && (
-                <Button variant="contained" onClick={getCarDetails}>
-                    Pay
-                </Button>
-            )}
+        <div className={`${className} input-field`}>
+            <div className="button-container">
+                <TextField
+                    label="Car License Plate"
+                    helperText="Enter your car license plate"
+                    value={licensePlate}
+                    onChange={handleInputChange}
+                    className={className}
+                />
+                {licensePlate && (
+                    <Button variant="contained" onClick={getCarDetails} className="button">
+                        Pay
+                    </Button>
+                )}
+            </div>
         </div>
     );
 };
