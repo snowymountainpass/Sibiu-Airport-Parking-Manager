@@ -1,45 +1,9 @@
 import * as React from 'react';
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-// import {useEffect} from "react";
 import axios from "axios";
-
-
-
-
-    // {
-    //     field: 'firstName',
-    //     headerName: 'First name',
-    //     width: 150,
-    //     editable: true,
-    // },
-    // {
-    //     field: 'lastName',
-    //     headerName: 'Last name',
-    //     width: 150,
-    //     editable: true,
-    // },
-    // {
-    //     field: 'age',
-    //     headerName: 'Age',
-    //     type: 'number',
-    //     width: 110,
-    //     editable: true,
-    // },
-    // {
-    //     field: 'fullName',
-    //     headerName: 'Full name',
-    //     description: 'This column has a value getter and is not sortable.',
-    //     sortable: false,
-    //     width: 160,
-    //     valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
-    // },
-// ];
-
-
-
-
+import Button from "@mui/material/Button";
 
 
 const DashboardTable = () => {
@@ -67,11 +31,14 @@ const DashboardTable = () => {
             console.error('There was a problem with the fetch operation:', error);
         });
     }
-    // setInterval(updateTable, 480000); //1 minute - 60000 //TODO: Create a Update Table button => update table when clicked
+    // setInterval(updateTable, 480000); //1 minute - 60000
 
 
     return (
         <Box sx={{ height: 400, width: '100%' }}>
+            <Button variant="contained" onClick={updateTable}>
+                Update
+            </Button>
             <DataGrid
                 // rows={rows}
                 rows={parkedCars}

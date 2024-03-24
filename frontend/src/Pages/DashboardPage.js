@@ -43,7 +43,6 @@ const DashboardPage = () => {
                 <DashboardCarInput />
                 <SectionHeader>Overview</SectionHeader>
                 <DashboardTable/>
-                TODO: Create a Update Table button => update table when clicked
                 {/*<div className="landing-page-content"></div>*/}
             </Body>
             <Footer/>
