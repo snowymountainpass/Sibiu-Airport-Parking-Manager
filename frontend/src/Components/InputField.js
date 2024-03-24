@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
 
-const InputField = () => {
+const InputField = ({ className }) => {
     const [licensePlate, setLicensePlate] = useState('');
     const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const InputField = () => {
     }
 
     return (
-        <div>
+        <div className={className}>
             <TextField
                 label="Car License Plate"
                 helperText="Enter your car license plate"
@@ -35,4 +35,24 @@ const InputField = () => {
     );
 };
 export default InputField;
+
+
+//ORIGINAL
+
+// <div>
+//     <TextField
+//         label="Car License Plate"
+//         helperText="Enter your car license plate"
+//         value={licensePlate}
+//         onChange={handleInputChange}
+//     />
+//     {licensePlate && (
+//         <Button variant="contained" onClick={getCarDetails}>
+//             Pay
+//         </Button>
+//     )}
+// </div>
+
+//ORIGINAL
+
 

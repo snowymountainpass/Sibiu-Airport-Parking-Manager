@@ -43,7 +43,6 @@ const DashboardPage = () => {
                 <DashboardCarInput />
                 <SectionHeader>Overview</SectionHeader>
                 <DashboardTable/>
-                {/*<div className="landing-page-content"></div>*/}
             </Body>
             <Footer/>
         </>

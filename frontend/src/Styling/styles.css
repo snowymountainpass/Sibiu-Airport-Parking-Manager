@@ -5,31 +5,149 @@ body {
     background-color: #cb5a6b;
 }
 
-/*.container {*/
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 100px;
+
+}
+
+.landing-page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #CDCDCD;
+    overflow: hidden;
+}
+
+.section-header {
+    margin-bottom: 10px;
+}
+
+.input-field,
+.table-component,
+.dashboard-link {
+    width: 100%;
+    max-width: 600px;
+}
+
+.table-component {
+    overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+    .landing-page-content {
+        padding: 10px;
+    }
+    .section-header {
+        margin-bottom: 5px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*!* styles.css *!*/
+
+/*body {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    !*font-family: 'Arial', sans-serif;*!*/
+/*    background-color: #cb5a6b;*/
+/*}*/
+
+
+
+/*.landing-page {*/
 /*    display: flex;*/
 /*    flex-direction: column;*/
-/*    min-height: 100vh;*/
-/*}*/
-
-/*.header,*/
-/*.footer {*/
-/*    flex: 1;*/
-/*    background-color: #333;*/
-/*    color: white;*/
-/*    display: flex;*/
 /*    align-items: center;*/
-/*    justify-content: center;*/
+/*    padding: 20px; !* Adjust as needed for spacing around the entire landing page *!*/
+
+/*    !*width: 100vw;*!*/
+/*    !*height: 100vh;*!*/
+/*    !*overflow: hidden; !* or overflow: auto; *!*!*/
+
 /*}*/
 
-/*.bodyStyle {*/
-/*    !*flex: 3;*!*/
-/*    background-color: #cb5a6b;*/
-/*    !*padding: 20px;*!*/
-/*    !*display: flex;*!*/
-/*    !*align-items: center;*!*/
-/*    !*justify-content: center;*!*/
+/*.landing-page-content {*/
+/*    !*width: 100%;*!*/
+/*    !*max-width: 800px; !* Adjust the maximum width as needed *!*!*/
+/*    !*padding: 20px; !* Adjust as needed for spacing within the landing page content *!*!*/
+/*    !*width: calc(100% - 20px); !* Adjust as needed *!*!*/
+/*    bgcolor:#CDCDCD; !*"#cb5a6b"*!*/
+/*    overflow: hidden; !* or overflow: auto; *!*/
+/*    margin: 10px; !* Adjust as needed *!*/
+/*    padding: 10px; !* Adjust as needed *!*/
+/*    height:calc(100% - 20px);*/
+/*    display:flex;*/
+/*    flex-direction:column;*/
+/*    gap: 20px;*/
+/*    !*flexGrow={1} // Ensure the main content area fills available space*!*/
 /*}*/
 
-/*.header h1, .footer h1 {*/
-/*    margin: 0;*/
+/*.section-header {*/
+/*    margin-bottom: 10px; !* Adjust as needed for spacing between section headers and components *!*/
 /*}*/
+
+/*.input-field,*/
+/*.table-component,*/
+/*.dashboard-link {*/
+/*    width: 100%;*/
+/*    max-width: 600px; !* Adjust the maximum width as needed *!*/
+/*    margin: 0 auto; !* Center horizontally *!*/
+/*}*/
+
+/*.table-component {*/
+/*    overflow-x: auto; !* Enable horizontal scrolling if necessary *!*/
+/*}*/
+
+/*!* Media query for responsive design *!*/
+/*@media (max-width: 768px) {*/
+/*    .landing-page-content {*/
+/*        padding: 10px; !* Adjust padding for smaller screens *!*/
+/*    }*/
+
+/*    .section-header {*/
+/*        margin-bottom: 5px; !* Adjust margin for smaller screens *!*/
+/*    }*/
+/*}*/
+/*!* styles.css *!*/

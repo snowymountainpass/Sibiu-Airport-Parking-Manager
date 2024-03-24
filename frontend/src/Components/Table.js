@@ -7,13 +7,13 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 
-const TableComponent = () => {
+const TableComponent = ({ className }) => {
     const priceData = [
         { duration: '1 minute', cost: 5 },
     ];
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} className={className}>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -35,3 +35,27 @@ const TableComponent = () => {
 };
 
 export default TableComponent;
+
+
+//ORIGINAL
+
+// <TableContainer component={Paper}>
+//     <Table>
+//         <TableHead>
+//             <TableRow>
+//                 <TableCell>Duration</TableCell>
+//                 <TableCell align="right">Cost (Euro/Minute)</TableCell>
+//             </TableRow>
+//         </TableHead>
+//         <TableBody>
+//             {priceData.map((row) => (
+//                 <TableRow key={row.duration}>
+//                     <TableCell>{row.duration}</TableCell>
+//                     <TableCell align="right">{row.cost}</TableCell>
+//                 </TableRow>
+//             ))}
+//         </TableBody>
+//     </Table>
+// </TableContainer>
+
+//ORIGINAL
