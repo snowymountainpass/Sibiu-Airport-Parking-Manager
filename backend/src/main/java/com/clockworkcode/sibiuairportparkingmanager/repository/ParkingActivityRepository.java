@@ -22,12 +22,6 @@ public interface ParkingActivityRepository extends JpaRepository<ParkingActivity
 
     List<ParkingActivity> findParkingActivitiesByCarOrderByStartTimeDesc(Car car);
 
-//    @Query("""
-//           SELECT new com.clockworkcode.sibiuairportparkingmanager.DTO.ParkingActivityDTO (Car.carLicensePlate,a.airportName,ps.parkingSpaceNumber,pa.startTime) FROM Car
-//           JOIN ParkingActivity pa on Car.carId=pa.car.carId
-//           JOIN ParkingSpace ps on ps.parkingSpaceId=pa.parkingSpace.parkingSpaceId
-//           JOIN Airport a on a.airportId=ps.airport.airportId
-//           """)
 @Query("""
        SELECT new com.clockworkcode.sibiuairportparkingmanager.DTO.ParkingActivityDTO (
            Car.carLicensePlate,

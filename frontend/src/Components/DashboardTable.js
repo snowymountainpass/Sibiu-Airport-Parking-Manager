@@ -9,7 +9,6 @@ import Button from "@mui/material/Button";
 const DashboardTable = () => {
 
     const columns = [
-        // { field: 'id', headerName: 'ID', width: 120 },
         { field: 'licensePlate', headerName: 'License Plate', width: 120 },
         { field: 'airportName', headerName: 'Airport Name', width: 120 },
         { field: 'parkingSpaceName', headerName: 'Parking Space', width: 120 },
@@ -20,13 +19,9 @@ const DashboardTable = () => {
 
 
     const updateTable = () => {
-
-        console.log('Called updateTable function!')
-
         axios.get('http://localhost:8080/parkingActivities/getParkedCars')
             .then(response => {
                 setParkedCars(response.data.result);
-
             }).catch(error => {
             console.error('There was a problem with the fetch operation:', error);
         });
@@ -40,7 +35,6 @@ const DashboardTable = () => {
                 Update
             </Button>
             <DataGrid
-                // rows={rows}
                 rows={parkedCars}
                 columns={columns}
                 initialState={{

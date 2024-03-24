@@ -9,8 +9,6 @@ import {useNavigate} from "react-router-dom";
 
 const DashboardCarInput = () => {
 
-    // const [numberOfAirports,setNumberOfAirports] = useAtom(numberOfAirportsAtom);
-    // const [numberOfParkingSpaces,setNumberOfParkingSpaces] = useAtom(numberOfParkingSpacesAtom);
 
     const listAirportNames = useAtomValue(listOfAirportNamesAtom);
     const numberOfAirports = Array.isArray(listAirportNames) ? listAirportNames.length : 0;
@@ -37,26 +35,21 @@ const DashboardCarInput = () => {
 
     const handleInputChange = (event) => {
         setLicensePlate(event.target.value);
-        // console.log(licensePlate);
         if(licensePlateValidPattern.test(licensePlate)){
             setValidLicensePlate(true);
-            // console.log("ValidLicensePlate (true?):"+validLicensePlate);
         }
         else {
             setValidLicensePlate(false);
-            // console.log("ValidLicensePlate (true?):"+validLicensePlate);
         }
     };
 
     const getAirportsWithEmptyParkingSpaces = () => {
         axios.get('http://localhost:8080/airports/airportsWithEmptyParkingSpaces')
             .then(response => {
-                // console.log(response.data.result);
                 setListAirportsWithEmptyParkingSpaces(response.data.result);
             }).catch(error => {
             console.error('There was a problem with the fetch operation:', error);
         });
-        // return '';
     }
 
     const handleAirportSelectionChange = (event) => {
@@ -89,10 +82,8 @@ const DashboardCarInput = () => {
                     "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
             }})
                 .then(response => {
-                    // console.log("airport selection result: "+response.data.result);
-                    // console.log(response.data.result);
                     setParkingSpaceNames(response.data.result); //TODO: test it
-                })//
+                })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
                 });
@@ -120,17 +111,9 @@ const DashboardCarInput = () => {
     const addCar = async (e) => {
         e.preventDefault();
 
-        // console.log("licensePlate",licensePlate);
-        // console.log("parkingSpaceName",parkingSpaceSelection);
-        // console.log("airportName",airportSelection);
-
         dataMap.set("licensePlate",licensePlate);
         dataMap.set("parkingSpaceName",parkingSpaceSelection);
         dataMap.set("airportName",airportSelection);
-
-        // console.log("licensePlate",dataMap.get(licensePlate.toString()));
-        // console.log("parkingSpaceName",dataMap.get(parkingSpaceSelection));
-        // console.log("airportName",dataMap.get(airportSelection));
 
         const dataObject = Object.fromEntries(dataMap);
 
@@ -140,10 +123,6 @@ const DashboardCarInput = () => {
                 "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
             }})//
             .then((response)=>{
-                // console.log(response.data);
-                // console.log(response.data.result);
-                // setIsSnackBarVisible(true);//V1 - hardcoded - works out of the box (test it!)
-                // setNumberOfParkingSpaces((nr)=>nr++);
                 setIsSnackBarVisible(response.data.result);
             })
             .catch(function (error) {
@@ -189,7 +168,7 @@ const DashboardCarInput = () => {
                         fullWidth
                     >
                         <MenuItem value="" disabled/>
-                        {listAirportsWithEmptyParkingSpaces.map((value, index) => ( //listAirportNames //listAirportsWithEmptyParkingSpaces
+                        {listAirportsWithEmptyParkingSpaces.map((value, index) => (
                             <MenuItem key={index} value={value}>
                                 {value}
                             </MenuItem>
