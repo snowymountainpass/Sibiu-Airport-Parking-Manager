@@ -41,11 +41,6 @@ public class ParkingActivityService {
             assignToAirportAndParkingSpace(car,airportName, parkingSpaceName);
         }
     }
-    public void assignToParkingSpace(Car car,String airportCode){
-        ParkingSpace unoccupiedParkingSpace = parkingSpaceRepository.findFirstByAirport_AirportCodeAndIsOccupied(airportCode, false);
-        unoccupiedParkingSpace.setOccupied(true);
-        assignParkingActivity(car,unoccupiedParkingSpace);
-    }
 
     public void assignToAirportAndParkingSpace(Car car,String airportName,String parkingSpaceName){
         ParkingSpace parkingSpace = parkingSpaceRepository.findParkingSpaceByAirport_AirportNameAndParkingSpaceNumber(airportName,parkingSpaceName);
@@ -73,7 +68,7 @@ public class ParkingActivityService {
     }
 
     public ParkingActivity getLatestParkingActivity(Car car){
-        List<ParkingActivity> parkingActivities = parkingActivityRepository.findParkingActivitiesByCarOrderByStartTimeDesc(car);
+        List<ParkingActivity> parkingActivities = parkingActivityRepository.findParkingActivitiesByCarOrderByStartTimeDesc(car); //TODO: refactor with @Query in repository class
         Optional<ParkingActivity> latestParkingActivity = parkingActivities.stream().findFirst();//find activity (for this car) that has the closest startDate to the current time
 
         return latestParkingActivity.orElse(null);

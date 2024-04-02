@@ -56,22 +56,8 @@ public class ParkingSpaceService {
         return true;
     }
 
-//    public ParkingSpace getParkingSpaceByParkingSpaceNumber(String airportCode,String parkingSpaceNumber){
-//        return parkingSpaceRepository.findParkingSpaceByAirport_AirportCodeAndParkingSpaceNumber(airportCode,parkingSpaceNumber);
-//    }
-//
-//    public boolean isParkingSpaceOccupied(String airportCode,String parkingSpaceNumber){
-//        ParkingSpace parkingSpace = getParkingSpaceByParkingSpaceNumber(airportCode,parkingSpaceNumber);
-//
-//        return parkingSpace.getOccupied();
-//    }
-
     public List<ParkingSpace> getEmptyParkingSpacesByAirportName(String airportName){
         return parkingSpaceRepository.findParkingSpacesByAirport_AirportNameAndIsOccupied(airportName,false);
-    }
-
-    public List<ParkingSpace> getParkingSpacesByAirportCode(String airportCode){
-        return parkingSpaceRepository.findParkingSpacesByAirport_AirportCode(airportCode);
     }
 
 }

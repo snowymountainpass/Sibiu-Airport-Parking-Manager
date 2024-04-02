@@ -36,10 +36,6 @@ public class AirportService {
         return airportRepository.getAirportByAirportCode(airportCode);
     }
 
-    public Airport getAiportByAirportName(String airportName){
-        return airportRepository.getAirportByAirportName(airportName);
-    }
-
     public List<String> getAllAirportNames(){
         return airportRepository.getAllAirportNames();
     }
