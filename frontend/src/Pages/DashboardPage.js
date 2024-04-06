@@ -9,6 +9,7 @@ import {atom, useAtom, useAtomValue, useSetAtom} from "jotai";
 import SectionHeader from "../Components/SectionHeader";
 import axios from "axios";
 import DashboardTable from "../Components/DashboardTable";
+import DashboardEmptyParkingSpacesTable from "../Components/DashboardEmptyParkingSpacesTable";
 
 
 export const numberOfAirportsAtom = atom(0);
@@ -45,6 +46,8 @@ const DashboardPage = () => {
                     <DashboardCarInput />
                     <SectionHeader>Overview</SectionHeader>
                     <DashboardTable/>
+                    <SectionHeader>Empty Parking Spaces</SectionHeader>
+                    <DashboardEmptyParkingSpacesTable/>
                 </div>
             </Body>
             <Footer/>

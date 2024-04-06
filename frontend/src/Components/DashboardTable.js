@@ -30,7 +30,7 @@ const DashboardTable = () => {
 
 
     return (
-        <Box sx={{ height: 400, width: '100%' }}>
+        <Box sx={{ height: 400, width: '100%', paddingBottom:10 }}>
             <Button variant="contained" onClick={updateTable}>
                 Update
             </Button>
