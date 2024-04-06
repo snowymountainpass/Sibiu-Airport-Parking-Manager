@@ -10,8 +10,8 @@ const DashboardTable = () => {
 
     const columns = [
         { field: 'licensePlate', headerName: 'License Plate', width: 120 },
-        { field: 'airportName', headerName: 'Airport Name', width: 120 },
-        { field: 'parkingSpaceName', headerName: 'Parking Space', width: 120 },
+        { field: 'airportName', headerName: 'Airport Name', width: 250 },
+        { field: 'parkingSpaceName', headerName: 'Parking Space', width: 200 },
         { field: 'startTime', headerName: 'Start Time', width: 120 },
         { field: 'timeSpent', headerName: 'Time Spent (minutes)', width: 200 }];
 
@@ -43,6 +43,11 @@ const DashboardTable = () => {
                             pageSize: 5,
                         },
                     },
+                }}
+                autosizeOptions={{
+                    columns: ['licensePlate','airportName', 'parkingSpaceName','startTime','timeSpent'],
+                    includeOutliers: true,
+                    includeHeaders: false,
                 }}
                 pageSizeOptions={[5]}
                 checkboxSelection

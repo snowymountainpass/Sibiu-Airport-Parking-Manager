@@ -1,6 +1,7 @@
 package com.clockworkcode.sibiuairportparkingmanager.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -19,9 +20,11 @@ public class ParkingActivity {
     private Car car;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private Date startTime;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm")
     private Date endTime;
 
     public ParkingActivity(ParkingSpace parkingSpace, Car car, Date startTime) {
