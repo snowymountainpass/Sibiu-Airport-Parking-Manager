@@ -36,7 +36,6 @@ const PaymentPage = () => {
         <div>
             <Header />
             <div >
-                {/*<div id="checkout" className="payment-page-container">*/}
                 <div id="checkout" className="checkout-page">
                     {clientSecret && (
                         <EmbeddedCheckoutProvider
@@ -55,35 +54,3 @@ const PaymentPage = () => {
     );
 };
 export default PaymentPage;
-
-// <div className="checkout-page">
-//     {/*<div id="checkout" className="payment-page-container">*/}
-//     <div id="checkout">
-//         {clientSecret && (
-//             <EmbeddedCheckoutProvider
-//                 stripe={stripePromise}
-//                 options={options}
-//             >
-//                 <div id="checkout" className="payment-page-container">
-//                     <EmbeddedCheckout />
-//                 </div>
-//             </EmbeddedCheckoutProvider>
-//         )}
-//     </div>
-// </div>
-
-// <div className="checkout-page">
-//     {/*<div id="checkout" className="payment-page-container">*/}
-//     <div id="checkout" className="payment-page-container">
-//         {clientSecret && (
-//             <EmbeddedCheckoutProvider
-//                 stripe={stripePromise}
-//                 options={options}
-//             >
-//                 <div id="checkout" className="embedded-checkout-container">
-//                     <EmbeddedCheckout />
-//                 </div>
-//             </EmbeddedCheckoutProvider>
-//         )}
-//     </div>
-// </div>

@@ -11,6 +11,13 @@ import com.stripe.param.ProductCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -19,14 +26,18 @@ public class OrderService {
     @Value("${STRIPE_SECRET_KEY}")
     private String apiKey;
 
-    public Product createProduct(PaymentDTO paymentDTO) throws StripeException {
+    public Product createProduct(PaymentDTO paymentDTO) throws StripeException{
         long differenceInMilliseconds = Math.abs(paymentDTO.getEndTime().getTime()-paymentDTO.getStartTime().getTime());
         long differenceInMinutes = TimeUnit.MINUTES.convert(differenceInMilliseconds, TimeUnit.MILLISECONDS);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        String startTimeString = paymentDTO.getStartTime().toInstant().atZone(ZoneId.systemDefault()).format(formatter);
+        String endTimeString = paymentDTO.getEndTime().toInstant().atZone(ZoneId.systemDefault()).format(formatter);
 
         ProductCreateParams params =
                 ProductCreateParams.builder()//
                         .setName("Parking Space Cost")//
-                        .setDescription("Car "+paymentDTO.getLicensePlate()+" spent "+differenceInMinutes+" minutes ("+paymentDTO.getStartTime()+" to " +paymentDTO.getEndTime()+ ") at the "+paymentDTO.getAirportName()+" in the parking space "+paymentDTO.getParkingSpaceNumber()+".")//
+                        .setDescription("Car "+paymentDTO.getLicensePlate()+" spent "+differenceInMinutes+" minutes ("+startTimeString+" to " +endTimeString+ ") at the "+paymentDTO.getAirportName()+" in the parking space "+paymentDTO.getParkingSpaceNumber()+".")//
                         .build();
         return Product.create(params);
     }

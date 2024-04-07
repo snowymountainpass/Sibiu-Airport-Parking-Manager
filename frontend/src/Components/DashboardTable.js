@@ -12,7 +12,7 @@ const DashboardTable = () => {
         { field: 'licensePlate', headerName: 'License Plate', width: 120 },
         { field: 'airportName', headerName: 'Airport Name', width: 250 },
         { field: 'parkingSpaceName', headerName: 'Parking Space', width: 200 },
-        { field: 'startTime', headerName: 'Start Time', width: 120 },
+        { field: 'startTime', headerName: 'Start Time', width: 250 },
         { field: 'timeSpent', headerName: 'Time Spent (minutes)', width: 200 }];
 
     const [parkedCars,setParkedCars] = useState([]);
