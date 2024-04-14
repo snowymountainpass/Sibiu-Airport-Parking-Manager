@@ -58,10 +58,10 @@ const DashboardParkingSpaceInput = () => {
                 setIsValidAirportSelection(airportNamePattern.test(value));
             }
         }
-        else {
-            setIsValidAirportSelection(false);
-            setIsButtonVisible(false);
-        }
+        // else {
+        //     setIsValidAirportSelection(false);
+        //     setIsButtonVisible(false);
+        // }
     };
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
