@@ -41,3 +41,6 @@ backend/src/main/resources/application.properties
 ###node_module
 /node_module
 /frontend/node_modules/
+
+###Docker
+/backend/compose.yaml
