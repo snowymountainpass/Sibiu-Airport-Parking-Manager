@@ -11,7 +11,7 @@
 # Create a stage for resolving and downloading dependencies.
 FROM eclipse-temurin:17-jdk-jammy as deps
 
-WORKDIR /build
+WORKDIR /Sibiu-Airport-SpringMono_React
 
 # Copy the mvnw wrapper with executable permissions.
 COPY --chmod=0755 mvnw mvnw
@@ -33,10 +33,10 @@ RUN --mount=type=bind,source=pom.xml,target=pom.xml \
 # use the relevant app server, e.g., using tomcat (https://hub.docker.com/_/tomcat/) as a base image.
 FROM deps as package
 
-WORKDIR /build
+WORKDIR /Sibiu-Airport-SpringMono_React
 
-COPY ./src src/
-RUN --mount=type=bind,source=pom.xml,target=pom.xml \
+COPY backend/src src/
+RUN --mount=type=bind,source=./pom.xml,target=pom.xml \
     --mount=type=cache,target=/root/.m2 \
     ./mvnw package -DskipTests && \
     mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
@@ -74,4 +74,4 @@ COPY --from=package build/target/app.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+ENTRYPOINT [ "java", "-Dspring.profiles.active=postgres", "org.springframework.boot.loader.launch.JarLauncher" ]

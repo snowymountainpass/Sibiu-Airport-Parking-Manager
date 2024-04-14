@@ -44,5 +44,6 @@ backend/src/main/resources/application.properties
 
 ###Docker
 !/backend/compose.yaml
-!/backend/docker-compose.yaml
-backend/docker-compose.yaml
+!/docker-compose.yaml
+docker-compose.yaml
+/docker-compose.yaml

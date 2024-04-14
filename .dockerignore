@@ -20,10 +20,10 @@
 **/*.dbmdl
 **/*.jfm
 **/charts
-**/docker-compose*
+docker-compose.yaml
 **/compose*
 **/target
-**/Dockerfile*
+Dockerfile
 **/node_modules
 **/npm-debug.log
 **/obj
