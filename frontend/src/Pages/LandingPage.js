@@ -28,19 +28,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
-
-//ORIGINAL
-
-// <Body>
-//     <div className="landing-page-content">
-//         <SectionHeader>Parking Payment</SectionHeader>
-//         <InputField/>
-//         <SectionHeader>Pricing</SectionHeader>
-//         <TableComponent />
-//         <SectionHeader>Dashboard</SectionHeader>
-//         <Link to={"/dashboard"}>Dashboard</Link>
-//     </div>
-// </Body>
-
-//ORIGINAL

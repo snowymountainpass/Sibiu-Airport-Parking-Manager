@@ -40,22 +40,4 @@ const InputField = ({ className }) => {
 export default InputField;
 
 
-//ORIGINAL
-
-// <div>
-//     <TextField
-//         label="Car License Plate"
-//         helperText="Enter your car license plate"
-//         value={licensePlate}
-//         onChange={handleInputChange}
-//     />
-//     {licensePlate && (
-//         <Button variant="contained" onClick={getCarDetails}>
-//             Pay
-//         </Button>
-//     )}
-// </div>
-
-//ORIGINAL
-
 
