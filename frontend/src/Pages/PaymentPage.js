@@ -36,7 +36,6 @@ const PaymentPage = () => {
         <div>
             <Header />
             <div >
-                {/*<div id="checkout" className="payment-page-container">*/}
                 <div id="checkout" className="checkout-page">
                     {clientSecret && (
                         <EmbeddedCheckoutProvider

@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import {Alert, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
-import {atom, useAtom, useAtomValue, useSetAtom} from "jotai";
-import {listOfAirportNamesAtom, numberOfAirportsAtom, numberOfParkingSpacesAtom} from "../Pages/DashboardPage";
+import {Alert, FormControl, FormHelperText, InputLabel, MenuItem, Select, Snackbar} from "@mui/material";
+import {useAtomValue} from "jotai";
+import {listOfAirportNamesAtom} from "../Pages/DashboardPage";
 
 
 const DashboardParkingSpaceInput = () => {
@@ -57,10 +57,6 @@ const DashboardParkingSpaceInput = () => {
             if(airportNamePattern.test(value)){
                 setIsValidAirportSelection(airportNamePattern.test(value));
             }
-        }
-        else {
-            setIsValidAirportSelection(false);
-            setIsButtonVisible(false);
         }
     };
     const handleClose = (event, reason) => {

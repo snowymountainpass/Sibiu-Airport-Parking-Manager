@@ -53,4 +53,12 @@ public class ParkingSpaceController {
         return new ResponseEntity<>(responseMap, HttpStatus.OK);
     }
 
+    @GetMapping("/getEmptyParkingSpaces")
+    public ResponseEntity<Map<String,List<ParkingSpaceDTO>>> getEmptyParkingSpaces(){
+
+        Map<String,List<ParkingSpaceDTO>> responseMap = new HashMap<>();
+        List<ParkingSpaceDTO> parkingSpaceDTOList = parkingSpaceService.getEmptyParkingSpaces();
+        responseMap.put("result",parkingSpaceDTOList);
+        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+    }
 }

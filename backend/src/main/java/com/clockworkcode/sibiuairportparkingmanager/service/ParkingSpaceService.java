@@ -1,5 +1,6 @@
 package com.clockworkcode.sibiuairportparkingmanager.service;
 
+import com.clockworkcode.sibiuairportparkingmanager.DTO.ParkingSpaceDTO;
 import com.clockworkcode.sibiuairportparkingmanager.model.Airport;
 import com.clockworkcode.sibiuairportparkingmanager.model.ParkingSpace;
 import com.clockworkcode.sibiuairportparkingmanager.repository.AirportRepository;
@@ -58,6 +59,10 @@ public class ParkingSpaceService {
 
     public List<ParkingSpace> getEmptyParkingSpacesByAirportName(String airportName){
         return parkingSpaceRepository.findParkingSpacesByAirport_AirportNameAndIsOccupied(airportName,false);
+    }
+
+    public List<ParkingSpaceDTO> getEmptyParkingSpaces(){
+        return parkingSpaceRepository.getEmptyParkingSpaces();
     }
 
 }

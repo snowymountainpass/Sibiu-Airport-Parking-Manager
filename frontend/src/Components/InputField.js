@@ -38,6 +38,3 @@ const InputField = ({ className }) => {
     );
 };
 export default InputField;
-
-
-

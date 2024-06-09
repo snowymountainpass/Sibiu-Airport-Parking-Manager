@@ -1,6 +1,7 @@
 package com.clockworkcode.sibiuairportparkingmanager.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 

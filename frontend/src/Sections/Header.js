@@ -20,13 +20,3 @@ const Header = () => {
     );
 };
 export default Header;
-
-// <AppBar position="static" >
-//     <Toolbar>
-//         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-//             <Typography variant="h6" onClick={HandleLogoClick}>
-//                 Sibiu International Airport
-//             </Typography>
-//         </Link>
-//     </Toolbar>
-// </AppBar>
