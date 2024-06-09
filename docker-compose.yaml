@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  Sibiu-Airport-App:
+    image: spring-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://Sibiu-Airport-Database:5432/Sibiu-Airport-Database
+      SPRING_DATASOURCE_USERNAME: your_database_username
+      SPRING_DATASOURCE_PASSWORD: your_database_password
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+      SPRING_JPA_SHOW-SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_USE_SQL_COMMENTS: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLER: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_HBM2DDL_AUTO: update
+    depends_on:
+      - Sibiu-Airport-Database
+
+  Sibiu-Airport-Database:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: Sibiu-Airport-Database
+      POSTGRES_USER: your_database_username
+      POSTGRES_PASSWORD: your_database_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  Sibiu-Airport-Frontend:
+    image: react-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - Sibiu-Airport-App
+
+volumes:
+  pgdata:
