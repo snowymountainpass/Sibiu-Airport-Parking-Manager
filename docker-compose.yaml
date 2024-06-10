@@ -9,7 +9,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://Sibiu-Airport-Database:5432/Sibiu-Airport-Database
+      SPRING_DATASOURCE_URL: jdbc:postgresql://Sibiu-Airport-Database:5432/RomanianAirports
       SPRING_DATASOURCE_USERNAME: your_database_username
       SPRING_DATASOURCE_PASSWORD: your_database_password
       SPRING_JPA_HIBERNATE_DDL-AUTO: update
@@ -19,13 +19,19 @@ services:
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
       SPRING_JPA_PROPERTIES_HIBERNATE_CONNECTION_PROVIDER_DISABLER: true
       SPRING_JPA_PROPERTIES_HIBERNATE_HBM2DDL_AUTO: update
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/pom.xml:/app/pom.xml
+      - ./backend/.mvn:/app/.mvn
+      - ./backend/mvnw:/app/mvnw
+    command: ./mvnw spring-boot:run
     depends_on:
       - Sibiu-Airport-Database
 
   Sibiu-Airport-Database:
     image: postgres:latest
     environment:
-      POSTGRES_DB: Sibiu-Airport-Database
+      POSTGRES_DB: RomanianAirports
       POSTGRES_USER: your_database_username
       POSTGRES_PASSWORD: your_database_password
     ports:
@@ -34,12 +40,14 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   Sibiu-Airport-Frontend:
-    image: react-frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: node:14-alpine
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     ports:
       - "3000:3000"
+    command: sh -c "npm install && npm start"
     depends_on:
       - Sibiu-Airport-App
 

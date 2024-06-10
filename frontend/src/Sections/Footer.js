@@ -10,12 +10,6 @@ const Footer = () => {
                 <Typography variant="body2" color="inherit">
                     © {currentYear} Sibiu International Airport
                 </Typography>
-                <Link href="#" color="inherit" >
-                    Terms and Conditions
-                </Link>
-                <Link href="#" color="inherit" >
-                    Privacy Policy
-                </Link>
             </Toolbar>
         </AppBar>
     );
